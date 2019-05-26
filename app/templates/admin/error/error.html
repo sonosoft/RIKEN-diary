@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head eln:include="admin/head.html"></head>
+
+<body>
+
+<!-- nav -->
+<nav eln:include="admin/nav.html"></nav>
+
+<!-- container -->
+<div class="container admin mT80 mB20">
+
+<!-- breadcrumb -->
+<ol class="breadcrumb">
+  <li class="active">サーバエラー</li>
+</ol>
+<!-- /breadcrumb -->
+
+<!-- search -->
+<div class="alert alert-danger fade in" role="alert">
+  サーバで予期せぬエラーが発生しました。もう一度やり直してください。<br>
+  何度も繰り返し同じエラーが発生する場合は、管理者に連絡してください。
+</div>
+
+</div>
+<!-- /container -->
+
+<eln:tag eln:include="admin/foot.html"></eln:tag>
+</body>
+</html>

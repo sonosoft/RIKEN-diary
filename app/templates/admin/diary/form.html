@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head eln:include="admin/head.html"></head>
+
+<body>
+
+<!-- nav -->
+<nav eln:include="admin/nav.html"></nav>
+
+<!-- container -->
+<div class="container admin mT80 mB20">
+
+<!-- breadcrumb -->
+<ol class="breadcrumb">
+  <li><a href="{eln:uri('default:admin/diary.search')}">メール一覧</a></li>
+  <li class="active">メール登録・編集</li>
+</ol>
+<!-- /breadcrumb -->
+
+<!-- search -->
+<form action="{eln:uri('default:admin/diary.save')}" method="post">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+	<label for="title">ID</label>
+	<p class="form-control-static pull-left">ML</p>
+	<div class="form-inline">
+	  <div class="form-group">
+	    <label class="code-prefix">ML</label>
+	    <input type="text" name="diary[code]" class="form-control" id="code" placeholder="英数字3文字">
+	  </div>
+	</div>
+      </div>
+      <div class="form-group">
+	<label for="title">タイトル</label>
+	<input type="text" name="diary[title]" class="form-control" id="title" placeholder="タイトル">
+      </div>
+      <div class="form-group">
+	<label for="body">概要</label>
+	<textarea name="diary[overview]" class="form-control" id="overview" placeholder="概要" rows="5"></textarea>
+      </div>
+      <div class="form-group">
+	<label for="title">提示時間</label>
+	<div class="form-inline">
+	  <div class="form-group">
+	    <select name="diary[from_time_h]" class="form-control" eln:options="{$hourChoices}">
+	      <option value="0">00</option>
+	    </select>
+	    :
+	    <select name="diary[from_time_m]" class="form-control" eln:options="{$minuteChoices}">
+	      <option value="0">00</option>
+	    </select>
+	    &nbsp;
+	    〜
+	    &nbsp;
+	    <select name="diary[to_time_h]" class="form-control" eln:options="{$hourChoices}">
+	      <option value="0">00</option>
+	    </select>
+	    :
+	    <select name="diary[to_time_m]" class="form-control" eln:options="{$minuteChoices}">
+	      <option value="0">00</option>
+	    </select>
+	  </div>
+	</div>
+      </div>
+      <a href="{eln:uri('default:admin/diary.search')}" class="btn btn-md btn-default">キャンセル</a>
+      <button type="submit" class="btn btn-lg btn-success">保存</button>
+    </div>
+  </div>
+  <input type="hidden" name="diary[id]">
+</form>
+<!-- /search -->
+
+</div>
+<!-- /container -->
+
+<eln:tag eln:include="admin/foot.html"></eln:tag>
+</body>
+</html>

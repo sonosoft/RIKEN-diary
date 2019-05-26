@@ -1,0 +1,49 @@
+<?php
+
+/*
+ * [Elnath PHP Web Application Framework]
+ * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
+ *
+ * ${_action_directory_}/${_action_name_}_action.php
+ */
+
+
+class ${_action_class_}Action extends ${_controller_class_}Controller {
+  /*
+   * アクション
+   */
+  public function action(){
+    /* 検索条件初期化 */
+    $this->app->removeSession('${_model_name_}_search');
+    $this->app->data['${_model_name_}_search'] = array();
+
+    /**/
+    return $this->viewList();
+  }
+
+  /* ===== ===== */
+
+  /*
+   * コールバック [beforeSession()]
+   */
+  protected function beforeSession(){
+    /**/
+    parent::beforeSession();
+  }
+
+  /*
+   * コールバック [beforeAction()]
+   */
+  protected function beforeAction(){
+    /**/
+    parent::beforeAction();
+  }
+
+  /*
+   * コールバック [afterAction()]
+   */
+  protected function afterAction(){
+    /**/
+    parent::afterAction();
+  }
+}

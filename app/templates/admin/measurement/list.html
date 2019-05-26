@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head eln:include="admin/head.html"></head>
+
+<body>
+
+<!-- nav -->
+<nav eln:include="admin/nav.html"></nav>
+
+<!-- container -->
+<div class="container admin mT80 mB20">
+
+<!-- breadcrumb -->
+<ol class="breadcrumb">
+  <li class="active">計測日</li>
+</ol>
+<!-- /breadcrumb -->
+
+<!-- search -->
+<form action="{eln:uri('default:admin/measurement.search')}" method="post" class="form-horizontal" role="form">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+	<label class="col-xs-12 col-sm-3 control-label">月度</label>
+	<div class="col-xs-12 col-sm-5 form-input">
+	  <select name="measurement_search[month]" class="form-control" eln:options="{$monthChoices}"></select>
+	</div>
+      </div>
+      <div class="form-group">
+	<div class="col-xs-12 col-sm-7 col-sm-offset-3 form-input">
+          <a href="{eln:uri('default:admin/measurement.list')}" type="button" class="btn btn-md btn-default">
+	    全て表示
+	  </a>
+          <button type="submit" class="btn btn-md btn-success">
+	    <span class="glyphicon glyphicon-search"></span>
+	    検索
+	  </button>
+	</div>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- /search -->
+
+<!-- paginator -->
+<div class="row">
+  <div class="col-sm-5">
+    <nav eln:include="admin/paginator.html"></nav>
+  </div>
+  <div class="col-sm-7 text-right command-box">
+    <a href="#" class="btn btn-sm btn-info to-show">
+      <span class="glyphicon glyphicon-off"></span>
+      表示する
+    </a>
+    <a href="#" class="btn btn-sm btn-warning to-hide">
+      <span class="glyphicon glyphicon-off"></span>
+      表示しない
+    </a>
+    <a href="#" class="btn btn-sm btn-danger to-delete">
+      削除
+    </a>
+  </div>
+</div>
+<!-- /paginator -->
+
+<!-- customer list -->
+<div class="table-box">
+  <table class="table table-bordered table-hover list-table">
+    <thead>
+      <tr>
+	<th class="text-center">
+	  <input type="checkbox" id="lead-checkbox" name="lead">
+	</th>
+	<th>
+	  <a href="{eln:uri('default:admin/measurement.form1')}" class="btn btn-sm btn-success">
+	    <span class="glyphicon glyphicon-plus"></span>
+	    追加
+	  </a>
+	</th>
+	<th>予約受付</th>
+	<th>予約ページへの表示</th>
+	<th>計測日時</th>
+	<th>申し込み締め切り</th>
+	<th>被験者IDの開始番号</th>
+	<th>現在の状況</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr eln:foreach="$measurement:{$measurements}">
+	<td class="text-center">
+	  <input type="checkbox" name="ids[]" value="{$measurement.id}" class="ids" data-display="{$measurement.isDisplay}" data-count="{$measurement.currentCount}">
+	</td>
+	<td>
+	  <a href="{eln:uri('default:admin/measurement.form2?id={$measurement.id}')}" class="btn btn-sm btn-default">
+	    <span class="glyphicon glyphicon-pencil"></span>
+	    編集
+	  </a>
+	  <a href="#" class="btn btn-sm btn-default reserve" eln:if="{$measurement.is_acceptable}" data-id="{$measurement.id}" data-count="{$measurement.currentCount}">
+	    確保
+	  </a>
+	</td>
+	<td>{$measurement.acceptance}</td>
+	<td>{$measurement.display_tos}</td>
+	<td>{eln:date($measurement.measurementDate, '%Y/%m/%d (%a) %H:%M')}</td>
+	<td>{$measurement.reservationLimitDay}日前: {eln:date($measurement.limitDate, '%Y/%m/%d (%a)')}</td>
+	<td>{$measurement.startID}</td>
+	<td>{$measurement.currentCount}/10</td>
+      </tr>
+      <tr eln:if="{count($measurements) EQ 0}">
+	<td colspan="7">見つかりません</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- /customer list -->
+
+<!-- paginator -->
+<div class="row">
+  <div class="col-sm-5">
+    <nav eln:include="admin/paginator.html"></nav>
+  </div>
+  <div class="col-sm-7 text-right command-box">
+    <button class="btn btn-sm btn-info to-show">
+      <span class="glyphicon glyphicon-off"></span>
+      表示する
+    </button>
+    <a href="#" class="btn btn-sm btn-warning to-hide">
+      <span class="glyphicon glyphicon-off"></span>
+      表示しない
+    </a>
+    <a href="#" class="btn btn-sm btn-danger to-delete">
+      削除
+    </a>
+  </div>
+</div>
+<!-- /paginator -->
+
+</div>
+<!-- /container -->
+
+<!-- modal -->
+<div class="modal fade" id="command-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">確認</h5>
+      </div>
+      <div class="modal-body">
+        選択されている受付日時を予約ページに表示します。
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+        <button type="button" class="btn btn-primary command" id="button-display">実行</button>
+        <button type="button" class="btn btn-danger command" id="button-delete">削除</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="reserve-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form action="{eln:uri('default:admin/measurement.reserve')}" method="post" enctype="multipart/form-data">
+      <div class="modal-content">
+	<div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">予約枠確保</h5>
+	</div>
+	<div class="modal-body">
+          <div class="form-group">
+            <label for="file">CSVファイル</label>
+	    <div class="input-group">
+	      <label class="input-group-btn">
+		<span class="btn btn-primary">
+		  クリックしてファイルを選択<input type="file" name="file" style="display:none">
+		</span>
+	      </label>
+	      <input type="text" name="name" class="form-control" readonly="readonly">
+	    </div>
+	  </div>
+	  <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+            <button type="submit" class="btn btn-primary submit">実行</button>
+	  </div>
+	</div>
+      </div>
+      <input type="hidden" name="id">
+    </form>
+  </div>
+</div>
+<!-- /modal -->
+
+<eln:tag eln:include="admin/foot.html"></eln:tag>
+<script>
+//<![CDATA[
+var command;
+$(function(){
+    // checkboxes.
+    $("#lead-checkbox").on("click", function(){
+	if($(this).is(":checked")){
+	    $("input.ids").prop("checked", true);
+	}else{
+	    $("input.ids").prop("checked", false);
+	}
+	onCheckbox();
+    });
+    $("input.ids").on("click", function(){
+	if($("input.ids").length == $("input.ids:checked").length){
+	    $("#lead-checkbox").prop("checked", true);
+	}else{
+	    $("#lead-checkbox").prop("checked", false);
+	}
+	onCheckbox();
+    });
+    onCheckbox();
+
+    // commands.
+    $(".to-show").on("click", function(){
+    	$("#command-modal .modal-body").text("選択されている受付日時を予約ページに表示します。");
+	$("#button-display").show();
+	$("#button-delete").hide();
+	$("#command-modal").modal("show");
+	command = 1;
+	return false;
+    });
+    $(".to-hide").on("click", function(){
+	$("#command-modal modal-body").text("選択されている受付日時を予約ページから除外します。");
+	$("#button-display").show();
+	$("#button-delete").hide();
+	$("#command-modal").modal("show");
+	command = 0;
+	return false;
+    });
+    $(".to-delete").on("click", function(){
+	$("#command-modal modal-body").text("選択されている受付日時を削除します。");
+	$("#button-display").hide();
+	$("#button-delete").show();
+	$("#command-modal").modal("show");
+	command = 9;
+	return false;
+    });
+    //
+    $("button.command").on("click", function(){
+	doCommand(command);
+    });
+
+    // reserve.
+    $(".reserve").on("click", function(){
+	$("#reserve-modal input[name='id']").val($(this).data("id"));
+	$("#reserve-modal input[name='file']").val("");
+	$("#reserve-modal input[name='name']").val("");
+	$("#reserve-modal button.submit").addClass("disabled").prop("disabled", true);
+	$("#reserve-modal").modal("show");
+    });
+    $("#reserve-modal input[name='file']").on("change", function(){
+	var files = this.files;
+	if(files.length > 0){
+	    $("#reserve-modal input[name='name']").val($("#reserve-modal input[name='file']").val());
+	    $("#reserve-modal button.submit").removeClass("disabled").prop("disabled", false);
+	}else{
+	    $("#reserve-modal button.submit").addClass("disabled").prop("disabled", true);
+	}
+    });
+});
+function onCheckbox(){
+    var nAll = 0;
+    var nShown = 0;
+    var nHidden = 0;
+    var nVacant = 0;
+    $("input.ids:checked").each(function(){
+	++ nAll;
+	if($(this).data("display")){
+	    ++ nShown;
+	}else{
+	    ++ nHidden;
+	    if($(this).data("count") == 0){
+		++ nVacant;
+	    }
+	}
+    });
+    if(nShown > 0){
+	$(".to-hide").removeClass("disabled");
+    }else{
+	$(".to-hide").addClass("disabled");
+    }
+    if(nHidden > 0){
+	$(".to-show").removeClass("disabled");
+    }else{
+	$(".to-show").addClass("disabled");
+    }
+    if(nAll > 0 && nAll == nVacant){
+	$(".to-delete").removeClass("disabled");
+    }else{
+	$(".to-delete").addClass("disabled");
+    }
+}
+function doCommand(command){
+    var ids = [];
+    $("input.ids:checked").each(function(){
+	ids.push($(this).val());
+    });
+    $.ajax({
+	url: "{eln:uri('default:admin/measurement.async_command')}",
+	data: { command: command, ids: JSON.stringify(ids) },
+	method: "POST",
+	dataType: "JSON",
+	complete: function(){
+	    location.href = "{eln:uri('default:admin/measurement.search')}";
+	}
+    });
+}
+//]]>
+</script>
+</body>
+</html>

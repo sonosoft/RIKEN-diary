@@ -1,0 +1,4 @@
+#
+# [access denial]
+#
+Deny from all

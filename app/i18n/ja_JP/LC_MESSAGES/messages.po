@@ -1,0 +1,323 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-23 16:25+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/index.php:85
+msgid "action file \"{$1}\" not found."
+msgstr "アクションファイル\"{$1}\"が見つかりません。"
+
+#: src/index.php:108
+msgid "action class \"{$1}\" not found."
+msgstr "アクションクラス\"{$1}\"が見つかりません。"
+
+#: src/index.php:127 elnath/index.php:143
+msgid "view file \"{$1}\" not found."
+msgstr "ビューファイル\"{$1}\"が見つかりません。"
+
+#: src/index.php:145 elnath/index.php:161
+msgid "view class \"{$1}\" not found."
+msgstr "ビュークラス\"{$1}\"が見つかりません。"
+
+#: elnath/lib/eln.database.php:52 elnath/lib/eln.database.php:309
+msgid "could not find database definition \"{$1}\"."
+msgstr "データベース設定\"{$1}\"は定義されていません。"
+
+#: elnath/lib/eln.database.php:62 elnath/lib/eln.database.php:71
+msgid "database has already been opened."
+msgstr "データベースは既にオープンされています。"
+
+#: elnath/lib/eln.database.php:73 elnath/lib/eln.database.php:82
+msgid "failed to open database. ({$1})"
+msgstr "データベースをオープンできません。({$1})"
+
+#: elnath/lib/eln.database.php:80 elnath/lib/eln.database.php:87
+#: elnath/lib/eln.database.php:89 elnath/lib/eln.database.php:96
+msgid "failed to initialize database connection. ({$1})"
+msgstr "データベース接続を初期化できません。({$1})"
+
+#: elnath/lib/eln.database.php:106 elnath/lib/eln.database.php:135
+#: elnath/lib/eln.database.php:159 elnath/lib/eln.database.php:183
+#: elnath/lib/eln.database.php:207 elnath/lib/eln.database.php:231
+#: elnath/lib/eln.database.php:244 elnath/lib/eln.database.php:257
+#: elnath/lib/eln.database.php:115 elnath/lib/eln.database.php:144
+#: elnath/lib/eln.database.php:168 elnath/lib/eln.database.php:192
+#: elnath/lib/eln.database.php:216 elnath/lib/eln.database.php:240
+#: elnath/lib/eln.database.php:253 elnath/lib/eln.database.php:266
+msgid "database has not been opened yet."
+msgstr "データベースがオープンされていません。"
+
+#: elnath/lib/eln.database.php:116 elnath/lib/eln.database.php:125
+msgid "failed to close database connection. ({$1})"
+msgstr "データベース接続を終了できません。({$1})"
+
+#: elnath/lib/eln.database.php:138 elnath/lib/eln.database.php:147
+msgid "transaction has alredy begun."
+msgstr "既にデータベーストランザクションは開始されています。"
+
+#: elnath/lib/eln.database.php:143 elnath/lib/eln.database.php:152
+msgid "failed to begin transaction. ({$1})"
+msgstr "データベーストランザクションを開始できません。({$1})"
+
+#: elnath/lib/eln.database.php:162 elnath/lib/eln.database.php:186
+#: elnath/lib/eln.database.php:171 elnath/lib/eln.database.php:195
+msgid "transaction has not begun yet."
+msgstr "データベーストランザクションが開始されていません。"
+
+#: elnath/lib/eln.database.php:167 elnath/lib/eln.database.php:176
+msgid "failed to commit transaction. ({$1})"
+msgstr "データベースコミットに失敗しました。({$1})"
+
+#: elnath/lib/eln.database.php:191 elnath/lib/eln.database.php:200
+msgid "failed to rollback transaction. ({$1})"
+msgstr "データベースロールバックに失敗しました。({$1})"
+
+#: elnath/lib/eln.database.php:213 elnath/lib/eln.database.php:222
+msgid "failed to perform a query on database. ({$1})"
+msgstr "データベースクエリの実行に失敗しました。({$1})"
+
+#: elnath/lib/eln.model.php:304 elnath/lib/eln.model.php:342
+msgid "relation for table join \"{$1}\" is not defined."
+msgstr "データベーステーブルリレーション\"{$1}\"は定義されていません。"
+
+#: elnath/lib/eln.model.php:318
+msgid "could not find model factory file \"{$1}\"."
+msgstr "モデルファイル\"{$1}\"が見つかりません。"
+
+#: elnath/lib/eln.model.php:323 elnath/lib/eln.object.php:60
+#: elnath/lib/eln.object.php:58
+msgid "model factory class \"{$1}\" is not defined."
+msgstr "モデルファクトリークラス\"{$1}\"が見つかりません。"
+
+#: elnath/lib/eln.model.php:599 elnath/lib/eln.model.php:644
+msgid "failed to save record. ({$1})"
+msgstr "モデルデータの保存に失敗しました。({$1})"
+
+#: elnath/lib/eln.model.php:641 elnath/lib/eln.model.php:681
+msgid "failed to delete record. ({$1})"
+msgstr "モデルデータの削除に失敗しました。({$1})"
+
+#: elnath/lib/eln.model.php:641 elnath/lib/eln.model.php:681
+msgid "this record does not exist."
+msgstr "レコードが見つかりません。"
+
+#: elnath/lib/eln.object.php:56 elnath/lib/eln.object.php:54
+msgid "could not find model file \"{$1}\"."
+msgstr "モデルファイル\"{$1}\"が見つかりません。"
+
+#: elnath/lib/eln.object.php:78 elnath/lib/eln.object.php:76
+msgid "could not find validator file \"{$1}\"."
+msgstr "バリデータファイル\"{$1}\"が見つかりません。"
+
+#: elnath/lib/eln.object.php:82 elnath/lib/eln.object.php:80
+msgid "validator class \"{$1}\" is not defined."
+msgstr "バリデータクラス\"{$1}\"が見つかりません。"
+
+#: elnath/lib/eln.object.php:101 elnath/lib/eln.object.php:99
+msgid "could not find module file \"{$1}\"."
+msgstr "モジュールファイル\"{$1}\"が見つかりません。"
+
+#: elnath/lib/eln.object.php:105 elnath/lib/eln.object.php:103
+msgid "module class \"{$1}\" is not defined."
+msgstr "モジュールクラス\"{$1}\"が見つかりません。"
+
+#: elnath/lib/eln.renderer.php:93 elnath/lib/eln.renderer.php:94
+msgid "failed to instantiate template block \"{$1}:{$2}\"."
+msgstr "テンプレートブロック\"{$1}:{$2}\"を変換できません。"
+
+#: elnath/lib/eln.renderer.php:95 elnath/lib/eln.renderer.php:96
+msgid "failed to instantiate template file \"{$1}\"."
+msgstr "テンプレートファイル\"{$1}\"を変換できません。"
+
+#: elnath/lib/eln.router.php:183 elnath/lib/eln.router.php:193
+msgid "URI route name is not specified."
+msgstr "URIルート名が指定されていません。"
+
+#: elnath/lib/eln.router.php:185 elnath/lib/eln.router.php:195
+msgid "URI route \"{$1}\" not found."
+msgstr "URIルート定義\"{$1}\"が見つかりません。"
+
+#: elnath/lib/eln.router.php:200 elnath/lib/eln.router.php:209
+msgid "controller is not specified."
+msgstr "コントローラが指定されていません。"
+
+#: elnath/lib/eln.router.php:203 elnath/lib/eln.router.php:212
+msgid "action is not specified."
+msgstr "アクションが指定されていません。"
+
+#: elnath/lib/eln.template.php:66
+msgid "failed to open template file \"{$1}\"."
+msgstr "テンプレートファイル\"{$1}\"をオープンできません。"
+
+#: elnath/lib/eln.template.php:72 elnath/lib/eln.template.php:303
+#: elnath/lib/eln.template.php:305
+msgid "failed to open PHP cache file \"{$1}\"."
+msgstr "PHPキャッシュファイル\"{$1}\"をオープンできません。"
+
+#: elnath/lib/eln.template.php:117 elnath/lib/eln.template.php:149
+#: elnath/lib/eln.template.php:151
+msgid "failed to read template file \"{$1}\"."
+msgstr "テンプレートファイル\"{$1}\"を読み込めません。"
+
+#: elnath/lib/eln.template.php:143 elnath/lib/eln.template.php:145
+msgid "{$1}: the tag \"{$2}\" started at line {$3} is not closed."
+msgstr "{$1}: {$3}行目から開始されたタグ\"{$2}\"が閉じられていません。"
+
+#: elnath/lib/eln.template.php:179 elnath/lib/eln.template.php:181
+msgid "{$1}: unbalanced end tag \"{$2}\" expected \"{$3}\" at line {$4}."
+msgstr ""
+"{$1}: {$4}行目に閉じタグ\"{$2}\"が見つかりましたが\"{$3}\"が閉じられていませ"
+"ん。"
+
+#: elnath/lib/eln.template.php:400 elnath/lib/eln.template.php:434
+#: elnath/lib/eln.template.php:402 elnath/lib/eln.template.php:436
+msgid "{$1}: invalid tag syntax \"{$2}\" at line {$3}."
+msgstr "{$1}: {$3}行目のタグ\"{$2}\"が正しい書式ではありません。"
+
+#: elnath/lib/eln.template.php:471 elnath/lib/eln.template.php:473
+msgid "{$1}: unbalanced parentheses \"{$2}\" at line {$3}."
+msgstr "{$1}: {$3}行目の\"{$2}\"の括弧が対応していません。"
+
+#: elnath/lib/eln.template.php:532 elnath/lib/eln.template.php:537
+msgid "{$1}: invalid foreach syntax \"{$2}\" at line {$3}."
+msgstr "{$1}: {$3}行目のforeach\"{$2}\"が正しい書式ではありません。"
+
+#: elnath/lib/eln.template.php:667 elnath/lib/eln.template.php:697
+#: elnath/lib/eln.template.php:672 elnath/lib/eln.template.php:702
+msgid "{$1}: invalid expression syntax \"{$2}\" at line {$3}."
+msgstr "{$1}: {$3}行目の式\"{$2}\"が正しい書式ではありません。"
+
+#: elnath/lib/eln.template.php:682 elnath/lib/eln.template.php:687
+msgid "{$1}: invalid expression syntax \"{$3}\" at line {$3}."
+msgstr "{$1}: {$3}行目の式\"{$2}\"が正しい書式ではありません。"
+
+#: elnath/lib/eln.validator.php:300 elnath/lib/eln.validator.php:318
+msgid "Please input a value."
+msgstr "入力されていません。"
+
+#: elnath/lib/eln.validator.php:329 elnath/lib/eln.validator.php:347
+msgid "Please select a value."
+msgstr "選択されていません。"
+
+#: elnath/lib/eln.validator.php:362 elnath/lib/eln.validator.php:380
+msgid "The input must be an integer."
+msgstr "整数値を入力してください。"
+
+#: elnath/lib/eln.validator.php:385 elnath/lib/eln.validator.php:403
+msgid "The input must be a number."
+msgstr "数値を入力してください。"
+
+#: elnath/lib/eln.validator.php:406 elnath/lib/eln.validator.php:425
+msgid "The input is not a valid date."
+msgstr "日付を入力してください。"
+
+#: elnath/lib/eln.validator.php:425 elnath/lib/eln.validator.php:445
+msgid "The input is not a valid URI."
+msgstr "正しいURIの書式ではありません。"
+
+#: elnath/lib/eln.validator.php:444 elnath/lib/eln.validator.php:464
+msgid "The input is not a valid email address."
+msgstr "正しいメールアドレスの書式ではありません。"
+
+#: elnath/lib/eln.validator.php:463 elnath/lib/eln.validator.php:483
+msgid "The input is not valid format."
+msgstr "定められた正しい書式ではありません。"
+
+#: elnath/lib/eln.validator.php:480 elnath/lib/eln.validator.php:500
+msgid "The input must be greater than {$1} characters long."
+msgstr "{$1}文字より長い文字列を入力してください。"
+
+#: elnath/lib/eln.validator.php:497 elnath/lib/eln.validator.php:517
+msgid "The input must be greater than or equal to {$1} characters long."
+msgstr "{$1}文字以上の文字列を入力してください。"
+
+#: elnath/lib/eln.validator.php:514 elnath/lib/eln.validator.php:534
+msgid "The input must be less than {$1} characters long."
+msgstr "{$1}文字より短い文字列を入力してください。"
+
+#: elnath/lib/eln.validator.php:531 elnath/lib/eln.validator.php:551
+msgid "The input must be less than or equal to {$1} characters long."
+msgstr "{$1}文字以下の文字列を入力してください。"
+
+#: elnath/lib/eln.validator.php:549 elnath/lib/eln.validator.php:569
+msgid "The input must be greater than {$1}."
+msgstr "{$1}より大きい数値を入力してください。"
+
+#: elnath/lib/eln.validator.php:568 elnath/lib/eln.validator.php:588
+msgid "The input must be greater than or equal to {$1}."
+msgstr "{$1}以上の数値を入力してください。"
+
+#: elnath/lib/eln.validator.php:587 elnath/lib/eln.validator.php:607
+msgid "The input must be less than {$1}."
+msgstr "{$1}より小さい数値を入力してください。"
+
+#: elnath/lib/eln.validator.php:606 elnath/lib/eln.validator.php:626
+msgid "The input must be less than or equal to {$1}."
+msgstr "{$1}以下の数値を入力してください。"
+
+#: elnath/lib/eln.validator.php:625 elnath/lib/eln.validator.php:645
+msgid "The input must be later than {$1}."
+msgstr "{$1}より後の日時を入力してください。"
+
+#: elnath/lib/eln.validator.php:644 elnath/lib/eln.validator.php:664
+msgid "The input must be later than or equal to {$1}."
+msgstr "{$1}以降の日時を入力してください。"
+
+#: elnath/lib/eln.validator.php:663 elnath/lib/eln.validator.php:683
+msgid "The input must be earlier than {$1}."
+msgstr "{$1}より前の日時を入力してください。"
+
+#: elnath/lib/eln.validator.php:682 elnath/lib/eln.validator.php:702
+msgid "The input must be earlier than or equal to {$1}."
+msgstr "{$1}以前の日時を入力してください。"
+
+#: elnath/lib/eln.validator.php:700 elnath/lib/eln.validator.php:720
+msgid "The value is not in specified values."
+msgstr "定められた値ではありません。"
+
+#: elnath/lib/eln.validator.php:734 elnath/lib/eln.validator.php:757
+#: elnath/lib/eln.validator.php:754 elnath/lib/eln.validator.php:777
+msgid "Please select a file."
+msgstr "ファイルを指定してください。"
+
+#: elnath/lib/eln.validator.php:751 elnath/lib/eln.validator.php:771
+msgid "An error occured when uploading a file. (error:{$1})"
+msgstr "ファイルアップロードエラーが発生しました。(エラー: {$1})"
+
+#: elnath/lib/eln.validator.php:787 elnath/lib/eln.validator.php:807
+msgid "Uploaded file has invalid extension \"{$1}\"."
+msgstr "指定されたファイルの拡張子\"{$1}\"は受け付けられません。"
+
+#: elnath/lib/mod/eln.mail.php:60 elnath/lib/mod/eln.mail.php:67
+msgid "message template \"{$1}\" does not exist."
+msgstr "メールテンプレートファイル\"{$1}\"が見つかりません。"
+
+#: elnath/lib/mod/eln.mail.php:96 elnath/lib/mod/eln.mail.php:103
+msgid "unknown mail recipient type \"{$1}\"."
+msgstr "未知の宛先タイプ\"{$1}\"が指定されています。"
+
+#: elnath/lib/mod/eln.mail.php:164 elnath/lib/mod/eln.mail.php:171
+msgid "mail source is not specified."
+msgstr "メールの送信元が指定されていません。"
+
+#: elnath/lib/mod/eln.mail.php:187 elnath/lib/mod/eln.mail.php:195
+msgid "mail recipient(s) is not specified."
+msgstr "メールの宛先が指定されていません。"
+
+#: elnath/lib/eln.database.php:45
+msgid "There is no active database connection."
+msgstr "アクティブなデータベースが選択されていません。"

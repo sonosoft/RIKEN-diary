@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>受付システム｜管理</title>
+<!-- Bootstrap core CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Custom styles for this template -->
+<link href="https://code.jquery.com/ui/1.12.1/themes/humanity/jquery-ui.css" rel="stylesheet">
+<link href="../../css/admin.css" rel="stylesheet">
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<div class="container admin mT80 mB20">
+
+<form action="#" method="post">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+	<label for="title">ID</label>
+	<div class="form-inline">
+	  <div class="form-group">
+	    <label class="code-prefix">ML</label>
+	    <input type="text" name="mail[code]" class="form-control" id="code" placeholder="英数字3文字">
+	  </div>
+	</div>
+      </div>
+      <div class="form-group">
+	<label for="title">タイトル</label>
+	<input type="text" name="mail[title]" class="form-control" id="title" placeholder="タイトル">
+      </div>
+      <div class="form-group">
+	<label for="body">本文</label>
+	<textarea name="mail[body]" class="form-control" id="body" placeholder="本文" rows="15"></textarea>
+	<p class="help-block">【氏名】、【乱数】、【計測開始日】、【計測終了日】という文字列は、実際の送信の際に適切に置換されます。</p>
+      </div>
+      <div class="form-group">
+	<label for="title">送信日</label>
+	<div class="form-inline">
+	  <label class="radio-inline">
+	    <input type="radio" name="mail[flag]" value="1">
+	    計測開始前
+	  </label>
+	  <label class="radio-inline">
+	    <input type="radio" name="mail[flag]" value="2">
+	    計測終了後
+	  </label>
+	  <label class="radio-inline">
+	    <input type="radio" name="mail[flag]" value="3">
+	    計測期間中
+	  </label>
+	  <label class="radio-inline">
+	    <input type="radio" name="mail[flag]" value="4">
+	    日付指定
+	  </label>
+	  <div id="date-before" class="form-group mL10">
+	    <input type="text" name="mail[before]" class="form-control w50" placeholder="7">
+	    <label class="date-suffix">日前（0は開始日当日）</label>
+	  </div>
+	  <div id="date-after" class="form-group mL10">
+	    <input type="text" name="mail[after]" class="form-control w50" placeholder="5">
+	    <label class="date-suffix">日後（0は終了日当日）</label>
+	  </div>
+	  <div id="date-date" class="form-group mL10">
+	    <input type="text" name="mail[date]" class="form-control datepicker w150" placeholder="2019/10/10">
+	  </div>
+	</div>
+      </div>
+      <div class="form-group">
+	<label for="title">送信時間</label>
+	<div class="form-inline mB10">
+	  <div class="form-group">
+	    <select name="time_h" class="form-control">
+	      <option value="0">00</option>
+	    </select>
+	    :
+	    <select name="time_m" class="form-control">
+	      <option value="0">00</option>
+	    </select>
+	    <button id="time-button" type="button" class="btn btn-md btn-default">
+	      <span class="glyphicon glyphicon-plus"></span>
+	    </button>
+	  </div>
+	</div>
+	<ul id="time-list" class="list-group">
+	  <li class="list-group-item">
+	    09:30
+	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+	  </li>
+	  <li class="list-group-item">
+	    11:25
+	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+	  </li>
+	</ul>
+      </div>
+      <a href="#" class="btn btn-md btn-default">キャンセル</a>
+      <button type="submit" class="btn btn-lg btn-success">保存</button>
+    </div>
+  </div>
+  <input type="hidden" name="mail[id]">
+  <input type="hidden" name="mail[times]">
+</form>
+
+</div>
+<!-- /container -->
+
+<!-- Bootstrap core JavaScript
+     ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- -->
+<script>
+//<![CDATA[
+$(function(){
+    // datepicker.
+    $("input.datepicker").datepicker();
+});
+//]]>
+</script>
+<script eln:if="{count($errors) GT 0}">
+//<![CDATA[
+$(function(){
+    // エラー
+    var errors = [];
+    for(var name in errors){
+	var selectors = [
+	    "input[name='" + name + "']",
+	    "textarea[name='" + name + "']",
+	    "select[name='" + name + "']"
+	];
+	for(var i = 0; i < selectors.length; ++ i){
+	    if($(selectors[i]).length > 0){
+		var group = $(selectors[i]).parents(".form-group");
+		if(group && group.length > 0){
+		    group.addClass("has-error");
+		    group.append($("<label>").addClass("control-label").text(errors[name]));
+		}
+	    }
+	}
+    }
+});
+//]]>
+</script>
+
+<script>
+//<![CDATA[
+$(function(){
+    // date flag.
+    $("input[name='mail[flag]']").on("click", function(){
+	onDateFlag();
+    });
+    onDateFlag();
+});
+function onDateFlag(){
+    // hide all.
+    $("#date-before").hide();
+    $("#date-after").hide();
+    $("#date-date").hide();
+
+    // show.
+    if($("input[name='mail[flag]']:checked").length > 0){
+	var selected = $("input[name='mail[flag]']:checked").val();
+	if(selected == "1"){
+	    $("#date-before").show();
+	}else if(selected == "2"){
+	    $("#date-after").show();
+	}else if(selected == "4"){
+	    $("#date-date").show();
+	}
+    }
+}
+//]]>
+</script>
+
+</html>

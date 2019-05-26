@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head eln:include="admin/head.html"></head>
+
+<body>
+
+<!-- nav -->
+<nav eln:include="admin/nav.html"></nav>
+
+<!-- container -->
+<div class="container admin mT80 mB20">
+
+<!-- breadcrumb -->
+<ol class="breadcrumb">
+  <li class="active">管理パスワード変更</li>
+</ol>
+<!-- /breadcrumb -->
+
+<!-- search -->
+<form action="{eln:uri('default:admin/password.update')}" method="post">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+	<label for="old">現在のパスワード</label>
+	<input type="password" name="password[old]" class="form-control" id="old">
+      </div>
+      <div class="form-group">
+	<label for="new1">新しいパスワード</label>
+	<input type="password" name="password[new1]" class="form-control" id="new1">
+      </div>
+      <div class="form-group">
+	<label for="new2">確認のためもう一度入力してください</label>
+	<input type="password" name="password[new2]" class="form-control" id="new2">
+      </div>
+      <button type="submit" class="btn btn-lg btn-success">更新</button>
+    </div>
+  </div>
+</form>
+<!-- /search -->
+
+</div>
+<!-- /container -->
+
+<eln:tag eln:include="admin/foot.html"></eln:tag>
+</body>
+</html>

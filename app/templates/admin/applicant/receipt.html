@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head eln:include="admin/head.html"></head>
+
+<body>
+
+<!-- nav -->
+<nav eln:include="admin/nav.html"></nav>
+
+<!-- container -->
+<div class="container admin mT80 mB20">
+
+<!-- breadcrumb -->
+<ol class="breadcrumb">
+  <li><a href="{eln:uri('default:admin/applicant.search')}">申し込み一覧</a></li>
+  <li class="active">メール送信</li>
+</ol>
+<!-- /breadcrumb -->
+
+<!-- search -->
+<div class="alert alert-default fade in" role="alert">
+  対象者にメールを送信しました。
+</div>
+
+</div>
+<!-- /container -->
+
+<eln:tag eln:include="admin/foot.html"></eln:tag>
+</body>
+</html>

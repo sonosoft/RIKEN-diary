@@ -1,0 +1,116 @@
+<?php
+
+/*
+ * [Elnath PHP Web Application Framework]
+ * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
+ *
+ * ${_action_directory_}/${_action_name_}_action.php
+ */
+
+
+class ${_action_class_}Action extends ${_controller_class_}Controller {
+  /*
+   * アクション
+   */
+  public function action(){
+    /**/
+    $this->useModel('${_model_class_}');
+    $this->useValidator('${_model_class_}Form');
+    $this->useModule('Mail');
+
+    /* トランザクション */
+    $this->db->begin();
+
+    /**/
+    try{
+      /* 検証 */
+      $data = $this->${_model_class_}FormValidator->validate(
+	$this->app->readRequest('${_model_name_}', array())
+      );
+
+      /* 保存 */
+      if($data['id'] !== null){
+	$${_model_name_} = $this->${_model_class_}Model->one(
+	  array('where'=>'[id] = :id'),
+	  array('id'=>$data['id'])
+	);
+	if($${_model_name_} === null){
+	  // $this->redirect('invalid_access_error');
+	}
+	$${_model_name_}->setAttributes($data);
+      }else{
+	$${_model_name_} = $this->${_model_class_}Model->newModel($data);
+      }
+      $${_model_name_}->save($this->db);
+
+      /* メール */
+      if($data['id'] === null){
+	$this->MailModule->reset();
+       	$this->MailModule->setCharset('ISO-2022-JP');
+	$this->MailModule->setHeaderEncoding('B');
+	$this->MailModule->setSender('sender@system.app', 'Elnath');
+	$this->MailModule->setRecipient('to', 'to@customer.app');
+	$this->MailModule->setRecipient('bcc', 'bcc@syste.app');
+	$this->MailModule->read('message_tempalte');
+	$this->MailModule->assign('${_model_name_}', $data);
+	$this->MailModule->send();
+      }
+
+      /* コミット */
+      $this->db->commit();
+
+      /* フラグ */
+      if($data['id'] !== null){
+	$this->app->storeSession('${_model_name_}_alert', 'Modified !!');
+      }else{
+	$this->app->storeSession('${_model_name_}_alert', 'Registered !!');
+      }
+    }catch(Exception $e){
+      /* ロールバック */
+      $this->db->rollback();
+
+      /**/
+      if($e instanceof Eln_Validation){
+	/* エラー */
+	$this->app->exportValidation($e, '${_model_name_}');
+	return $this->viewForm();
+      }else if($e instanceof Eln_Redirection){
+	/* リダイレクト */
+	throw $e;
+      }else{
+	/* 例外 */
+	// $this->app->writeLog('${_action_directory_}/${_action_name_}', $e->getMessage());
+	// $this->redirect('unexpected_error');
+      }
+    }
+
+    /**/
+    $this->redirect('default:${_action_directory_}.search');
+  }
+
+  /* ===== ===== */
+
+  /*
+   * コールバック [beforeSession()]
+   */
+  protected function beforeSession(){
+    /**/
+    parent::beforeSession();
+  }
+
+  /*
+   * コールバック [beforeAction()]
+   */
+  protected function beforeAction(){
+    /**/
+    parent::beforeAction();
+  }
+
+  /*
+   * コールバック [afterAction()]
+   */
+  protected function afterAction(){
+    /**/
+    parent::afterAction();
+  }
+}

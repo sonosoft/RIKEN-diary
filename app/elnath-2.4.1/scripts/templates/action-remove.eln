@@ -1,0 +1,85 @@
+<?php
+
+/*
+ * [Elnath PHP Web Application Framework]
+ * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
+ *
+ * ${_action_directory_}/${_action_name_}_action.php
+ */
+
+
+class ${_action_class_}Action extends ${_controller_class_}Controller {
+  /*
+   * アクション
+   */
+  public function action(){
+    /**/
+    $this->useModel('${_model_class_}');
+
+    /* トランザクション */
+    $this->db->begin();
+
+    /**/
+    try{
+      /* 削除 */
+      $${_model_name_} = $this->${_model_class_}Model->one(
+        array('where'=>'[id] = :id'),
+	array('id'=>$this->app->route['id'])
+      );
+      if($${_model_name_} === null){
+	// $this->redirect('invalid_access_error');
+      }
+      $${_model_name_}->status = STATUS_REMOVED;
+      $${_model_name_}->save();
+      // $${_model_name_}->delete();
+
+      /* コミット */
+      $this->db->commit();
+
+      /* フラグ */
+      $this->app->storeSession('${_model_name_}_alert', 'Deleted !!');
+    }catch(Exception $e){
+      /* ロールバック */
+      $this->db->rollback();
+
+      /**/
+      if($e instanceof Eln_Redirection){
+	/* リダイレクト */
+	throw $e;
+      }else{
+	/* 例外 */
+	// $this->app->writeLog('${_action_directory_}/${_action_name_}', $e->getMessage());
+	// $this->redirect('unexpected_error');
+      }
+    }
+
+    /**/
+    $this->redirect('default:${_action_directory_}.search');
+  }
+
+  /* ===== ===== */
+
+  /*
+   * コールバック [beforeSession()]
+   */
+  protected function beforeSession(){
+    /**/
+    parent::beforeSession();
+  }
+
+  /*
+   * コールバック [beforeAction()]
+   */
+  protected function beforeAction(){
+    /**/
+    parent::beforeAction();
+  }
+
+  /*
+   * コールバック [afterAction()]
+   */
+  protected function after_action(){
+    /**/
+    parent::afterAction();
+  }
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head eln:include="admin/head.html"></head>
+
+<body>
+
+<!-- nav -->
+<nav eln:include="admin/nav.html"></nav>
+
+<!-- container -->
+<div class="container admin mT80 mB20">
+
+<!-- breadcrumb -->
+<ol class="breadcrumb">
+  <li><a href="{eln:uri('default:admin/applicant.search')}">申し込み一覧</a></li>
+  <li class="active">メール送信</li>
+</ol>
+<!-- /breadcrumb -->
+
+<!-- search -->
+<form action="{eln:uri('default:admin/applicant.send')}" method="post">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+	<label for="title">メール</label>
+	<select name="message[id]" class="form-control" eln:options="{$messageChoices}"></select>
+	<div class="invisible">
+	  <div eln:foreach="$message:{$messages}">
+	    <span id="title-{$message.id}">{$message.title}</span>
+	    <span id="body-{$message.id}">{$message.body}</span>
+	  </div>
+	</div>
+      </div>
+      <div class="form-group">
+	<label for="body">表題</label>
+	<input type="text" name="message[title]" class="form-control">
+      </div>
+      <div class="form-group">
+	<label for="body">本文</label>
+	<textarea name="message[body]" class="form-control" rows="15"></textarea>
+	<p class="help-block">【氏名】、【計測日時】、【乱数】、【キャンセル変更URL】という文字列は、実際の送信の際に応募者ごとに置換されます。</p>
+      </div>
+      <a href="{eln:uri('default:admin/applicant.search')}" class="btn btn-md btn-default">キャンセル</a>
+      <button type="submit" class="btn btn-lg btn-success">送信</button>
+      <h6>送信先</h6>
+      <div class="table-box">
+	<table class="table table-bordered table-hover list-table">
+	  <tbody>
+	    <tr eln:foreach="$applicant:{$applicants}">
+	      <td>
+		<a href="#" class="btn btn-sm btn-default preview">
+		  確認
+		</a>
+	      </td>
+	      <td>{$applicant.code}</td>
+	      <td>{$applicant.name}</td>
+	      <td>{$applicant.date}</td>
+	      <td>{$applicant.random}</td>
+	      <td>{$applicant.cancel}</td>
+	    </tr>
+	  </tbody>
+	</table>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="message[applicants][]" value="{$applicant.id}" eln:noeval="{true}" eln:foreach="$applicant:{$applicants}">
+</form>
+<!-- /search -->
+
+<!-- modal -->
+<div class="modal fade" id="preview-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+      </div>
+      <div class="modal-body" id="modal-message"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /modal -->
+
+</div>
+<!-- /container -->
+
+<eln:tag eln:include="admin/foot.html"></eln:tag>
+<script>
+//<![CDATA[
+$(function(){
+    // messages.
+    $("select[name='message[id]']").on("change", function(){
+	onSelectMessage();
+    });
+    onSelectMessage();
+
+    // preview.
+    $("a.preview").on("click", function(){
+	var row = $(this).parents("tr");
+	var applicant = {
+	    name: $("td:nth-child(3)", row).text(),
+	    date: $("td:nth-child(4)", row).text(),
+	    random: $("td:nth-child(5)", row).text(),
+	    cancel: $("td:nth-child(6)", row).text()
+	};
+	$("#preview-modal .modal-title").html(buildText($("input[name='message[title]']").val(), applicant));
+	$("#preview-modal .modal-body").html(buildText($("textarea[name='message[body]']").val(), applicant));
+	$("#preview-modal").modal("show");
+	return false;
+    });
+});
+function onSelectMessage(){
+    var mid = $("select[name='message[id]'] option:selected").val();
+    $("input[name='message[title]']").val($("#title-" + mid).text());
+    $("textarea[name='message[body]']").val($("#body-" + mid).text());
+}
+function buildText(src, applicant){
+    return src
+	.replace(/【氏名】/g, applicant.name)
+	.replace(/【計測日時】/g, applicant.date)
+	.replace(/【乱数】/g, applicant.random)
+	.replace(/【キャンセル変更URL】/g, applicant.cancel)
+	.replace(/(?:\r\n|[\r\n])/g, "<br>");
+}
+//]]>
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!-- Bootstrap core JavaScript
+     ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- -->
+<script>
+//<![CDATA[
+$(function(){
+    // datepicker.
+    $("input.datepicker").datepicker();
+});
+//]]>
+</script>
+<script eln:if="{count($errors) GT 0}">
+//<![CDATA[
+$(function(){
+    // エラー
+    var errors = {json_encode($errors)|raw};
+    for(var name in errors){
+	var selectors = [
+	    "input[name='" + name + "']",
+	    "textarea[name='" + name + "']",
+	    "select[name='" + name + "']"
+	];
+	for(var i = 0; i < selectors.length; ++ i){
+	    if($(selectors[i]).length > 0){
+		var group = $(selectors[i]).parents(".form-group");
+		if(group && group.length > 0){
+		    group.addClass("has-error");
+		    group.append($("<label>").addClass("control-label").text(errors[name]));
+		}
+	    }
+	}
+    }
+});
+//]]>
+</script>

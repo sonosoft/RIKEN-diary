@@ -1,0 +1,31 @@
+#
+# [mod_rewrite]
+#
+
+# ===== [ Elnath PHP Web Application Framework ] =====
+RewriteEngine	on
+# -- maintenace --
+#RewriteCond	%{REQUEST_URI} !^\/maintenance\.html
+#RewriteRule	.* /maintenance.html [R=302,L]
+# -- usual --
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond	%{REQUEST_FILENAME} !-d
+RewriteRule	^(.*)$ index.php [QSA,L]
+
+# ===== [ Apache character encoding ] =====
+AddDefaultCharset	UTF-8
+
+# ===== [ PHP language and encoding ] =====
+php_value	mbstring.language		Japanese
+php_value	mbstring.internal_encoding	UTF-8
+php_value	mbstring.http_output		UTF-8
+php_value	mbstring.http_input		auto
+php_flag	mbstring.encoding_translation	Off
+php_value	default_charset			UTF-8
+
+# ===== [ PHP upload limits ] =====
+php_value	upload_max_filesize	32M
+php_value	post_max_size		32M
+
+# ===== [ PHP session_cache ] =====
+php_value	session.cache_limiter	nocache

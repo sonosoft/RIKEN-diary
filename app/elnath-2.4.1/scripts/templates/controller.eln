@@ -1,0 +1,95 @@
+<?php
+
+/*
+ * [Elnath PHP Web Application Framework]
+ * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
+ *
+ * ${_controller_directory_}controller.php
+ */
+
+
+/*
+ * コントローラ
+ */
+class ${_controller_class_}Controller extends ${_parent_controller_class_}Controller {
+  /*
+   * 一覧
+   */
+  protected function viewList(){
+    /**/
+    $this->useModel('${_model_class_}');
+    $this->useValidator('${_model_class_}Search');
+
+    /* アラート */
+    $this->app->data['${_model_name_}_alert'] = $this->app->restoreSession('${_model_name_}_alert');
+    $this->app->removeSession('${_model_name_}_alert');
+
+    /* 検索条件検証 */
+    $this->app->data['${_model_name_}_search'] = $this->${_model_class_}SearchValidator->validate($this->app->data['${_model_name_}_search']);
+
+    /* リストオプション */
+    $where = array();
+    if($this->app->data['${_model_name_}_search']['text_keys'] !== null){
+      foreach($this->app->data['${_model_name_}_search']['text_keys'] as $key){
+	$where[] = sprintf('(INSTR([text1], :%s) != 0 OR INSTR([text2], :%s) != 0)', $key, $key);
+      }
+    }
+    $where[] = '[status] = :active';
+    /**/
+    $options = array(
+      'where'=>implode(' AND ', $where),
+      'order'=>'[sequence_field] ASC',
+      'pageSize'=>30,
+      'indexSize'=>10,
+      'page'=>$this->app->data['${_model_name_}_search']['page'],
+    );
+    $parameters = $this->app->data['${_model_name_}_search'];
+    $parameters['active'] = STATUS_ACTIVE;
+
+    /* 検索 */
+    list($this->app->data['${_model_pname_}'], $this->app->data['paginator']) = $this->${_model_class_}Model->page(
+      $options,
+      $parameters
+    );
+    /**/
+    $this->app->data['${_model_name_}_search']['page'] = $this->app->data['paginator']->currentPage;
+    $this->app->storeSession('${_model_name_}_search', $this->app->data['${_model_name_}_search']);
+
+    /**/
+    return '${_controller_name_}/list';
+  }
+
+  /*
+   * フォーム
+   */
+  protected function viewForm(){
+    /**/
+    return '${_controller_name_}/form';
+  }
+
+  /* ===== ===== */
+
+  /*
+   * コールバック [beforeSession()]
+   */
+  protected function beforeSession(){
+    /**/
+    parent::beforeSession();
+  }
+
+  /*
+   * コールバック [beforeAction()]
+   */
+  protected function beforeAction(){
+    /**/
+    parent::beforeAction();
+  }
+
+  /*
+   * コールバック [afterAction()]
+   */
+  protected function afterAction(){
+    /**/
+    parent::afterAction();
+  }
+}

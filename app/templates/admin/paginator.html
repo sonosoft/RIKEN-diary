@@ -1,0 +1,30 @@
+<nav>
+  <ul class="pagination pagination-sm">
+    <li class="disabled" eln:if="{$paginator.previousPage EQ 0}">
+      <a href="javascript:void(0);">&laquo;</a>
+    </li>
+    <li eln:if="{$paginator.previousPage GT 0}">
+      <a href="{eln:uri('{$_route_.route}:{$_route_.controller}.{$_route_.action}?p=1')}">&laquo;</a>
+    </li>
+    <li class="disabled" eln:if="{$paginator.startPage NE 1}">
+      <a href="#">...</a>
+    </li>
+    <eln:tag eln:foreach="$page:{$paginator.pages}">
+      <li class="active" eln:if="{$page EQ $paginator.currentPage}">
+	<a href="javascript:void(0);">{$page}<span class="sr-only">(current)</span></a>
+      </li>
+      <li eln:unless="{$page EQ $paginator.currentPage}">
+	<a href="{eln:uri('{$_route_.route}:{$_route_.controller}.{$_route_.action}?p={$page}')}">{$page}</a>
+      </li>
+    </eln:tag>
+    <li class="disabled" eln:if="{$paginator.endPage NE $paginator.pageCount}">
+      <a href="#">...</a>
+    </li>
+    <li class="disabled" eln:if="{$paginator.nextPage EQ 0}">
+      <a href="javascript:void(0);">&raquo;</a>
+    </li>
+    <li eln:unless="{$paginator.nextPage EQ 0}">
+      <a href="{eln:uri('{$_route_.route}:{$_route_.controller}.{$_route_.action}?p={$paginator.pageCount}')}">&raquo;</a>
+    </li>
+  </ul>
+</nav>

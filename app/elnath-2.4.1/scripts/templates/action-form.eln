@@ -1,0 +1,62 @@
+<?php
+
+/*
+ * [Elnath PHP Web Application Framework]
+ * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
+ *
+ * ${_action_directory_}/${_action_name_}_action.php
+ */
+
+
+class ${_action_class_}Action extends ${_controller_class_}Controller {
+  /*
+   * アクション
+   */
+  public function action(){
+    /**/
+    $this->useModel('${_model_class_}');
+
+    /* モデル */
+    if($this->app->route['id'] !== null){
+      $${_model_name_} = $this->${_model_class_}Model->one(
+	array('where'=>'[id] = :id'),
+	array('id'=>$this->app->route['id'])
+      );
+      if($${_model_name_} === null){
+	// $this->redirect('invalid_access_error');
+      }
+      $this->app->data['${_model_name_}'] = $${_model_name_}->getAttributes();
+    }else{
+      $this->app->data['${_model_name_}'] = array('id'=>null);
+    }
+
+    /**/
+    return $this->viewForm();
+  }
+
+  /* ===== ===== */
+
+  /*
+   * コールバック [beforeSession()]
+   */
+  protected function beforeSession(){
+    /**/
+    parent::beforeSession();
+  }
+
+  /*
+   * コールバック [beforeAction()]
+   */
+  protected function beforeAction(){
+    /**/
+    parent::beforeAction();
+  }
+
+  /*
+   * コールバック [afterAction()]
+   */
+  protected function afterAction(){
+    /**/
+    parent::afterAction();
+  }
+}

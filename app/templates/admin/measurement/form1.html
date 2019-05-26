@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head eln:include="admin/head.html"></head>
+
+<body>
+
+<!-- nav -->
+<nav eln:include="admin/nav.html"></nav>
+
+<!-- container -->
+<div class="container admin mT80 mB20">
+
+<!-- breadcrumb -->
+<ol class="breadcrumb">
+  <li><a href="{eln:uri('default:admin/measurement.search')}">計測日一覧</a></li>
+  <li class="active">計測日</li>
+</ol>
+<!-- /breadcrumb -->
+
+<!-- search -->
+<form action="{eln:uri('default:admin/measurement.save1')}" method="post">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+	<label for="month">月度</label>
+	<select name="month" class="form-control" eln:options="{$monthChoices}"></select>
+      </div>
+      <div class="form-group">
+	<label for="day">計測日時</label>
+	<div class="clearfix">
+	  <div class="pull-left">
+	    <table id="calendar1" class="calendar">
+	      <thead>
+		<tr><th colspan="7">月</th></tr>
+		<tr><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th><th>日</th></tr>
+	      </thead>
+	      <tbody>
+		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	      </tbody>
+	    </table>
+	  </div>
+	  <div class="pull-left mL10">
+	    <table id="calendar2" class="calendar">
+	      <thead>
+		<tr><th colspan="7">月</th></tr>
+		<tr><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th><th>日</th></tr>
+	      </thead>
+	      <tbody>
+		<tr><td>1</td><td>2</td><td>3</td><td></td><td></td><td></td><td></td></tr>
+		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	      </tbody>
+	    </table>
+	  </div>
+	</div>
+      </div>
+      <div class="form-group">
+	<label class="checkbox-inline">
+	  <input type="checkbox" name="measurement[hours][]" value="9">
+	  9:00
+	</label>
+	<label class="checkbox-inline">
+	  <input type="checkbox" name="measurement[hours][]" value="10">
+	  10:00
+	</label>
+	<label class="checkbox-inline">
+	  <input type="checkbox" name="measurement[hours][]" value="11">
+	  11:00
+	</label>
+	<label class="checkbox-inline">
+	  <input type="checkbox" name="measurement[hours][]" value="12">
+	  12:00
+	</label>
+	<label class="checkbox-inline">
+	  <input type="checkbox" name="measurement[hours][]" value="13">
+	  13:00
+	</label>
+	<label class="checkbox-inline">
+	  <input type="checkbox" name="measurement[hours][]" value="14">
+	  14:00
+	</label>
+	<label class="checkbox-inline">
+	  <input type="checkbox" name="measurement[hours][]" value="15">
+	  15:00
+	</label>
+	<label class="checkbox-inline">
+	  <input type="checkbox" name="measurement[hours][]" value="16">
+	  16:00
+	</label>
+	<label class="checkbox-inline">
+	  <input type="checkbox" name="measurement[hours][]" value="17">
+	  17:00
+	</label>
+      </div>
+      <div class="form-group">
+	<label>予約受付期限</label>
+	<input type="text" name="measurement[limitDate]" class="form-control datepicker" placeholder="予約受付期限">
+      </div>
+      <div class="form-group">
+	<label>計測時間</label>
+	<div class="input-group">
+	  <input type="text" name="measurement[min]" class="form-control" placeholder="計測時間">
+	  <div class="input-group-addon">分</div>
+	</div>
+      </div>
+      <div class="checkbox">
+	<label>
+	  <input type="checkbox" name="measurement[isDisplay]" value="1">
+	  予約ページに表示する
+	</label>
+      </div>
+      <a href="{eln:uri('default:admin/measurement.search')}" class="btn btn-md btn-default">キャンセル</a>
+      <button type="submit" class="btn btn-lg btn-success">
+	<span class="glyphicon glyphicon-search"></span>
+	保存
+      </button>
+    </div>
+  </div>
+  <input type="hidden" name="measurement[days]">
+</form>
+<!-- /search -->
+
+</div>
+<!-- /container -->
+
+<eln:tag eln:include="admin/foot.html"></eln:tag>
+<script>
+//<![CDATA[
+$(function(){
+    // month.
+    $("select[name='month']").on("change", function(){
+	onSelectMonth();
+    });
+    onSelectMonth();
+
+    // calendar.
+    $("table.calendar td:not(.disabled)").on("click", function(){
+	if($(this).hasClass("selected")){
+	    $(this).removeClass("selected");
+	}else{
+	    $(this).addClass("selected");
+	}
+    });
+
+    // post.
+    $("form").submit(function(){
+	return onSubmit();
+    });
+});
+function onSelectMonth(){
+    $.ajax({
+	url: "{eln:uri('default:admin/measurement.async_get')}",
+	method: "POST",
+	data: { month: $("select[name='month'] option:selected").val() },
+	dataType: "JSON",
+	success: function(result){
+	    applyCalendar("#calendar1", result[0]);
+	    applyCalendar("#calendar2", result[1]);
+	}
+    });
+}
+function applyCalendar(table, month){
+    $(table + " td").removeClass("selected").removeClass("disabled");
+    $(table + " thead tr:nth-child(1) th").text(month.title);
+    for(var row = 0; row < 6; ++ row){
+	var week = month.calendar[row];
+	for(var d = 0; d < 7; ++ d){
+	    $(table + " tbody tr:nth-child(" + (row + 1) + ") td:nth-child(" + (d + 1) + ")").text(week[d][0]);
+	    if(!week[d][1]){
+		$(table + " tbody tr:nth-child(" + (row + 1) + ") td:nth-child(" + (d + 1) + ")").addClass("disabled");
+	    }
+	}
+    }
+}
+function onSubmit(){
+    // validate.
+    if($("table.calendar td.selected").length == 0){
+	alert('計測日を選択してください。');
+	return false;
+    }
+    if($("input[name='measurement[hours][]']:checked").length == 0){
+	alert('開始時間を選択してください。');
+	return false;
+    }
+    if($("input[name='measurement[limitDate]']").val().length == 0){
+	alert('予約受付期限を指定してください。');
+	return false;
+    }
+    if($("input[name='measurement[min]']").val().length == 0){
+	alert('計測時間を指定してください。');
+	return false;
+    }
+
+    // data.
+    var days = [];
+    for(var index = 1; index <= 2; ++ index){
+	var ym = $("#calendar" + index + " thead tr:nth-child(1) th:nth-child(1)").text();
+	$("#calendar" + index + " td.selected").each(function(){
+	    days.push(ym + "/" + ("0" + $(this).text()).slice(-2));
+	});
+    }
+    $("input[name='measurement[days]']").val(JSON.stringify(days));
+    return true;
+}
+//]]>
+</script>
+</body>
+</html>

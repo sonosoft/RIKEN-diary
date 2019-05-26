@@ -1,0 +1,25 @@
+<?php
+
+/*
+ * [Elnath PHP Web Application Framework]
+ * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
+ *
+ * ${_view_name_}view.php
+ */
+
+
+class ${_view_class_}View extends ${_parent_view_class_}View {
+  /*
+   * ビューファイルを初期化する
+   */
+  protected function beforeRender($renderer){
+    /**/
+    parent::beforeRender($renderer);
+
+    /**/
+    // $renderer->pageTitle = 'タイトル';
+    /**/
+    // $renderer->layoutTemplate = '${_template_name_}';
+    // $renderer->innerTemplate = '${_template_name_}';
+  }
+}

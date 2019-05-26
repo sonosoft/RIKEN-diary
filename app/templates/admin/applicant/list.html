@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head eln:include="admin/head.html"></head>
+
+<body>
+
+<!-- nav -->
+<nav eln:include="admin/nav.html"></nav>
+
+<!-- container -->
+<div class="container admin mT80 mB20">
+
+<!-- breadcrumb -->
+<ol class="breadcrumb">
+  <li class="active">ユーザの検索</li>
+</ol>
+<!-- /breadcrumb -->
+
+<!-- search -->
+<form action="{eln:uri('default:admin/applicant.search')}" method="post" class="form-horizontal" role="form" id="search-form">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+	<label class="col-xs-12 col-sm-3 control-label">キーワード（部分一致）</label>
+	<div class="col-xs-12 col-sm-5 form-input">
+	  <input type="text" name="applicant_search[text]" class="form-control" placeholder="ID・氏名・ふりがな・メールアドレス">
+	</div>
+      </div>
+      <div class="form-group">
+	<label class="col-xs-12 col-sm-3 control-label">計測日</label>
+	<div class="col-xs-12 col-sm-9 form-input">
+	  <input type="text" name="applicant_search[from]" class="form-control datepicker pull-left" style="width:200px">
+	  <p class="form-control-static pull-left">&nbsp;〜&nbsp;</p>
+	  <input type="text" name="applicant_search[to]" class="form-control datepicker pull-left" style="width:200px">
+	</div>
+      </div>
+      <div class="form-group">
+	<div class="col-xs-12 col-sm-9 col-sm-offset-3 form-input checkbox">
+	  <label>
+	    <input type="checkbox" name="applicant_search[all]" value="1">
+	    キャンセルも表示する
+	  </label>
+	</div>
+      </div>
+      <div class="form-group">
+	<div class="col-xs-12 col-sm-7 col-sm-offset-3 form-input">
+          <a href="{eln:uri('default:admin/applicant.list')}" type="button" class="btn btn-md btn-default">
+	    全て表示
+	  </a>
+          <button type="submit" class="btn btn-md btn-success">
+	    <span class="glyphicon glyphicon-search"></span>
+	    検索
+	  </button>
+          <button type="button" class="btn btn-md btn-warnig download">
+	    <span class="glyphicon glyphicon-download"></span>
+	    ダウンロード
+	  </button>
+	</div>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="applicant_search[download]">
+</form>
+<!-- /search -->
+
+<!-- paginator -->
+<div class="row">
+  <div class="col-sm-5">
+    <nav eln:include="admin/paginator.html"></nav>
+  </div>
+  <div class="col-sm-7 text-right command-box">
+    <a href="#" class="btn btn-sm btn-info to-send">
+      <span class="glyphicon glyphicon-envelope"></span>
+      メール送信
+    </a>
+    <a href="#" class="btn btn-sm btn-danger to-delete">
+      削除
+    </a>
+  </div>
+</div>
+<!-- /paginator -->
+
+<!-- customer list -->
+<form id="message-form" action="{eln:uri('default:admin/applicant.message')}" method="post">
+  <div class="table-box">
+    <table class="table table-bordered table-hover list-table">
+      <thead>
+	<tr>
+	  <th class="text-center">
+	    <input type="checkbox" id="lead-checkbox" name="lead">
+	  </th>
+	  <th></th>
+	  <th class="clickable" data-order="i">
+	    ユーザID
+	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$applicant_search.order EQ 'i-a'}"></span>
+	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$applicant_search.order EQ 'i-d'}"></span>
+	  </th>
+	  <th>ユーザIDα</th>
+	  <th class="clickable" data-order="n">
+	    氏名
+	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$applicant_search.order EQ 'n-a'}"></span>
+	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$applicant_search.order EQ 'n-d'}"></span>
+	  </th>
+	  <th class="clickable" data-order="k">
+	    ふりがな
+	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$applicant_search.order EQ 'k-a'}"></span>
+	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$applicant_search.order EQ 'k-d'}"></span>
+	  </th>
+	  <th>メールアドレス</th>
+	  <th class="clickable" data-order="m">
+	    計測日時
+	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$applicant_search.order EQ 'm-a'}"></span>
+	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$applicant_search.order EQ 'm-d'}"></span>
+	  </th>
+	  <th>乱数</th>
+	  <th>どこまで送信済みか</th>
+	  <th>受付確認</th>
+	  <th>質問紙</th>
+	  <th>質問紙リマインド</th>
+	  <th>参加3日前リマインド</th>
+	  <th>性別</th>
+	  <th>生年月日</th>
+	  <th>案内を受けた企業、大学等機関名</th>
+	  <th>電話番号</th>
+	  <th>郵便番号</th>
+	  <th>住所</th>
+	  <th>所属</th>
+	  <th>外部質問紙に回答済みか</th>
+	  <th>案内を連絡していいか</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr class="list-row" eln:foreach="$applicant:{$applicants}">
+	  <td class="text-center">
+	    <input type="checkbox" name="ids[]" value="{$applicant.id}" class="ids" eln:unless="{$applicant.deleted_at}">
+	  </td>
+	  <td class="text-center">
+	    <span class="glyphicon glyphicon-remove text-danger" eln:if="{$applicant.deleted_at}"></span>
+	    <a href="#" class="btn btn-sm btn-default modify" data-id="{$applicant.id}" eln:unless="{$applicant.deleted_at}">
+	      <span class="glyphicon glyphicon-pencil"></span>
+	      編集
+	    </a>
+	  </td>
+	  <td>{$applicant.userID}</td>
+	  <td>{$applicant.userIDa}</td>
+	  <td>{$applicant.familyname} {$applicant.firstname}</td>
+	  <td>{$applicant.kana}</td>
+	  <td>{$applicant.email}</td>
+	  <td>{eln:date($applicant.measurement.measurementDate, '%Y/%m/%d (%a) %H:%M')}</td>
+	  <td>{$applicant.randomString}</td>
+	  <td>{$applicant.progress}</td>
+	  <td><eln:tag eln:if="{$applicant.acceptanceDate}">{eln:date($applicant.acceptanceDate, '%Y/%m/%d %H:%M')}</eln:tag></td>
+	  <td><eln:tag eln:if="{$applicant.questionnaireDate}">{eln:date($applicant.questionnaireDate, '%Y/%m/%d %H:%M')}</eln:tag></td>
+	  <td><eln:tag eln:if="{$applicant.remindDate}">{eln:date($applicant.remindDate, '%Y/%m/%d %H:%M')}</eln:tag></td>
+	  <td><eln:tag eln:if="{$applicant.participationRemindDate}">{eln:date($applicant.participationRemindDate, '%Y/%m/%d %H:%M')}</eln:tag></td>
+	  <td>{$applicant.sex_tos}</td>
+	  <td>{$applicant.birthdate}</td>
+	  <td>{$application.intermediationName}</td>
+	  <td>{$applicant.tel}</td>
+	  <td>{$applicant.postnumber}</td>
+	  <td>{$applicant.address}</td>
+	  <td>{$applicant.belonging}</td>
+	  <td>{$applicant.questionnaire_tos}</td>
+	  <td>{$applicant.contacting_tos}</td>
+	</tr>
+	<tr eln:if="{count($applicant) EQ 0}">
+	  <td colspan="10">見つかりません</td>
+	</tr>
+      </tbody>
+    </table>
+  </div>
+</form>
+<!-- /customer list -->
+
+<!-- paginator -->
+<div class="row">
+  <div class="col-sm-5">
+    <nav eln:include="admin/paginator.html"></nav>
+  </div>
+  <div class="col-sm-7 text-right command-box">
+    <a href="#" class="btn btn-sm btn-info to-send">
+      <span class="glyphicon glyphicon-envelope"></span>
+      メール送信
+    </a>
+    <a href="#" class="btn btn-sm btn-danger to-delete">
+      削除
+    </a>
+  </div>
+</div>
+<!-- /paginator -->
+
+</div>
+<!-- /container -->
+
+<!-- modal -->
+<div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form action="{eln:uri('default:admin/applicant.update')}" method="post">
+      <div class="modal-content">
+	<div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">編集</h5>
+	</div>
+	<div class="modal-body">
+          <div class="form-group">
+            <label for="familyname">氏名</label>
+	    <div class="form-inline">
+              <input type="text" name="familyname" class="form-control" id="familyname">
+              <input type="text" name="firstname" class="form-control" id="firstname">
+	    </div>
+          </div>
+          <div class="form-group">
+            <label for="kana">ふりがな</label>
+            <input type="text" name="kana" class="form-control" id="kana">
+          </div>
+          <div class="form-group">
+            <label for="email">メールアドレス</label>
+            <input type="text" name="email" class="form-control" id="email">
+          </div>
+          <div class="form-group">
+            <label for="email">性別</label>
+	    <div>
+	      <label class="radio-inline">
+		<input type="radio" name="isMan" value="1">
+		男性
+	      </label>
+	      <label class="radio-inline">
+		<input type="radio" name="isMan" value="0">
+		女性
+	      </label>
+	    </div>
+          </div>
+          <div class="form-group">
+            <label for="birthday">生年月日</label>
+            <input type="text" name="birthdate" class="form-control datepicker" id="birthday">
+          </div>
+          <div class="form-group">
+            <label for="tel">電話番号</label>
+            <input type="text" name="tel" class="form-control" id="tel">
+          </div>
+          <div class="form-group">
+            <label for="postal">郵便番号</label>
+            <input type="text" name="postnumber" class="form-control" id="postal">
+          </div>
+          <div class="form-group">
+            <label for="address">住所</label>
+            <input type="text" name="address" class="form-control" id="address">
+	  </div>
+          <div class="form-group">
+	    <label for="contact">連絡の可否</label>
+	    <div>
+	      <label class="radio-inline">
+		<input type="radio" name="isContactOk" value="1">
+		はい
+	      </label>
+	      <label class="radio-inline">
+		<input type="radio" name="isContactOk" value="0">
+		いいえ
+	      </label>
+	    </div>
+	  </div>
+	</div>
+	<div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+          <button type="submit" class="btn btn-primary">更新</button>
+	</div>
+      </div>
+      <input type="hidden" name="id">
+    </form>
+  </div>
+</div>
+<div class="modal fade" id="alert-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">確認</h5>
+      </div>
+      <div class="modal-body" id="modal-message">
+        選択されている申し込みを削除します。
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+        <button type="button" class="btn btn-danger command" id="button-delete">削除</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /modal -->
+
+<eln:tag eln:include="admin/foot.html"></eln:tag>
+<script>
+//<![CDATA[
+$(function(){
+    // download.
+    $("button.download").on("click", function(){
+	$("input[name='applicant_search[download]']").val("1");
+	$("#search-form").submit();
+	$("input[name='applicant_search[download]']").val("0");
+	return false;
+    });
+    
+    // order.
+    $("th.clickable").on("click", function(){
+	var category = $(this).data("order");
+	var order = "{$applicant_search.order}";
+	if(order.substring(0, 1) == category){
+	    if(order.substring(2) == "a"){
+		order = category + "-d";
+	    }else{
+		order = category + "-a";
+	    }
+	}else{
+	    order = category + order.substring(1);
+	}
+	location.href = "{eln:uri('default:admin/applicant.search?o=_ORDER_')}".replace("_ORDER_", order);
+	return false;
+    });
+
+    // checkboxes.
+    $("#lead-checkbox").on("click", function(){
+	if($(this).is(":checked")){
+	    $("input.ids").prop("checked", true);
+	}else{
+	    $("input.ids").prop("checked", false);
+	}
+	onCheckbox();
+    });
+    $("input.ids").on("click", function(){
+	if($("input.ids").length == $("input.ids:checked").length){
+	    $("#lead-checkbox").prop("checked", true);
+	}else{
+	    $("#lead-checkbox").prop("checked", false);
+	}
+	onCheckbox();
+    });
+    onCheckbox();
+    
+    // commands.
+    $(".to-send").on("click", function(){
+	$("#message-form").submit();
+	return false;
+    });
+    $(".to-delete").on("click", function(){
+	$("#alert-modal").modal("show");
+	return false;
+    });
+    $("#button-delete").on("click", function(){
+	var ids = [];
+	$("input.ids:checked").each(function(){
+	    ids.push($(this).val());
+	});
+	$.ajax({
+	    url: "{eln:uri('default:admin/applicant.async_delete')}",
+	    method: "POST",
+	    data: { ids: JSON.stringify(ids) },
+	    dataType: "JSON",
+	    complete: function(){
+		location.href = "{eln:uri('default:admin/applicant.search')}";
+	    }
+	});
+    });
+    $(".modify").on("click", function(){
+	$.ajax({
+	    url: "{eln:uri('default:admin/applicant.async_load?id=_ID_')}".replace("_ID_", $(this).data("id")),
+	    method: "GET",
+	    dataType: "JSON",
+	    success: function(result){
+		if(result.id){
+		    $("#form-modal h5.modal-title").text("編集（" + result.userID + "）");
+		    $("input[name='id']").val(result.id);
+		    $("input[name='familyname']").val(result.familyname);
+		    $("input[name='firstname']").val(result.firstname);
+		    $("input[name='kana']").val(result.kana);
+		    $("input[name='email']").val(result.email);
+		    $("input[name='isMan']").val([result.isMan]);
+		    $("input[name='birthdate']").val(result.birthdate);
+		    $("input[name='tel']").val(result.tel);
+		    $("input[name='postnumber']").val(result.postnumber);
+		    $("input[name='address']").val(result.address);
+		    $("input[name='isContactOk']").val([result.isContactOk]);
+		    $("#form-modal").modal("show");
+		}
+	    }
+	});
+    });
+
+    // row.
+    $("tr.list-row").each(function(){
+	if($("td:nth-child(2) span.text-danger", $(this)).length > 0){
+	    $(this).addClass("danger");
+	}
+    });
+    
+    // form.
+    $("#form-modal form").validate({
+	rules: {
+            familyname: {
+		required: true
+            },
+            firstname: {
+		required: true
+            },
+            kana: {
+		required: true
+            },
+
+            isMan:{
+		required: true
+            },
+            birthdate: {
+		isDate: true,
+		required: true
+            },
+            email: {
+	        email: true,
+	        required: true,
+            },
+            tel: {
+		isTel: true,
+        	required: true
+            },
+            postnumber: {
+		isPost: true,
+		required: true
+            },
+            address: {
+		required: true
+            },
+	},
+	messages: {
+            familyname: {
+		required: "入力されていません。"
+            },
+            firstname: {
+		required: "入力されていません。"
+            },
+            kana: {
+		required: "入力されていません。"
+            },
+            isMan: {
+		required: "選択されていません。"
+            },
+            birthdate: {
+		required: "入力されていません。"
+            },
+            email: {
+		required: "入力されていません。",
+        	email: "メールアドレスの形式で入力して下さい。"
+            },
+            tel: {
+		required: "入力されていません。",
+		isTel: "電話番号の形式で入力して下さい。"
+            },
+            postnumber: {
+		required: "入力されていません。",
+		isPost: "ハイフンで区切った7桁の郵便番号を入力して下さい。"
+            },
+            address: {
+		required: "入力されていません。"
+            },
+	},
+	highlight: function (element, errorClass, validClass) { 
+	    $(element).parents("div.form-group").addClass("has-error"); 
+	}, 
+	unhighlight: function (element, errorClass, validClass) { 
+	    $(element).parents(".has-error").removeClass("has-error"); 
+	},
+	errorPlacement: function(error, element){
+	    $(element).parents("div.form-group").append(error.addClass("control-label"));
+	}
+    });
+    $.validator.addMethod(
+	"isDate",
+	function(value, element){
+	    var isValid = false;
+	    var error = 1;
+	    if(value.match(/^([0-9]+)\/([0-9]+)\/([0-9]+)$/)){
+		var y = RegExp.$1;
+		var m = RegExp.$2;
+		var d = RegExp.$3;
+		birthday = new Date(("000" + y).slice(-4) + "-" + ("0" + m).slice(-2) + "-" + ("0" + d).slice(-2));
+		if(birthday.getMonth() + 1 == m){
+		    var right = birthday.getFullYear() * 10000 + (birthday.getMonth() + 1) * 100 + birthday.getDate();
+		    var today = new Date();
+		    var left = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+		    var age = Math.floor((left - right) / 10000);
+		    if(age >= 20 && age <= 65){
+			isValid = true;
+		    }else{
+			error = 2;
+		    }
+		}
+	    }
+	    if(!isValid){
+		$("input[name='birthdate']").data("error", error);
+	    }
+	    return isValid;
+	},
+	function(params, element){
+	    if($(element).data("error") == 2){
+		return "20歳以上65歳以下の方しか参加できません。";
+	    }
+	    return "正しい日付を入力して下さい。";
+	}
+    );
+    $.validator.addMethod("isTel", function(value, element){
+	return value.match(/^[0-9]+(?:-[0-9]+)*$/);
+    });
+    $.validator.addMethod("isPost", function(value, element){
+	return value.match(/^[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$/);
+    });
+});
+function onCheckbox(){
+    if($("input.ids:checked").length > 0){
+	$(".to-send").removeClass("disabled");
+	$(".to-delete").removeClass("disabled");
+    }else{
+	$(".to-send").addClass("disabled");
+	$(".to-delete").addClass("disabled");
+    }
+}
+//]]>
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head eln:include="admin/head.html"></head>
+
+<body>
+
+<!-- nav -->
+<nav eln:include="admin/nav.html"></nav>
+
+<!-- container -->
+<div class="container admin mT80 mB20">
+
+<!-- breadcrumb -->
+<ol class="breadcrumb">
+  <li><a href="{eln:uri('default:admin/measurement.search')}">計測日一覧</a></li>
+  <li class="active">計測日</li>
+</ol>
+<!-- /breadcrumb -->
+
+<!-- search -->
+<form action="{eln:uri('default:admin/measurement.save2')}" method="post">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+	<label for="day">計測日時</label>
+	<p class="form-control-static">{eln:date($measurement.measurementDate, '%Y/%m/%d (%a) %H:%M')}</p>
+      </div>
+      <div class="form-group">
+	<label>予約受付期限</label>
+	<input type="text" name="measurement[limitDate]" class="form-control datepicker" placeholder="予約受付期限">
+      </div>
+      <div class="form-group">
+	<label>計測時間</label>
+	<div class="input-group">
+	  <input type="text" name="measurement[min]" class="form-control" placeholder="計測時間">
+	  <div class="input-group-addon">分</div>
+	</div>
+      </div>
+      <div class="checkbox">
+	<label>
+	  <input type="checkbox" name="measurement[isDisplay]" value="1">
+	  予約ページに表示する
+	</label>
+      </div>
+      <a href="{eln:uri('default:admin/measurement.search')}" class="btn btn-md btn-default">キャンセル</a>
+      <button type="submit" class="btn btn-lg btn-success">
+	<span class="glyphicon glyphicon-search"></span>
+	保存
+      </button>
+    </div>
+  </div>
+  <input type="hidden" name="measurement[id]">
+  <input type="hidden" name="measurement[measurementDate]">
+</form>
+<!-- /search -->
+
+</div>
+<!-- /container -->
+
+<eln:tag eln:include="admin/foot.html"></eln:tag>
+<script>
+//<![CDATA[
+$(function(){
+    // post.
+    $("form").submit(function(){
+	return onSubmit();
+    });
+});
+function onSubmit(){
+    // validate.
+    if($("input[name='measurement[limitDate]']").val().length == 0){
+	alert('予約受付期限を指定してください。');
+	return false;
+    }
+    if($("input[name='measurement[min]']").val().length == 0){
+	alert('計測時間を指定してください。');
+	return false;
+    }
+    return true;
+}
+//]]>
+</script>
+</body>
+</html>

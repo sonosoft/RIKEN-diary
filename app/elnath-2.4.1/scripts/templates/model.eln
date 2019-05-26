@@ -1,0 +1,54 @@
+<?php
+
+/*
+ * [Elnath PHP Web Application Framework]
+ * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
+ *
+ * ${_table_name_}_model.php
+ */
+
+
+class ${_model_class_}ModelFactory extends ModelFactory {
+  /*
+   * プロパティ
+   */
+  protected $model = '${_model_class_}';
+  protected $table = '${_remote_name_}';
+/*
+  protected $relations = array(
+    'organization'=>array(
+      'type'=>'belongsTo',
+      'model'=>'Organization',
+      'conditions'=>array('organization_id'=>'id')
+    ),
+    'partners'=>array(
+      'type'=>'hasMany',
+      'model'=>'Partner',
+      'conditions'=>array('id'=>'partner_id')
+    ),
+  );
+*/
+}
+
+class ${_model_class_}Model extends Model {
+  /*
+   * コールバック [beforeDatabase()]
+   */
+  protected function beforeDatabase($isNew){
+    ;
+  }
+
+  /*
+   * コールバック [afterDatabase()]
+   */
+  protected function afterDatabase($isNew){
+    ;
+  }
+
+  /*
+   * コールバック [additionalAttributes()]
+   */
+  protected function additionalAttributes(){
+    return array();
+  }
+}
