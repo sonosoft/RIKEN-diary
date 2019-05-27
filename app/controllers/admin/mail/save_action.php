@@ -55,7 +55,7 @@ class AdminMailSaveAction extends AdminMailController {
 	throw $e;
       }else{
 	/* 例外 */
-	$this->app->writeLog('admin/mail/save', $e->getMail());
+	$this->app->writeLog('admin/mail/save', $e->getMessage());
 	$this->redirect('default:admin/error.error');
       }
     }
