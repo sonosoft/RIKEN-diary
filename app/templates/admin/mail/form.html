@@ -159,7 +159,7 @@ function addTime(hour, minute){
     }
     times.push(time);
     times.sort();
-    $("input[name='mail[times]']").val(JSON.stringify(items));
+    $("input[name='mail[times]']").val(JSON.stringify(times));
 }
 function deleteTime(element){
     // delete.
@@ -171,7 +171,7 @@ function deleteTime(element){
 	    timesNew.push_back(timesOrg[i]);
 	}
     }
-    $("input[name='mail[times]']").val(JSON.stringify(items));
+    $("input[name='mail[times]']").val(JSON.stringify(times));
 }
 function reloadTimes(){
     var times = JSON.parse($("input[name='mail[times]']").val());
