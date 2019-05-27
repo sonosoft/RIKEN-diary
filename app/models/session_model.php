@@ -13,7 +13,7 @@ class SessionModelFactory extends ModelFactory {
    * プロパティ
    */
   protected $model = 'Session';
-  protected $table = 'session1';
+  protected $table = 'session';
   protected $relations = array(
     'administrator'=>array(
       'type'=>'belongsTo',
