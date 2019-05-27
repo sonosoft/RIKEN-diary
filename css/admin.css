@@ -44,10 +44,7 @@ body {
 }
 
 /**/
-label.code-prefix {
-    font-weight: normal;
-}
-label.date-suffix {
+label.inline-note {
     font-weight: normal;
 }
 
