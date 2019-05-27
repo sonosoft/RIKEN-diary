@@ -8,7 +8,7 @@
  */
 
 
-class AdminProjectFormView extends AdminProjectView {
+class AdminProjectFormView extends Eln_View {
   /*
    * ビューファイルを初期化する
    */
@@ -17,9 +17,6 @@ class AdminProjectFormView extends AdminProjectView {
     parent::beforeRender($renderer);
 
     /**/
-    // $renderer->pageTitle = 'タイトル';
-    /**/
-    // $renderer->layoutTemplate = 'admin/project/form.html';
-    // $renderer->innerTemplate = 'admin/project/form.html';
+    $renderer->layoutTemplate = 'admin/project/form.html';
   }
 }

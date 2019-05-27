@@ -18,36 +18,11 @@ class AdminProjectSearchAction extends AdminProjectController {
       $search = $this->app->restoreSession('project_search', array());
       if(($page = $this->app->readRequest('p', null)) !== null){
         $search['page'] = $page;
-      }else if(($order = $this->app->readRequest('o', null)) !== null){
-        $search['order'] = $order;
       }
     }
     $this->app->data['project_search'] = $search;
 
     /**/
     return $this->viewList();
-  }
-
-  /* ===== ===== */
-
-  /*
-   * コールバック [beforeSession()]
-   */
-  protected function beforeSession(){
-    parent::beforeSession();
-  }
-
-  /*
-   * コールバック [beforeAction()]
-   */
-  protected function beforeAction(){
-    parent::beforeAction();
-  }
-
-  /*
-   * コールバック [afterAction()]
-   */
-  protected function afterAction(){
-    parent::after_action();
   }
 }

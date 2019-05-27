@@ -20,10 +20,6 @@ class AdminProjectController extends AdminController {
     $this->useModel('Project');
     $this->useValidator('ProjectSearch');
 
-    /* アラート */
-    $this->app->data['project_alert'] = $this->app->restoreSession('project_alert');
-    $this->app->removeSession('project_alert');
-
     /* 検索条件検証 */
     $this->app->data['project_search'] = $this->ProjectSearchValidator->validate($this->app->data['project_search']);
 
@@ -34,23 +30,20 @@ class AdminProjectController extends AdminController {
 	$where[] = sprintf('(INSTR([text1], :%s) != 0 OR INSTR([text2], :%s) != 0)', $key, $key);
       }
     }
-    $where[] = '[status] = :active';
+    $where[] = '[status] = :enabled';
     /**/
     $options = array(
       'where'=>implode(' AND ', $where),
-      'order'=>'[sequence_field] ASC',
+      'order'=>'[id] ASC',
       'pageSize'=>30,
       'indexSize'=>10,
       'page'=>$this->app->data['project_search']['page'],
     );
     $parameters = $this->app->data['project_search'];
-    $parameters['active'] = STATUS_ACTIVE;
+    $parameters['enabled'] = STATUS_ENABLED;
 
     /* 検索 */
-    list($this->app->data['projects'], $this->app->data['paginator']) = $this->ProjectModel->page(
-      $options,
-      $parameters
-    );
+    list($this->app->data['projects'], $this->app->data['paginator']) = $this->ProjectModel->page($options, $parameters);
     /**/
     $this->app->data['project_search']['page'] = $this->app->data['paginator']->currentPage;
     $this->app->storeSession('project_search', $this->app->data['project_search']);
@@ -65,31 +58,5 @@ class AdminProjectController extends AdminController {
   protected function viewForm(){
     /**/
     return 'admin/project/form';
-  }
-
-  /* ===== ===== */
-
-  /*
-   * コールバック [beforeSession()]
-   */
-  protected function beforeSession(){
-    /**/
-    parent::beforeSession();
-  }
-
-  /*
-   * コールバック [beforeAction()]
-   */
-  protected function beforeAction(){
-    /**/
-    parent::beforeAction();
-  }
-
-  /*
-   * コールバック [afterAction()]
-   */
-  protected function afterAction(){
-    /**/
-    parent::afterAction();
   }
 }

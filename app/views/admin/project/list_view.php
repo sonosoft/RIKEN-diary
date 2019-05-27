@@ -8,7 +8,7 @@
  */
 
 
-class AdminProjectListView extends AdminProjectView {
+class AdminProjectListView extends Eln_View {
   /*
    * ビューファイルを初期化する
    */
@@ -17,9 +17,6 @@ class AdminProjectListView extends AdminProjectView {
     parent::beforeRender($renderer);
 
     /**/
-    // $renderer->pageTitle = 'タイトル';
-    /**/
-    // $renderer->layoutTemplate = 'admin/project/list.html';
-    // $renderer->innerTemplate = 'admin/project/list.html';
+    $renderer->layoutTemplate = 'admin/project/list.html';
   }
 }

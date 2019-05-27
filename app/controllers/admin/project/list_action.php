@@ -13,33 +13,10 @@ class AdminProjectListAction extends AdminProjectController {
    * アクション
    */
   public function action(){
+    /* セッションクリア */
+    $this->app->removeSession('project_search');
+    
     /**/
-    return 'admin/project/list';
-  }
-
-  /* ===== ===== */
-
-  /*
-   * コールバック [beforeSession()]
-   */
-  protected function beforeSession(){
-    /**/
-    parent::beforeSession();
-  }
-
-  /*
-   * コールバック [beforeAction()]
-   */
-  protected function beforeAction(){
-    /**/
-    parent::beforeAction();
-  }
-
-  /*
-   * コールバック [afterAction()]
-   */
-  protected function afterAction(){
-    /**/
-    parent::afterAction();
+    $this->redirect('default:admin/project.search');
   }
 }
