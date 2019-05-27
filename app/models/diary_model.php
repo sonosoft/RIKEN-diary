@@ -17,8 +17,15 @@ class DiaryModelFactory extends ModelFactory {
 
   /* ===== ===== */
 
-  public function findById($id){
+  public function findById($id, $all=false){
+    if($all){
+      return $this->one(array('where'=>'[id] = :id'), array('id'=>$id));
+    }
     return $this->one(array('where'=>'[id] = :id AND [status] = :enabled'), array('id'=>$id, 'enabled'=>STATUS_ENABLED));
+  }
+
+  public function findByCode($code){
+    return $this->one(array('where'=>'[code] = :code AND [status] = :enabled'), array('code'=>$code, 'enabled'=>STATUS_ENABLED));
   }
 }
 
