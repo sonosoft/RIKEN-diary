@@ -181,7 +181,7 @@ function reloadTimes(){
     var times = JSON.parse($("input[name='mail[times]']").val());
     $("ul#time-list").html("");
     for(var i = 0; i < times.length; ++ i){
-	var hour = ("0" + (times[i] / 100)).slice(-2);
+	var hour = ("0" + parseInt(times[i] / 100)).slice(-2);
 	var minute = ("0" + (times[i] % 100)).slice(-2);
 	$("ul#time-list").append(
 	    $("<li>").addClass("list-group-item").append(
