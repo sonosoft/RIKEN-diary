@@ -21,6 +21,10 @@ class MailModelFactory extends ModelFactory {
     return $this->one(array('where'=>'[id] = :id AND [status] = :enabled'), array('id'=>$id, 'enabled'=>STATUS_ENABLED));
   }
 
+  public function findByCode($code){
+    return $this->one(array('where'=>'[code] = :code AND [status] = :enabled'), array('id'=>$code, 'enabled'=>STATUS_ENABLED));
+  }
+
   public function replace($src, $user, $dialy){
     $dst = str_replace('【氏名】', $user->family_name.' '.$user->first_name, $src);
     if($measurement !== null){
