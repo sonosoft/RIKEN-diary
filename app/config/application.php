@@ -1,6 +1,6 @@
 <?php
 
-Eln_Application::$name = 'dialy';
+Eln_Application::$name = 'diary';
 Eln_Application::$mode = 'debug';
 Eln_Application::$settings = array(
   
