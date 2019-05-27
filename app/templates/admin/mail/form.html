@@ -157,7 +157,7 @@ function addTime(hour, minute){
     if(times.indexOf(time) >= 0){
 	return;
     }
-    times.push_back(time);
+    times.push(time);
     times.sort();
     $("input[name='mail[times]']").val(JSON.stringify(items));
 }
