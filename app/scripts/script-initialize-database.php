@@ -22,7 +22,7 @@ try{
   /* administrator, session */
   echo 'CREATE TABLE administrator;'.PHP_EOL;
   $db->query(
-    'CREATE TABLE IF NOT EXESTS `administrator` ('.
+    'CREATE TABLE IF NOT EXISTS `administrator` ('.
     ' `id` int NOT NULL AUTO_INCREMENT,'.
     ' `password` varchar(40) NOT NULL,'.
     ' `created_at` datetime NOT NULL,'.
