@@ -128,7 +128,9 @@ $(function(){
     $("button#time-button").on("click", function(){
 	var hour = $("select[name='time_h'] option:selected").val();
 	var minute = $("select[name='time_m'] option:selected").val();
-	addTime(hour, minute);
+	if(!isNaN(hour) && !isNaN(minute)){
+	    addTime(parseInt(hour), parseInt(minute));
+	}
     });
     reloadTimes();
 });
@@ -160,6 +162,7 @@ function addTime(hour, minute){
     times.push(time);
     times.sort();
     $("input[name='mail[times]']").val(JSON.stringify(times));
+    reloadTimes();
 }
 function deleteTime(element){
     // delete.
@@ -168,10 +171,11 @@ function deleteTime(element){
     var timesNew = [];
     for(var i = 0; i < timesOrg.length; ++ i){
 	if(timesOrg[i] != time){
-	    timesNew.push_back(timesOrg[i]);
+	    timesNew.push(timesOrg[i]);
 	}
     }
     $("input[name='mail[times]']").val(JSON.stringify(times));
+    reloadTimes();
 }
 function reloadTimes(){
     var times = JSON.parse($("input[name='mail[times]']").val());
