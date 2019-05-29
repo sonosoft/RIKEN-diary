@@ -51,7 +51,7 @@
 	</div>
 	<p class="form-control-static">
 	  日誌定義[*.xml]ファイル
-	  <span eln:unless="{$diary.id}">（変更する場合のみアップロード）</span>
+	  <span eln:if="{$diary.id}">（変更する場合のみアップロード）</span>
 	</p>
       </div>
       <div class="form-group">

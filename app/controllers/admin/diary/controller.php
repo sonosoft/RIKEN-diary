@@ -56,6 +56,16 @@ class AdminDiaryController extends AdminController {
    * フォーム
    */
   protected function viewForm(){
+    /* 時間 */
+    $this->app->data['hourChoices'] = array();
+    foreach(range(0, 23) as $h){
+      $this->app->data['hourChoices'][] = array('value'=>$h, 'label'=>sprintf('%02d', $h));
+    }
+    $this->app->data['minuteChoices'] = array();
+    foreach(array(0, 15, 30, 45) as $m){
+      $this->app->data['minuteChoices'][] = array('value'=>$m, 'label'=>sprintf('%02d', $m));
+    }
+    
     /**/
     return 'admin/diary/form';
   }
