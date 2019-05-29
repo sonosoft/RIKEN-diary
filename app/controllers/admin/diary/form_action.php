@@ -22,6 +22,10 @@ class AdminDiaryFormAction extends AdminDiaryController {
 	$this->redirect('default:admin/diary.list');
       }
       $this->app->data['diary'] = $diary->getAttributes();
+      $this->app->data['diary']['from_time_h'] = intval($diary->from_time / 100);
+      $this->app->data['diary']['from_time_m'] = intval($diary->from_time % 100);
+      $this->app->data['diary']['to_time_h'] = intval($diary->to_time / 100);
+      $this->app->data['diary']['to_time_m'] = intval($diary->to_time % 100);
     }else{
       $this->app->data['diary'] = array('id'=>null);
     }

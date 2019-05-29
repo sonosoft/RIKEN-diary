@@ -14,9 +14,38 @@ class DiaryFormValidator extends Validator {
    */
   protected function validateData(){
     /**/
+    $this->useModel('Diary');
+    
+    /**/
     $this->validateId('id');
     /**/
-    $this->convert('name', 's')->trim('name')->notEmpty('name')->lengthLE('name', 20);
-    $this->convert('code', 'as')->close('code')->notEmpty('code')->lengthLE('code', 20);
+    $this->notEmpty('code')->pattern('code', '/^[0-9a-zA-Z]{3}$/', '英数字3文字で入力してください。');
+    if($this->isValid('code')){
+      if($this->DiaryModel->findByCode($this->getValue('code')) !== null){
+	$this->setError('code', '同じIDがすでに登録されています。');
+      }
+    }
+    /**/
+    $this->notEmpty('title')->lengthLE('title', 200);
+    $this->notEmpty('overview')->lengthLE('overview', 400);
+    /**/
+    $this->selection('from_time_h')->toInteger('from_time_h');
+    $this->selection('from_time_m')->toInteger('from_time_m');
+    if($this->isValid('from_time_h') && $this->isValid('from_time_m')){
+      $this->setValue('from_time', intval($this->getValue('from_time_h')) * 100 + intval($this->getValue('from_time_m')));
+    }
+    $this->selection('to_time_h')->toInteger('to_time_h');
+    $this->selection('to_time_m')->toInteger('to_time_m');
+    if($this->isValid('to_time_h') && $this->isValid('to_time_m')){
+      $this->setValue('to_time', intval($this->getValue('to_time_h')) * 100 + intval($this->getValue('to_time_m')));
+    }
+    /**/
+    if(isset($_FILES['file']['error']) && $_FILES['file']['error'] == UPLOAD_ERR_OK){
+      if(simplexml_load_file($_FILES['file']['tmp_name'])){
+	$this->setError('file', 'XMLファイルではありません。');
+      }
+    }else if($this->isEmpty('id')){
+      $this->setError('file', 'ファイルがアップロードされませんでした。');
+    }
   }
 }

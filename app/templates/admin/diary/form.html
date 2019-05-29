@@ -12,8 +12,8 @@
 
 <!-- breadcrumb -->
 <ol class="breadcrumb">
-  <li><a href="{eln:uri('default:admin/diary.search')}">メール一覧</a></li>
-  <li class="active">メール登録・編集</li>
+  <li><a href="{eln:uri('default:admin/diary.search')}">日誌一覧</a></li>
+  <li class="active">日誌登録・編集</li>
 </ol>
 <!-- /breadcrumb -->
 
@@ -37,6 +37,22 @@
       <div class="form-group">
 	<label for="body">概要</label>
 	<textarea name="diary[overview]" class="form-control" id="overview" placeholder="概要" rows="5"></textarea>
+      </div>
+      <div class="form-group">
+	<label for="body">日誌データ</label>
+	<div class="input-group">
+	  <label class="input-group-btn">
+	    <span class="btn btn-primary">
+	      クリックしてファイルを選択<input type="file" name="file" style="display:none">
+	    </span>
+	  </label>
+	  <input type="text" name="name" class="form-control" readonly="readonly">
+	  <input type="hidden" name="diary[file]">
+	</div>
+	<p class="form-control-static">
+	  日誌定義[*.xml]ファイル
+	  <span eln:unless="{$diary.id}">（変更する場合のみアップロード）</span>
+	</p>
       </div>
       <div class="form-group">
 	<label for="title">提示時間</label>
@@ -74,5 +90,22 @@
 <!-- /container -->
 
 <eln:tag eln:include="admin/foot.html"></eln:tag>
+<script>
+//<![CDATA[
+$(function(){
+    // file.
+    $("input[name='file']").on("change", function(){
+	var files = this.files;
+	if(files.length > 0){
+	    $("input[name='name']").val($("input[name='file']").val());
+	    $("button.submit").removeClass("disabled").prop("disabled", false);
+	}else{
+	    $("button.submit").addClass("disabled").prop("disabled", true);
+	}
+    });
+    $("button.submit").addClass("disabled").prop("disabled", true);
+});
+//]]>
+</script>
 </body>
 </html>

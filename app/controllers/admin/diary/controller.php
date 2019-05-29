@@ -30,7 +30,7 @@ class AdminDiaryController extends AdminController {
 	$where[] = sprintf('([code] = :%s OR INSTR([title], :%s) != 0 OR INSTR([overview], :%s) != 0)', $key, $key, $key);
       }
     }
-    $where[] = '[status] = :active';
+    $where[] = '[status] = :enabled';
     /**/
     $options = array(
       'where'=>implode(' AND ', $where),
