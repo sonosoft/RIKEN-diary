@@ -44,8 +44,12 @@ class DiaryFormValidator extends Validator {
       if(simplexml_load_file($_FILES['file']['tmp_name'])){
 	$this->setError('file', 'XMLファイルではありません。');
       }
-    }else if($this->isEmpty('id')){
-      $this->setError('file', 'ファイルがアップロードされませんでした。');
+    }else{
+      if(isset($_FILES['file']['error']) && $_FILES['file']['error'] == UPLOAD_ERR_NO_FILE && $this->isEmpty('id') === false){
+	;
+      }else{
+	$this->setError('file', 'ファイルがアップロードされませんでした。');
+      }
     }
   }
 }

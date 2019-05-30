@@ -33,6 +33,8 @@ class DiaryModel extends Model {
   public function __isset($name){
     if(strcmp($name, 'path') == 0){
       return true;
+    }else if(strcmp($name, 'schedule_tos') == 0){
+      return true;
     }
     return false;
   }
@@ -45,6 +47,12 @@ class DiaryModel extends Model {
       }
       $path .= '.xml';
       return $this->app->projectFile($path);
+    }else if(strcmp($name, 'schedule_tos') == 0){
+      return sprintf(
+	'%02d:%02d〜%02d:%02d',
+	intval($this->from_time / 100), intval($this->from_time % 100),
+	intval($this->to_time / 100), intval($this->to_time % 100)
+      );
     }
     return null;
   }

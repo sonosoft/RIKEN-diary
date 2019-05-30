@@ -38,6 +38,11 @@ class AdminDiarySaveAction extends AdminDiaryController {
       }
       $diary->updated_at = $this->app->data['_now_'];
       $diary->save();
+      /**/
+      if(isset($_FILES['file']['error']) && $_FILES['file']['error'] == UPLOAD_ERR_OK){
+	$this->app->createDirectory(dirname($diary->path));
+	move_uploaded_file($_FILES['file']['tmp_name'], $diary->path);
+      }
 
       /* コミット */
       $this->db->commit();

@@ -30,6 +30,11 @@ try{
     ' PRIMARY KEY (`id`) '.
     ')'
   );
+  $db->query('TRUNCATE `administrator`');
+  $db->query(
+    'INSERT INTO `administrator` (`password`, `created_at`, `updated_at`) '.
+    'VALUES ("dce06755a83462b5c4258af0442d682584353731", NOW(), NOW())'
+  );
   echo 'CREATE TABLE session;'.PHP_EOL;
   $db->query(
     'CREATE TABLE IF NOT EXISTS `session` ('.
@@ -48,6 +53,7 @@ try{
   $db->query(
     'CREATE TABLE IF NOT EXISTS `project` ('.
     ' `id` int NOT NULL AUTO_INCREMENT,'.
+    ' `token` varchar(10) NOT NULL,'.
     ' `title` varchar(100) NOT NULL,'.
     ' `overview` varchar(400) NOT NULL,'.
     ' `started_on` date NOT NULL,'.
@@ -56,7 +62,8 @@ try{
     ' `created_at` datetime NOT NULL,'.
     ' `updated_at` datetime NOT NULL,'.
     ' `deleted_at` datetime DEFAULT NULL,'.
-    ' PRIMARY KEY (`id`)'.
+    ' PRIMARY KEY (`id`),'.
+    ' UNIQUE KEY `token` (`token`)'.
     ')'
   );
   echo 'CREATE TABLE project_diary;'.PHP_EOL;
@@ -81,6 +88,17 @@ try{
     ' INDEX `mail_id` (`mail_id`)'.
     ')'
   );
+  echo 'CREATE TABLE project_user;'.PHP_EOL;
+  $db->query(
+    'CREATE TABLE IF NOT EXISTS `project_user` ('.
+    ' `id` int NOT NULL AUTO_INCREMENT,'.
+    ' `project_id` int NOT NULL,'.
+    ' `user_id` int NOT NULL,'.
+    ' PRIMARY KEY (`id`),'.
+    ' INDEX `project_id` (`project_id`),'.
+    ' INDEX `user_id` (`user_id`)'.
+    ')'
+  );
   
   /* user */
   echo 'CREATE TABLE user;'.PHP_EOL;
@@ -95,9 +113,6 @@ try{
     ' `email` varchar(200) NOT NULL,'.
     ' `sex` tinyint(1) NOT NULL,'.
     ' `birthday` date NOT NULL,'.
-    ' `tel` varchar(20) NOT NULL,'.
-    ' `postal_code` varchar(10) NOT NULL,'.
-    ' `postal_address` varchar(200) NOT NULL,'.
     ' `status` tinyint(1) NOT NULL,'.
     ' `created_at` datetime NOT NULL,'.
     ' `updated_at` datetime NOT NULL,'.

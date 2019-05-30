@@ -4,11 +4,11 @@
  * [Elnath PHP Web Application Framework]
  * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
  *
- * admin/applicant/list_view.php
+ * admin/user/form_view.php
  */
 
 
-class AdminApplicantListView extends Eln_View {
+class AdminUserFormView extends Eln_View {
   /*
    * ビューファイルを初期化する
    */
@@ -17,6 +17,6 @@ class AdminApplicantListView extends Eln_View {
     parent::beforeRender($renderer);
 
     /**/
-    $renderer->layoutTemplate = 'admin/applicant/list.html';
+    $renderer->layoutTemplate = 'admin/user/form.html';
   }
 }
