@@ -4,70 +4,60 @@
  * [Elnath PHP Web Application Framework]
  * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
  *
- * admin/applicant/controller.php
+ * admin/user/controller.php
  */
 
 
 /*
  * コントローラ
  */
-class AdminApplicantController extends AdminController {
+class AdminUserController extends AdminController {
   /*
    * 一覧
    */
   protected function viewList(){
     /**/
-    $this->useModel('Applicant');
-    $this->useValidator('ApplicantSearch');
+    $this->useModel('User');
+    $this->useValidator('UserSearch');
 
     /* 検索条件検証 */
-    $this->app->data['applicant_search'] = $this->ApplicantSearchValidator->validate($this->app->data['applicant_search']);
+    $this->app->data['user_search'] = $this->UserSearchValidator->validate($this->app->data['user_search']);
 
     /* リストオプション */
     $where = array();
-    if($this->app->data['applicant_search']['text_keys'] !== null){
-      foreach($this->app->data['applicant_search']['text_keys'] as $key){
+    if($this->app->data['user_search']['text_keys'] !== null){
+      foreach($this->app->data['user_search']['text_keys'] as $key){
 	$or = array(
-	  sprintf('INSTR([userID], :%s) != 0', $key),
-	  sprintf('INSTR([familyname], :%s) != 0', $key),
-	  sprintf('INSTR([firstname], :%s) != 0', $key),
-	  sprintf('INSTR([email], :%s) != 0', $key),
+	  sprintf('INSTR([code], :%s) != 0', $key),
+	  sprintf('INSTR([family_name], :%s) != 0', $key),
+	  sprintf('INSTR([first_name], :%s) != 0', $key),
 	  sprintf('INSTR([kana], :%s) != 0', $key),
+	  sprintf('INSTR([email], :%s) != 0', $key),
 	);
 	$where[] = '('.implode(' OR ', $or).')';
       }
     }
-    if($this->app->data['applicant_search']['from'] !== null){
-      $where[] = 'DATE(measurement.measurementDate) >= :from';
-    }
-    if($this->app->data['applicant_search']['to'] !== null){
-      $where[] = 'DATE(measurement.measurementDate) <= :to';
-    }
-    if($this->app->data['applicant_search']['all']){
+    if($this->app->data['user_search']['all']){
       ;
     }else{
-      $where[] = '[deleted_at] IS NULL';
+      $where[] = '[status] = :enabled';
     }
     /**/
     $options = array(
-      'joins'=>'measurement',
       'where'=>implode(' AND ', $where),
       'pageSize'=>50,
       'indexSize'=>10,
-      'page'=>$this->app->data['applicant_search']['page'],
+      'page'=>$this->app->data['user_search']['page'],
     );
-    switch($this->app->data['applicant_search']['order']){
+    switch($this->app->data['user_search']['order']){
     case 'i-a':
-      $options['order'] = '[userID] ASC';
-      break;
-    case 'i-d':
-      $options['order'] = 'SUBSTRING([userID], 1, 7) DESC, [userID] ASC';
+      $options['order'] = '[code] ASC';
       break;
     case 'n-a':
-      $options['order'] = '[familyname] ASC, [firstname] ASC';
+      $options['order'] = '[family_name] ASC, [first_name] ASC';
       break;
     case 'n-d':
-      $options['order'] = '[familyname] DESC, [firstname] DESC';
+      $options['order'] = '[family_name] DESC, [first_name] DESC';
       break;
     case 'k-a':
       $options['order'] = '[kana] ASC';
@@ -75,28 +65,23 @@ class AdminApplicantController extends AdminController {
     case 'k-d':
       $options['order'] = '[kana] DESC';
       break;
-    case 'm-a':
-      $options['order'] = 'measurement.measurementDate ASC';
-      break;
-    case 'm-d':
-      $options['order'] = 'DATE(measurement.measurementDate) DESC, TIME(measurement.measurementDate) ASC';
-      break;
     }
-    $parameters = $this->app->data['applicant_search'];
+    $parameters = $this->app->data['user_search'];
+    $parameters['enabled'] = STATUS_ENABLED;
 
     /* ダウンロード */
-    if($this->app->data['applicant_search']['download']){
+    if($this->app->data['user_search']['download']){
       $this->download($options, $parameters);
     }
     
     /* 検索 */
-    list($this->app->data['applicants'], $this->app->data['paginator']) = $this->ApplicantModel->page($options, $parameters);
+    list($this->app->data['users'], $this->app->data['paginator']) = $this->UserModel->page($options, $parameters);
     /**/
-    $this->app->data['applicant_search']['page'] = $this->app->data['paginator']->currentPage;
-    $this->app->storeSession('applicant_search', $this->app->data['applicant_search']);
+    $this->app->data['user_search']['page'] = $this->app->data['paginator']->currentPage;
+    $this->app->storeSession('user_search', $this->app->data['user_search']);
 
     /**/
-    return 'admin/applicant/list';
+    return 'admin/user/list';
   }
 
   /* ===== ===== */
@@ -109,7 +94,7 @@ class AdminApplicantController extends AdminController {
     
     /* ダウンロード */
     header('Content-type: text/csv');
-    header('Content-Disposition: attachment; filename=applicants-'.$this->app->data['_now_']->format('%Y%m%d_%H%M%S').'.csv');
+    header('Content-Disposition: attachment; filename=users-'.$this->app->data['_now_']->format('%Y%m%d_%H%M%S').'.csv');
     echo mb_convert_encoding('"ユーザID",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"ユーザIDα",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"氏名",', 'SJIS', 'UTF-8');
@@ -129,33 +114,33 @@ class AdminApplicantController extends AdminController {
     echo mb_convert_encoding('"案内可否"', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"状態"', 'SJIS', 'UTF-8');
     echo "\r\n";
-    foreach($this->ApplicantModel->all($options, $parameters) as $applicant){
-      echo '"'.$applicant->userID.'",';
-      echo '"'.$applicant->userIDa.'",';
-      echo mb_convert_encoding('"'.$applicant->familyname.' '.$applicant->firstname.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$applicant->kana.'",', 'SJIS', 'UTF-8');
-      echo '"'.$applicant->email.'",';
-      if(isset($applicant->measurement->measurementDate)){
-	echo mb_convert_encoding('"'.$applicant->measurement->measurementDate->format('%Y/%m/%d (%a) %H:%M').'",', 'SJIS', 'UTF-8');
+    foreach($this->UserModel->all($options, $parameters) as $user){
+      echo '"'.$user->userID.'",';
+      echo '"'.$user->userIDa.'",';
+      echo mb_convert_encoding('"'.$user->familyname.' '.$user->firstname.'",', 'SJIS', 'UTF-8');
+      echo mb_convert_encoding('"'.$user->kana.'",', 'SJIS', 'UTF-8');
+      echo '"'.$user->email.'",';
+      if(isset($user->measurement->measurementDate)){
+	echo mb_convert_encoding('"'.$user->measurement->measurementDate->format('%Y/%m/%d (%a) %H:%M').'",', 'SJIS', 'UTF-8');
       }else{
 	echo '"",';
       }
-      echo '"'.$applicant->randomString.'",';
-      if($applicant->acceptanceDate !== null){
-	echo mb_convert_encoding('"'.$applicant->acceptanceDate->format('%Y/%m/%d (%a) %H:%M').'",', 'SJIS', 'UTF-8');
+      echo '"'.$user->randomString.'",';
+      if($user->acceptanceDate !== null){
+	echo mb_convert_encoding('"'.$user->acceptanceDate->format('%Y/%m/%d (%a) %H:%M').'",', 'SJIS', 'UTF-8');
       }else{
 	echo '"",';
       }
-      echo mb_convert_encoding('"'.$applicant->questionnaire_tos.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$applicant->sex_tos.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$applicant->birthdate.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$applicant->intermediationName.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$applicant->tel.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$applicant->postnumber.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$applicant->address.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$applicant->belonging.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$applicant->contacting_tos.'",', 'SJIS', 'UTF-8');
-      if($applicant->deleted_at !== null){
+      echo mb_convert_encoding('"'.$user->questionnaire_tos.'",', 'SJIS', 'UTF-8');
+      echo mb_convert_encoding('"'.$user->sex_tos.'",', 'SJIS', 'UTF-8');
+      echo mb_convert_encoding('"'.$user->birthdate.'",', 'SJIS', 'UTF-8');
+      echo mb_convert_encoding('"'.$user->intermediationName.'",', 'SJIS', 'UTF-8');
+      echo mb_convert_encoding('"'.$user->tel.'",', 'SJIS', 'UTF-8');
+      echo mb_convert_encoding('"'.$user->postnumber.'",', 'SJIS', 'UTF-8');
+      echo mb_convert_encoding('"'.$user->address.'",', 'SJIS', 'UTF-8');
+      echo mb_convert_encoding('"'.$user->belonging.'",', 'SJIS', 'UTF-8');
+      echo mb_convert_encoding('"'.$user->contacting_tos.'",', 'SJIS', 'UTF-8');
+      if($user->deleted_at !== null){
 	echo mb_convert_encoding('"キャンセル"', 'SJIS', 'UTF-8');
       }else{
 	echo mb_convert_encoding('"有効"', 'SJIS', 'UTF-8');

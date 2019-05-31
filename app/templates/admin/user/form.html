@@ -12,12 +12,13 @@
 
 <!-- breadcrumb -->
 <ol class="breadcrumb">
-  <li class="active">申し込みCSVアップロード</li>
+  <li><a href="{eln:uri('default:admin/user.search')}">被験者一覧</a></li>
+  <li class="active">被験者SVアップロード</li>
 </ol>
 <!-- /breadcrumb -->
 
 <!-- search -->
-<form action="{eln:uri('default:admin/import.upload')}" method="post" enctype="multipart/form-data">
+<form action="{eln:uri('default:admin/user.upload')}" method="post" enctype="multipart/form-data">
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="form-group">

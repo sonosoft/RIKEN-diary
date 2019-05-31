@@ -12,39 +12,39 @@
 
 <!-- breadcrumb -->
 <ol class="breadcrumb">
-  <li class="active">ユーザの検索</li>
+  <li class="active">被験者一覧</li>
 </ol>
 <!-- /breadcrumb -->
 
 <!-- search -->
-<form action="{eln:uri('default:admin/applicant.search')}" method="post" class="form-horizontal" role="form" id="search-form">
+<form action="{eln:uri('default:admin/user.search')}" method="post" class="form-horizontal" role="form" id="search-form">
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="form-group">
 	<label class="col-xs-12 col-sm-3 control-label">キーワード（部分一致）</label>
 	<div class="col-xs-12 col-sm-5 form-input">
-	  <input type="text" name="applicant_search[text]" class="form-control" placeholder="ID・氏名・ふりがな・メールアドレス">
+	  <input type="text" name="user_search[text]" class="form-control" placeholder="ID・氏名・ふりがな・メールアドレス">
 	</div>
       </div>
       <div class="form-group">
 	<label class="col-xs-12 col-sm-3 control-label">計測日</label>
 	<div class="col-xs-12 col-sm-9 form-input">
-	  <input type="text" name="applicant_search[from]" class="form-control datepicker pull-left" style="width:200px">
+	  <input type="text" name="user_search[from]" class="form-control datepicker pull-left" style="width:200px">
 	  <p class="form-control-static pull-left">&nbsp;〜&nbsp;</p>
-	  <input type="text" name="applicant_search[to]" class="form-control datepicker pull-left" style="width:200px">
+	  <input type="text" name="user_search[to]" class="form-control datepicker pull-left" style="width:200px">
 	</div>
       </div>
       <div class="form-group">
 	<div class="col-xs-12 col-sm-9 col-sm-offset-3 form-input checkbox">
 	  <label>
-	    <input type="checkbox" name="applicant_search[all]" value="1">
+	    <input type="checkbox" name="user_search[all]" value="1">
 	    キャンセルも表示する
 	  </label>
 	</div>
       </div>
       <div class="form-group">
 	<div class="col-xs-12 col-sm-7 col-sm-offset-3 form-input">
-          <a href="{eln:uri('default:admin/applicant.list')}" type="button" class="btn btn-md btn-default">
+          <a href="{eln:uri('default:admin/user.list')}" type="button" class="btn btn-md btn-default">
 	    全て表示
 	  </a>
           <button type="submit" class="btn btn-md btn-success">
@@ -59,7 +59,7 @@
       </div>
     </div>
   </div>
-  <input type="hidden" name="applicant_search[download]">
+  <input type="hidden" name="user_search[download]">
 </form>
 <!-- /search -->
 
@@ -69,10 +69,6 @@
     <nav eln:include="admin/paginator.html"></nav>
   </div>
   <div class="col-sm-7 text-right command-box">
-    <a href="#" class="btn btn-sm btn-info to-send">
-      <span class="glyphicon glyphicon-envelope"></span>
-      メール送信
-    </a>
     <a href="#" class="btn btn-sm btn-danger to-delete">
       削除
     </a>
@@ -81,7 +77,7 @@
 <!-- /paginator -->
 
 <!-- customer list -->
-<form id="message-form" action="{eln:uri('default:admin/applicant.message')}" method="post">
+<form id="message-form" action="{eln:uri('default:admin/user.message')}" method="post">
   <div class="table-box">
     <table class="table table-bordered table-hover list-table">
       <thead>
@@ -92,79 +88,47 @@
 	  <th></th>
 	  <th class="clickable" data-order="i">
 	    ユーザID
-	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$applicant_search.order EQ 'i-a'}"></span>
-	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$applicant_search.order EQ 'i-d'}"></span>
+	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'i-a'}"></span>
+	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'i-d'}"></span>
 	  </th>
-	  <th>ユーザIDα</th>
+	  <th>乱数</th>
 	  <th class="clickable" data-order="n">
 	    氏名
-	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$applicant_search.order EQ 'n-a'}"></span>
-	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$applicant_search.order EQ 'n-d'}"></span>
+	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'n-a'}"></span>
+	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'n-d'}"></span>
 	  </th>
 	  <th class="clickable" data-order="k">
 	    ふりがな
-	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$applicant_search.order EQ 'k-a'}"></span>
-	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$applicant_search.order EQ 'k-d'}"></span>
+	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'k-a'}"></span>
+	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'k-d'}"></span>
 	  </th>
 	  <th>メールアドレス</th>
-	  <th class="clickable" data-order="m">
-	    計測日時
-	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$applicant_search.order EQ 'm-a'}"></span>
-	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$applicant_search.order EQ 'm-d'}"></span>
-	  </th>
-	  <th>乱数</th>
-	  <th>どこまで送信済みか</th>
-	  <th>受付確認</th>
-	  <th>質問紙</th>
-	  <th>質問紙リマインド</th>
-	  <th>参加3日前リマインド</th>
 	  <th>性別</th>
 	  <th>生年月日</th>
-	  <th>案内を受けた企業、大学等機関名</th>
-	  <th>電話番号</th>
-	  <th>郵便番号</th>
-	  <th>住所</th>
-	  <th>所属</th>
-	  <th>外部質問紙に回答済みか</th>
-	  <th>案内を連絡していいか</th>
 	</tr>
       </thead>
       <tbody>
-	<tr class="list-row" eln:foreach="$applicant:{$applicants}">
+	<tr class="list-row" eln:foreach="$user:{$users}">
 	  <td class="text-center">
-	    <input type="checkbox" name="ids[]" value="{$applicant.id}" class="ids" eln:unless="{$applicant.deleted_at}">
+	    <input type="checkbox" name="ids[]" value="{$user.id}" class="ids" eln:unless="{$user.deleted_at}">
 	  </td>
 	  <td class="text-center">
-	    <span class="glyphicon glyphicon-remove text-danger" eln:if="{$applicant.deleted_at}"></span>
-	    <a href="#" class="btn btn-sm btn-default modify" data-id="{$applicant.id}" eln:unless="{$applicant.deleted_at}">
+	    <span class="glyphicon glyphicon-remove text-danger" eln:if="{$user.deleted_at}"></span>
+	    <a href="#" class="btn btn-sm btn-default modify" data-id="{$user.id}" eln:unless="{$user.deleted_at}">
 	      <span class="glyphicon glyphicon-pencil"></span>
 	      編集
 	    </a>
 	  </td>
-	  <td>{$applicant.userID}</td>
-	  <td>{$applicant.userIDa}</td>
-	  <td>{$applicant.familyname} {$applicant.firstname}</td>
-	  <td>{$applicant.kana}</td>
-	  <td>{$applicant.email}</td>
-	  <td>{eln:date($applicant.measurement.measurementDate, '%Y/%m/%d (%a) %H:%M')}</td>
-	  <td>{$applicant.randomString}</td>
-	  <td>{$applicant.progress}</td>
-	  <td><eln:tag eln:if="{$applicant.acceptanceDate}">{eln:date($applicant.acceptanceDate, '%Y/%m/%d %H:%M')}</eln:tag></td>
-	  <td><eln:tag eln:if="{$applicant.questionnaireDate}">{eln:date($applicant.questionnaireDate, '%Y/%m/%d %H:%M')}</eln:tag></td>
-	  <td><eln:tag eln:if="{$applicant.remindDate}">{eln:date($applicant.remindDate, '%Y/%m/%d %H:%M')}</eln:tag></td>
-	  <td><eln:tag eln:if="{$applicant.participationRemindDate}">{eln:date($applicant.participationRemindDate, '%Y/%m/%d %H:%M')}</eln:tag></td>
-	  <td>{$applicant.sex_tos}</td>
-	  <td>{$applicant.birthdate}</td>
-	  <td>{$application.intermediationName}</td>
-	  <td>{$applicant.tel}</td>
-	  <td>{$applicant.postnumber}</td>
-	  <td>{$applicant.address}</td>
-	  <td>{$applicant.belonging}</td>
-	  <td>{$applicant.questionnaire_tos}</td>
-	  <td>{$applicant.contacting_tos}</td>
+	  <td>{$user.code}</td>
+	  <td>{$user.token}</td>
+	  <td>{$user.family_name} {$user.first_name}</td>
+	  <td>{$user.kana}</td>
+	  <td>{$user.email}</td>
+	  <td>{$user.sex_tos}</td>
+	  <td>{eln:date($user.birthday, '%Y/%m/%d')}</td>
 	</tr>
-	<tr eln:if="{count($applicant) EQ 0}">
-	  <td colspan="10">見つかりません</td>
+	<tr eln:if="{count($user) EQ 0}">
+	  <td colspan="9">見つかりません</td>
 	</tr>
       </tbody>
     </table>
@@ -178,10 +142,6 @@
     <nav eln:include="admin/paginator.html"></nav>
   </div>
   <div class="col-sm-7 text-right command-box">
-    <a href="#" class="btn btn-sm btn-info to-send">
-      <span class="glyphicon glyphicon-envelope"></span>
-      メール送信
-    </a>
     <a href="#" class="btn btn-sm btn-danger to-delete">
       削除
     </a>
@@ -195,7 +155,7 @@
 <!-- modal -->
 <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <form action="{eln:uri('default:admin/applicant.update')}" method="post">
+    <form action="{eln:uri('default:admin/user.update')}" method="post">
       <div class="modal-content">
 	<div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">編集</h5>
@@ -204,8 +164,8 @@
           <div class="form-group">
             <label for="familyname">氏名</label>
 	    <div class="form-inline">
-              <input type="text" name="familyname" class="form-control" id="familyname">
-              <input type="text" name="firstname" class="form-control" id="firstname">
+              <input type="text" name="family_name" class="form-control" id="family_name">
+              <input type="text" name="first_name" class="form-control" id="first_name">
 	    </div>
           </div>
           <div class="form-group">
@@ -220,44 +180,19 @@
             <label for="email">性別</label>
 	    <div>
 	      <label class="radio-inline">
-		<input type="radio" name="isMan" value="1">
+		<input type="radio" name="sex" value="1">
 		男性
 	      </label>
 	      <label class="radio-inline">
-		<input type="radio" name="isMan" value="0">
+		<input type="radio" name="sex" value="2">
 		女性
 	      </label>
 	    </div>
           </div>
           <div class="form-group">
             <label for="birthday">生年月日</label>
-            <input type="text" name="birthdate" class="form-control datepicker" id="birthday">
+            <input type="text" name="birthday" class="form-control datepicker" id="birthday">
           </div>
-          <div class="form-group">
-            <label for="tel">電話番号</label>
-            <input type="text" name="tel" class="form-control" id="tel">
-          </div>
-          <div class="form-group">
-            <label for="postal">郵便番号</label>
-            <input type="text" name="postnumber" class="form-control" id="postal">
-          </div>
-          <div class="form-group">
-            <label for="address">住所</label>
-            <input type="text" name="address" class="form-control" id="address">
-	  </div>
-          <div class="form-group">
-	    <label for="contact">連絡の可否</label>
-	    <div>
-	      <label class="radio-inline">
-		<input type="radio" name="isContactOk" value="1">
-		はい
-	      </label>
-	      <label class="radio-inline">
-		<input type="radio" name="isContactOk" value="0">
-		いいえ
-	      </label>
-	    </div>
-	  </div>
 	</div>
 	<div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
@@ -292,16 +227,16 @@
 $(function(){
     // download.
     $("button.download").on("click", function(){
-	$("input[name='applicant_search[download]']").val("1");
+	$("input[name='user_search[download]']").val("1");
 	$("#search-form").submit();
-	$("input[name='applicant_search[download]']").val("0");
+	$("input[name='user_search[download]']").val("0");
 	return false;
     });
     
     // order.
     $("th.clickable").on("click", function(){
 	var category = $(this).data("order");
-	var order = "{$applicant_search.order}";
+	var order = "{$user_search.order}";
 	if(order.substring(0, 1) == category){
 	    if(order.substring(2) == "a"){
 		order = category + "-d";
@@ -311,7 +246,7 @@ $(function(){
 	}else{
 	    order = category + order.substring(1);
 	}
-	location.href = "{eln:uri('default:admin/applicant.search?o=_ORDER_')}".replace("_ORDER_", order);
+	location.href = "{eln:uri('default:admin/user.search?o=_ORDER_')}".replace("_ORDER_", order);
 	return false;
     });
 
@@ -335,10 +270,6 @@ $(function(){
     onCheckbox();
     
     // commands.
-    $(".to-send").on("click", function(){
-	$("#message-form").submit();
-	return false;
-    });
     $(".to-delete").on("click", function(){
 	$("#alert-modal").modal("show");
 	return false;
@@ -349,34 +280,30 @@ $(function(){
 	    ids.push($(this).val());
 	});
 	$.ajax({
-	    url: "{eln:uri('default:admin/applicant.async_delete')}",
+	    url: "{eln:uri('default:admin/user.async_delete')}",
 	    method: "POST",
 	    data: { ids: JSON.stringify(ids) },
 	    dataType: "JSON",
 	    complete: function(){
-		location.href = "{eln:uri('default:admin/applicant.search')}";
+		location.href = "{eln:uri('default:admin/user.search')}";
 	    }
 	});
     });
     $(".modify").on("click", function(){
 	$.ajax({
-	    url: "{eln:uri('default:admin/applicant.async_load?id=_ID_')}".replace("_ID_", $(this).data("id")),
+	    url: "{eln:uri('default:admin/user.async_load?id=_ID_')}".replace("_ID_", $(this).data("id")),
 	    method: "GET",
 	    dataType: "JSON",
 	    success: function(result){
 		if(result.id){
 		    $("#form-modal h5.modal-title").text("編集（" + result.userID + "）");
 		    $("input[name='id']").val(result.id);
-		    $("input[name='familyname']").val(result.familyname);
-		    $("input[name='firstname']").val(result.firstname);
+		    $("input[name='family_name']").val(result.family_name);
+		    $("input[name='first_name']").val(result.first_name);
 		    $("input[name='kana']").val(result.kana);
 		    $("input[name='email']").val(result.email);
-		    $("input[name='isMan']").val([result.isMan]);
-		    $("input[name='birthdate']").val(result.birthdate);
-		    $("input[name='tel']").val(result.tel);
-		    $("input[name='postnumber']").val(result.postnumber);
-		    $("input[name='address']").val(result.address);
-		    $("input[name='isContactOk']").val([result.isContactOk]);
+		    $("input[name='sex']").val([result.sex]);
+		    $("input[name='birthday']").val(result.birthday);
 		    $("#form-modal").modal("show");
 		}
 	    }
@@ -393,20 +320,20 @@ $(function(){
     // form.
     $("#form-modal form").validate({
 	rules: {
-            familyname: {
+            family_name: {
 		required: true
             },
-            firstname: {
+            first_name: {
 		required: true
             },
             kana: {
 		required: true
             },
 
-            isMan:{
+            sex:{
 		required: true
             },
-            birthdate: {
+            birthday: {
 		isDate: true,
 		required: true
             },
@@ -414,48 +341,26 @@ $(function(){
 	        email: true,
 	        required: true,
             },
-            tel: {
-		isTel: true,
-        	required: true
-            },
-            postnumber: {
-		isPost: true,
-		required: true
-            },
-            address: {
-		required: true
-            },
 	},
 	messages: {
-            familyname: {
+            family_name: {
 		required: "入力されていません。"
             },
-            firstname: {
+            first_name: {
 		required: "入力されていません。"
             },
             kana: {
 		required: "入力されていません。"
             },
-            isMan: {
+            sex: {
 		required: "選択されていません。"
             },
-            birthdate: {
+            birthday: {
 		required: "入力されていません。"
             },
             email: {
 		required: "入力されていません。",
         	email: "メールアドレスの形式で入力して下さい。"
-            },
-            tel: {
-		required: "入力されていません。",
-		isTel: "電話番号の形式で入力して下さい。"
-            },
-            postnumber: {
-		required: "入力されていません。",
-		isPost: "ハイフンで区切った7桁の郵便番号を入力して下さい。"
-            },
-            address: {
-		required: "入力されていません。"
             },
 	},
 	highlight: function (element, errorClass, validClass) { 
@@ -502,19 +407,11 @@ $(function(){
 	    return "正しい日付を入力して下さい。";
 	}
     );
-    $.validator.addMethod("isTel", function(value, element){
-	return value.match(/^[0-9]+(?:-[0-9]+)*$/);
-    });
-    $.validator.addMethod("isPost", function(value, element){
-	return value.match(/^[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]$/);
-    });
 });
 function onCheckbox(){
     if($("input.ids:checked").length > 0){
-	$(".to-send").removeClass("disabled");
 	$(".to-delete").removeClass("disabled");
     }else{
-	$(".to-send").addClass("disabled");
 	$(".to-delete").addClass("disabled");
     }
 }
