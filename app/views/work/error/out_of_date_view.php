@@ -4,11 +4,11 @@
  * [Elnath PHP Web Application Framework]
  * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
  *
- * work/error_view.php
+ * work/error/out_of_date_view.php
  */
 
 
-class WorkErrorView extends Eln_View {
+class WorkErrorOutOfDateView extends Eln_View {
   /*
    * ビューファイルを初期化する
    */
@@ -17,6 +17,6 @@ class WorkErrorView extends Eln_View {
     parent::beforeRender($renderer);
 
     /**/
-    $renderer->layoutTemplate = 'work/error.html';
+    $renderer->layoutTemplate = 'work/error/out_of_date.html';
   }
 }

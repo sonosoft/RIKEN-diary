@@ -25,12 +25,29 @@ class ProjectModelFactory extends ModelFactory {
       'model'=>'ProjectDiary',
       'conditions'=>array('id'=>'project_id')
     ),
+    'users'=>array(
+      'type'=>'hasMany',
+      'model'=>'ProjectUser',
+      'conditions'=>array('id'=>'project_id')
+    ),
   );
 
   /* ===== ===== */
 
   public function findById($id){
     return $this->one(array('where'=>'[id] = :id AND [status] = :enabled'), array('id'=>$id, 'enabled'=>STATUS_ENABLED));
+  }
+
+  public function findByToken($token){
+    $projectToken = substr($token, 0, 5);
+    $userToken = substr($token, 5);
+    return $this->one(
+      array(
+	'joins'=>array('users'=>'user'),
+	'where'=>'[token] = :project AND users_user.token = :user AND [status] = :enabled AND users_user.token = :enabled',
+      ),
+      array('project'=>$projectToken, 'user'=>$userToken, 'enabled'=>STATUS_ENABLED)
+    );
   }
   
   public function generateToken(){

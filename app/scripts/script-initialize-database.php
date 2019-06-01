@@ -17,7 +17,8 @@ try{
   $db->begin();
 
   /* モデル */
-  $testModel = getModel('Test');
+  $administratorModel = getModel('Administrator');
+  $password = $administratorModel->encrypt('riken19##');
 
   /* administrator, session */
   echo 'CREATE TABLE administrator;'.PHP_EOL;
@@ -28,12 +29,12 @@ try{
     ' `created_at` datetime NOT NULL,'.
     ' `updated_at` datetime NOT NULL,'.
     ' PRIMARY KEY (`id`) '.
-    ')'
+    ') ENGINE=InnoDB'
   );
   $db->query('TRUNCATE `administrator`');
   $db->query(
     'INSERT INTO `administrator` (`password`, `created_at`, `updated_at`) '.
-    'VALUES ("dce06755a83462b5c4258af0442d682584353731", NOW(), NOW())'
+    'VALUES ("'.$password.'", NOW(), NOW())'
   );
   echo 'CREATE TABLE session;'.PHP_EOL;
   $db->query(
@@ -45,7 +46,7 @@ try{
     ' `updated_at` datetime NOT NULL,'.
     ' PRIMARY KEY (`id`),'.
     ' UNIQUE KEY `token` (`token`)'.
-    ')'
+    ') ENGINE=InnoDB'
   );
 
   /* project */
@@ -64,7 +65,7 @@ try{
     ' `deleted_at` datetime DEFAULT NULL,'.
     ' PRIMARY KEY (`id`),'.
     ' UNIQUE KEY `token` (`token`)'.
-    ')'
+    ') ENGINE=InnoDB'
   );
   echo 'CREATE TABLE project_diary;'.PHP_EOL;
   $db->query(
@@ -75,7 +76,7 @@ try{
     ' PRIMARY KEY (`id`),'.
     ' INDEX `project_id` (`project_id`),'.
     ' INDEX `diary_id` (`diary_id`)'.
-    ')'
+    ') ENGINE=InnoDB'
   );
   echo 'CREATE TABLE project_mail;'.PHP_EOL;
   $db->query(
@@ -86,7 +87,7 @@ try{
     ' PRIMARY KEY (`id`),'.
     ' INDEX `project_id` (`project_id`),'.
     ' INDEX `mail_id` (`mail_id`)'.
-    ')'
+    ') ENGINE=InnoDB'
   );
   echo 'CREATE TABLE project_user;'.PHP_EOL;
   $db->query(
@@ -97,9 +98,46 @@ try{
     ' PRIMARY KEY (`id`),'.
     ' INDEX `project_id` (`project_id`),'.
     ' INDEX `user_id` (`user_id`)'.
-    ')'
+    ') ENGINE=InnoDB'
   );
   
+  /* mail */
+  echo 'CREATE TABLE mail;'.PHP_EOL;
+  $db->query(
+    'CREATE TABLE IF NOT EXISTS `mail` ('.
+    ' `id` int NOT NULL AUTO_INCREMENT,'.
+    ' `code` varchar(5) NOT NULL,'.
+    ' `title` varchar(200) NOT NULL,'.
+    ' `body` text NOT NULL,'.
+    ' `schedule` text NOT NULL,'.
+    ' `status` tinyint(1) NOT NULL,'.
+    ' `created_at` datetime NOT NULL,'.
+    ' `updated_at` datetime NOT NULL,'.
+    ' `deleted_at` datetime DEFAULT NULL,'.
+    ' PRIMARY KEY (`id`),'.
+    ' INDEX `code` (`code`)'.
+    ') ENGINE=InnoDB'
+  );
+
+  /* diary, kokoroscale */
+  echo 'CREATE TABLE diary;'.PHP_EOL;
+  $db->query(
+    'CREATE TABLE IF NOT EXISTS `diary` ('.
+    ' `id` int NOT NULL AUTO_INCREMENT,'.
+    ' `code` varchar(5) NOT NULL,'.
+    ' `title` varchar(100) NOT NULL,'.
+    ' `overview` text NOT NULL,'.
+    ' `from_time` smallint NOT NULL,'.
+    ' `to_time` smallint NOT NULL,'.
+    ' `status` tinyint(1) NOT NULL,'.
+    ' `created_at` datetime NOT NULL,'.
+    ' `updated_at` datetime NOT NULL,'.
+    ' `deleted_at` datetime DEFAULT NULL,'.
+    ' PRIMARY KEY (`id`),'.
+    ' INDEX `code` (`code`)'.
+    ') ENGINE=InnoDB'
+  );
+
   /* user */
   echo 'CREATE TABLE user;'.PHP_EOL;
   $db->query(
@@ -120,53 +158,50 @@ try{
     ' PRIMARY KEY (`id`),'.
     ' INDEX `code` (`code`),'.
     ' UNIQUE KEY `token` (`token`)'.
-    ')'
+    ') ENGINE=InnoDB'
   );
 
-  /* mail */
-  echo 'CREATE TABLE mail;'.PHP_EOL;
+  /* visit, answer */
+  echo 'CREATE TABLE visit;'.PHP_EOL;
   $db->query(
-    'CREATE TABLE IF NOT EXISTS `mail` ('.
+    'CREATE TABLE IF NOT EXISTS `visit` ('.
     ' `id` int NOT NULL AUTO_INCREMENT,'.
-    ' `code` varchar(5) NOT NULL,'.
-    ' `title` varchar(200) NOT NULL,'.
-    ' `body` text NOT NULL,'.
-    ' `schedule` text NOT NULL,'.
+    ' `project_id` int NOT NULL,'.
+    ' `user_id` int NOT NULL,'.
+    ' `page` tinyint(2) NOT NULL,'.
     ' `status` tinyint(1) NOT NULL,'.
-    ' `created_at` datetime NOT NULL,'.
-    ' `updated_at` datetime NOT NULL,'.
-    ' `deleted_at` datetime DEFAULT NULL,'.
+    ' `started_at` datetime NOT NULL,'.
+    ' `finished_at` datetime DEFAULT NULL,'.
     ' PRIMARY KEY (`id`),'.
-    ' INDEX `code` (`code`)'.
-    ')'
+    ' INDEX `project_id` (`project_id`),'.
+    ' INDEX `user_id` (`user_id`)'.
+    ') ENGINE=InnoDB'
   );
-
-  /* diary, kokoroscale */
-  echo 'CREATE TABLE diary;'.PHP_EOL;
+  echo 'CREATE TABLE answer;'.PHP_EOL;
   $db->query(
-    'CREATE TABLE IF NOT EXISTS `diary` ('.
+    'CREATE TABLE IF NOT EXISTS `answer` ('.
     ' `id` int NOT NULL AUTO_INCREMENT,'.
-    ' `code` varchar(5) NOT NULL,'.
-    ' `title` varchar(100) NOT NULL,'.
-    ' `overview` text NOT NULL,'.
-    ' `from_time` smallint NOT NULL,'.
-    ' `to_time` smallint NOT NULL,'.
-    ' `status` tinyint(1) NOT NULL,'.
-    ' `created_at` datetime NOT NULL,'.
-    ' `updated_at` datetime NOT NULL,'.
-    ' `deleted_at` datetime DEFAULT NULL,'.
+    ' `user_id` int NOT NULL,'.
+    ' `visit_id` int NOT NULL,'.
+    ' `page` tinyint(2) NOT NULL,'.
+    ' `name` varchar(50) NOT NULL,'.
+    ' `header` varchar(50) NOT NULL,'.
+    ' `value` varchar(100) DEFAULT NULL,'.
+    ' `listed` tinyint(1) DEFAULT NULL,'.
+    ' `answered_at` datetime NOT NULL,'.
     ' PRIMARY KEY (`id`),'.
-    ' INDEX `code` (`code`)'.
-    ')'
+    ' INDEX `user_id` (`user_id`),'.
+    ' INDEX `visit_id` (`visit_id`)'.
+    ') ENGINE=InnoDB'
   );
-
+  
   /* locker */
   echo 'CREATE TABLE locker;'.PHP_EOL;
   $db->query(
     'CREATE TABLE IF NOT EXISTS `locker` ('.
     ' `id` int NOT NULL,'.
     ' PRIMARY KEY (`id`)'.
-    ')'
+    ') ENGINE=InnoDB'
   );
 
   /* コミット */
