@@ -50,6 +50,18 @@ class MailModel extends Model {
   }
   public function __get($name){
     if(strcmp($name, 'schedule_tos') == 0){
+      if(($data = json_decode($this->schedule, true)) !== false){
+	switch($data['flag']){
+	case MAIL_BEFORE:
+	  return '計測前'.$data['before'].'日';
+	case MAIL_AFTER:
+	  return '計測後'.$data['after'].'日';
+	case MAIL_DURING:
+	  return '計測期間中';
+	case MAIL_DATE:
+	  return $data['date'];
+	}
+      }
       return '';
     }
     return null;

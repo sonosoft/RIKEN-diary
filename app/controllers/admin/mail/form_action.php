@@ -31,10 +31,10 @@ class AdminMailFormAction extends AdminMailController {
       $this->app->data['mail'] = array('id'=>null, 'flag'=>MAIL_DURING);
     }
     /**/
-    if(empty($this->app->datap['mail']['times'])){
+    if(empty($this->app->data['mail']['times'])){
       $this->app->data['mail']['times'] = '[]';
     }else{
-      $this->app->data['mail']['times'] = json_encode($this->app->datap['mail']['times']);
+      $this->app->data['mail']['times'] = json_encode($this->app->data['mail']['times']);
     }
     
     /**/
