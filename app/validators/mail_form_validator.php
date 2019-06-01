@@ -53,9 +53,9 @@ class MailFormValidator extends Validator {
 	}
 	break;
       }
-      $items = $this->getValue('times');
-      if(empty($items) === false && is_array($items)){
-	$schedule['times'] = $items;
+      $times = $this->getValue('times');
+      if(($times = json_decode($this->getValue('times'), true)) !== false && is_array($times) && empty($times) === false){
+	$schedule['times'] = $times;
       }else{
 	$this->setError('times', '指定されていません。');
       }
