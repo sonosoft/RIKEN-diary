@@ -28,7 +28,7 @@ class AdminDiarySaveAction extends AdminDiaryController {
       /* 保存 */
       if($data['id'] !== null){
 	if(($diary = $this->DiaryModel->findById($data['id'])) === null){
-	  $this->redirect('default:admin/home.error');
+	  $this->redirect('default:admin/error.invalid_access');
 	}
 	$diary->setAttributes($data);
       }else{
@@ -61,7 +61,7 @@ class AdminDiarySaveAction extends AdminDiaryController {
       }else{
 	/* 例外 */
 	$this->app->writeLog('admin/diary/save', $e->getMessage());
-	$this->redirect('default:admin/error.error');
+	$this->redirect('default:admin/error.unexpected');
       }
     }
 

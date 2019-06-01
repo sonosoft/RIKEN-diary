@@ -22,11 +22,12 @@ class AdminDiaryDeleteAction extends AdminDiaryController {
     /**/
     try{
       /* 削除 */
-      if(($diary = $this->DiaryModel->findById($this->app->route['id'])) !== null){
-	$diary->status = STATUS_DISABLED;
-	$diary->deleted_at = $this->app->data['_now_'];
-	$diary->save();
+      if(($diary = $this->DiaryModel->findById($this->app->route['id'])) === null){
+	$this->redirect('default:admin/error.invalid_access');
       }
+      $diary->status = STATUS_DISABLED;
+      $diary->deleted_at = $this->app->data['_now_'];
+      $diary->save();
 
       /* コミット */
       $this->db->commit();
@@ -41,7 +42,7 @@ class AdminDiaryDeleteAction extends AdminDiaryController {
       }else{
 	/* 例外 */
 	$this->app->writeLog('admin/diary/delete', $e->getMessage());
-	$this->redirect('default:admin/error.error');
+	$this->redirect('default:admin/error.unexpected');
       }
     }
 

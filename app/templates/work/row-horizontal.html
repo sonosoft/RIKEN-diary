@@ -1,0 +1,48 @@
+<div class="form-horizontal">
+  <div class="form-group">
+    <eln:tag eln:foreach="$item:{$row.items}">
+      <!-- [label] -->
+      <label id="{$item.id}" class="col-xs-12 col-sm-{$item.width} control-label" eln:if="{$item.type EQ 'label'}">{$item.text}</label>
+      <!-- [inline] -->
+      <div class="col-xs-12 col-sm-{$item.width} form-inline {$item.ex}" data-relation="{$item.enableIf}" eln:if="{$item.type EQ 'inline'}">
+	<eln:tag eln:foreach="$inline:{$item.inline}">
+	  <!-- [text] -->
+	  <input type="text" name="inquiry[{$inline.name}]" id="{$item.id}" class="form-control inline-5 {$inline.ex}" data-relation="{$inline.enableIf}" eln:if="{$inline.type EQ 'text'}">
+	  <!-- [number] -->
+	  <div id="{$inline.id}" class="input-group inline-5 {$inline.ex}" data-relation="{$inline.enableIf}" eln:if="{$inline.type EQ 'number'}">
+	    <span class="input-group-btn">
+	      <button class="btn btn-default n-minus" type="button" data-target="{$inline.name}" data-step="{$inline.stepValue}">
+		<span class="glyphicon glyphicon-minus"></span>
+	      </button>
+	    </span>
+	    <input type="text" name="inquiry[{$inline.name}]" class="form-control inline-number" data-min="{$inline.minValue}" data-max="{$inline.maxValue}">
+	    <span class="input-group-btn">
+	      <button class="btn btn-default n-plus" type="button" data-target="{$inline.name}" data-step="{$inline.stepValue}">
+		<span class="glyphicon glyphicon-plus"></span>
+	      </button>
+	    </span>
+	  </div>
+	  <!-- [date] -->
+	  <div class="input-group inline-5" eln:if="{$inline.type EQ 'date'}">
+	    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+	    <input type="text" name="inquiry[{$inline.name}]" id="{$inline.id}" class="form-control datepicker {$inline.ex}" data-relation="{$inline.enableIf}">
+	  </div>
+	  <!-- [radio] -->
+	  <label class="radio-inline inline-10" eln:if="{$inline.type EQ 'radio'}">
+	    <input type="radio" name="inquiry[{$inline.name}]" value="{$inline.value}" id="{$inline.id}" class="{$inline.ex}" data-relation="{$inline.enableIf}">
+	    {$inline.text}
+	  </label>
+	  <!-- [check] -->
+	  <label class="checkbox-inline inline-10" eln:if="{$inline.type EQ 'check'}">
+	    <input type="checkbox" name="inquiry[{$inline.name}][]" value="{$inline.value}" id="{$inline.id}" class="{$inline.ex}" data-relation="{$inline.enableIf}">
+	    {$inline.text}
+	  </label>
+	  <!-- [label] -->
+	  <p id="{$inline.id}" class="form-control-static inline-5 {$inline.ex}" data-relation="{$inline.enableIf}" eln:if="{$inline.type EQ 'label'}">{$inline.text}</p>
+	  <!-- [help] -->
+	  <p class="help-block" eln:if="{$inline.type EQ 'help'}">{$inline.text}</p>
+	</eln:tag>
+      </div>
+    </eln:tag>
+  </div>
+</div>

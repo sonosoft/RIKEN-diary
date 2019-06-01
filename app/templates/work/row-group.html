@@ -1,0 +1,18 @@
+<div class="form-group">
+  <eln:tag eln:foreach="$item:{$row.items}">
+    <!-- [title] -->
+    <h4 eln:if="{$item.type EQ 'title'}">{$item.text}</h4>
+    <!-- [question] -->
+    <label id="{$item.id}" class="question {$item.ex}" data-relation="{$item.enableIf}" eln:if="{$item.type EQ 'question'}">{nl2br($item.text)|raw}</label>
+    <!-- [addition] -->
+    <p class="addition" eln:if="{$item.type EQ 'addition'}">{$item.text}</p>
+    <!-- [text] -->
+    <input type="text" name="inquiry[{$item.name}]" id="{$item.id}" class="form-control {$item.ex}" data-relation="{$item.enableIf}" eln:if="{$item.type EQ 'text'}">
+    <!-- [timeline] -->
+    <eln:tag eln:include="work/item-timeline.html" eln:if="{$item.type EQ 'timeline'}"></eln:tag>
+    <!-- [source] -->
+    <p class="form-control-static" eln:if="{$item.type EQ 'source'}">{nl2br($item.text)|raw}</p>
+    <!-- [help] -->
+    <p class="help-block" eln:if="{$item.type EQ 'help'}">{$item.text}</p>
+  </eln:tag>
+</div>

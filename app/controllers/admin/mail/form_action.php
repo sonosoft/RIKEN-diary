@@ -19,7 +19,7 @@ class AdminMailFormAction extends AdminMailController {
     /* モデル */
     if($this->app->route['id'] !== null){
       if(($mail = $this->MailModel->findById($this->app->route['id'])) === null){
-	$this->redirect('default:admin/mail.list');
+	$this->redirect('default:admin/error.invalid_access');
       }
       $this->app->data['mail'] = $mail->getAttributes();
       if(($schedule = json_decode($mail->schedule, true)) !== false){

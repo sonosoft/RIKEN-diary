@@ -28,38 +28,19 @@ class UserModelFactory extends ModelFactory {
     return $this->one(array('where'=>'[id] = :id AND [status] = :enabled'), array('id'=>$id, 'enabled'=>STATUS_ENABLED));
   }
   
-  public function findCancellable($random){
-    return $this->one(
-      array('where'=>'[randomString] = :random AND [deleted_at] IS NULL'),
-      array('random'=>$random)
-    );
+  public function findByCode($code){
+    return $this->one(array('where'=>'[code] = :code AND [status] = :enabled'), array('id'=>$id, 'enabled'=>STATUS_ENABLED));
   }
 
-  public function getCodes($measurementId){
-    $codes = array();
-    $users = $this->all(
-      array('where'=>'[belongMeasurementDateID] = :id AND [deleted_at] IS NULL'),
-      array('id'=>$measurementId)
-    );
-    foreach($users as $user){
-      $codes[] = $user->userID;
-    }
-    return $codes;
-  }
-
-  public function generateCode($date, $index){
-    return sprintf('M%s%05d', $date->format('%y%m%d'), $index);
-  }
-  
-  public function generateRandom(){
+  public function generateToken(){
     $base = array_merge(range(2, 9), range('a', 'k'), range('m', 'z'), range('A', 'H'), range('J', 'N'), range('P', 'Z'));
     while(true){
-      $random = '';
-      while(strlen($random) < 10){
-	$random .= $base[array_rand($base)];
+      $token = '';
+      while(strlen($token) < 10){
+	$token .= $base[array_rand($base)];
       }
-      if($this->one(array('where'=>'[randomString] = :random'), array('random'=>$random)) === null){
-	return $random;
+      if($this->one(array('where'=>'[token] = :token'), array('token'=>$token)) === null){
+	return $token;
       }
     }
   }

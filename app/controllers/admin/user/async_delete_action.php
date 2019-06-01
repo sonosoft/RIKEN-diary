@@ -4,17 +4,17 @@
  * [Elnath PHP Web Application Framework]
  * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
  *
- * admin/applicant/async_delete_action.php
+ * admin/user/async_delete_action.php
  */
 
 
-class AdminApplicantAsyncDeleteAction extends AdminApplicantController {
+class AdminUserAsyncDeleteAction extends AdminUserController {
   /*
    * アクション
    */
   public function action(){
     /**/
-    $this->useModel('Applicant', 'Measurement');
+    $this->useModel('User', 'Measurement');
 
     /* リクエスト */
     if(($ids = json_decode($this->app->readRequest('ids'), true)) !== false){
@@ -24,16 +24,16 @@ class AdminApplicantAsyncDeleteAction extends AdminApplicantController {
 	try{
 	  /**/
 	  foreach($ids as $id){
-	    $applicant = $this->ApplicantModel->one(
+	    $user = $this->UserModel->one(
 	      array('joins'=>'measurement', 'where'=>'[id] = :id AND [deleted_at] IS NULL'),
 	      array('id'=>$id)
 	    );
-	    if($applicant !== null){
-	      $applicant->deleted_at = $this->app->data['_now_'];
-	      $applicant->save();
-	      if($applicant->measurement !== null){
-		-- $applicant->measurement->currentCount;
-		$applicant->measurement->save();
+	    if($user !== null){
+	      $user->deleted_at = $this->app->data['_now_'];
+	      $user->save();
+	      if($user->measurement !== null){
+		-- $user->measurement->currentCount;
+		$user->measurement->save();
 	      }
 	    }
 	  }
@@ -42,7 +42,7 @@ class AdminApplicantAsyncDeleteAction extends AdminApplicantController {
 	  $this->db->commit();
 	}catch(Exception $e){
 	  $this->db->rollback();
-	  $this->app->writeLog('admin/applicant/async_delete', $e->getMessage());
+	  $this->app->writeLog('admin/user/async_delete', $e->getMessage());
 	}
       }
     }

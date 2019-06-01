@@ -4,17 +4,17 @@
  * [Elnath PHP Web Application Framework]
  * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
  *
- * admin/applicant/update_action.php
+ * admin/user/update_action.php
  */
 
 
-class AdminApplicantUpdateAction extends AdminApplicantController {
+class AdminUserUpdateAction extends AdminUserController {
   /*
    * アクション
    */
   public function action(){
     /**/
-    $this->useModel('Applicant');
+    $this->useModel('User');
 
     /* トランザクション */
     $this->db->begin();
@@ -22,23 +22,23 @@ class AdminApplicantUpdateAction extends AdminApplicantController {
     /**/
     try{
       /* 保存 */
-      $applicant = $this->ApplicantModel->one(
+      $user = $this->UserModel->one(
 	array('where'=>'[id] = :id AND [deleted_at] IS NULL'),
 	array('id'=>$this->app->readRequest('id'))
       );
-      if($applicant !== null){
-	$applicant->familyname = $this->app->readRequest('familyname');
-	$applicant->firstname = $this->app->readRequest('firstname');
-	$applicant->kana = $this->app->readRequest('kana');
-	$applicant->email = $this->app->readRequest('email');
-	$applicant->isMan = $this->app->readRequest('isMan');
-	$applicant->birthdate = $this->app->readRequest('birthdate');
-	$applicant->tel = $this->app->readRequest('tel');
-	$applicant->postnumber = $this->app->readRequest('postnumber');
-	$applicant->address = $this->app->readRequest('address');
-	$applicant->isContactOk = $this->app->readRequest('isContactOk');
-	$applicant->updated_at = $this->app->data['_now_'];
-	$applicant->save();
+      if($user !== null){
+	$user->familyname = $this->app->readRequest('familyname');
+	$user->firstname = $this->app->readRequest('firstname');
+	$user->kana = $this->app->readRequest('kana');
+	$user->email = $this->app->readRequest('email');
+	$user->isMan = $this->app->readRequest('isMan');
+	$user->birthdate = $this->app->readRequest('birthdate');
+	$user->tel = $this->app->readRequest('tel');
+	$user->postnumber = $this->app->readRequest('postnumber');
+	$user->address = $this->app->readRequest('address');
+	$user->isContactOk = $this->app->readRequest('isContactOk');
+	$user->updated_at = $this->app->data['_now_'];
+	$user->save();
       }
 
       /* コミット */
@@ -48,10 +48,10 @@ class AdminApplicantUpdateAction extends AdminApplicantController {
       $this->db->rollback();
 
       /* 例外 */
-      $this->app->writeLog('admin/applicant/update', $e->getMessage());
+      $this->app->writeLog('admin/user/update', $e->getMessage());
     }
 
     /**/
-    $this->redirect('default:admin/applicant.search');
+    $this->redirect('default:admin/user.search');
   }
 }

@@ -16,7 +16,11 @@ class ProjectFormValidator extends Validator {
     /**/
     $this->validateId('id');
     /**/
-    $this->convert('name', 's')->trim('name')->notEmpty('name')->lengthLE('name', 20);
-    $this->convert('code', 'as')->close('code')->notEmpty('code')->lengthLE('code', 20);
+    $this->notEmpty('title')->lengthLE('title', 200);
+    $this->notEmpty('from_date')->toDate('from_date');
+    $this->notEmpty('to_date')->toDate('to_date');
+    /**/
+    $this->selection('diaries');
+    $this->selection('mails');
   }
 }

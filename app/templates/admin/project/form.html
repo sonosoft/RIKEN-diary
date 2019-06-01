@@ -12,8 +12,8 @@
 
 <!-- breadcrumb -->
 <ol class="breadcrumb">
-  <li><a href="{eln:uri('default:admin/project.search')}">メール一覧</a></li>
-  <li class="active">メール登録・編集</li>
+  <li><a href="{eln:uri('default:admin/project.search')}">プロジェクト一覧</a></li>
+  <li class="active">プロジェクト登録・編集</li>
 </ol>
 <!-- /breadcrumb -->
 
@@ -22,73 +22,32 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="form-group">
-	<label for="title">ID</label>
-	<p class="form-control-static pull-left">ML</p>
-	<div class="form-inline">
-	  <div class="form-group">
-	    <label class="code-prefix">ML</label>
-	    <input type="text" name="project[code]" class="form-control" id="code" placeholder="英数字3文字">
-	  </div>
-	</div>
-      </div>
-      <div class="form-group">
 	<label for="title">タイトル</label>
 	<input type="text" name="project[title]" class="form-control" id="title" placeholder="タイトル">
       </div>
       <div class="form-group">
-	<label for="body">本文</label>
-	<textarea name="project[body]" class="form-control" id="body" placeholder="本文" rows="15"></textarea>
-	<p class="help-block">【氏名】、【乱数】、【計測開始日】、【計測終了日】という文字列は、実際の送信の際に適切に置換されます。</p>
-      </div>
-      <div class="form-group">
-	<label for="title">送信日</label>
+	<label for="body">期間</label>
 	<div class="form-inline">
-	  <label class="radio-inline">
-	    <input type="radio" name="project[flag]" value="{PROJECT_BEFORE}">
-	    計測開始前
-	  </label>
-	  <label class="radio-inline">
-	    <input type="radio" name="project[flag]" value="{PROJECT_AFTER}">
-	    計測終了後
-	  </label>
-	  <label class="radio-inline">
-	    <input type="radio" name="project[flag]" value="{PROJECT_DURING}">
-	    計測期間中
-	  </label>
-	  <label class="radio-inline">
-	    <input type="radio" name="project[flag]" value="{PROJECT_DATE}">
-	    日付指定
-	  </label>
-	  <div id="date-before" class="form-group mL10">
-	    <input type="text" name="project[before]" class="form-control w50" placeholder="7">
-	    <label class="date-suffix">日前（0は開始日当日）</label>
-	  </div>
-	  <div id="date-after" class="form-group mL10">
-	    <input type="text" name="project[after]" class="form-control w50" placeholder="5">
-	    <label class="date-suffix">日後（0は終了日当日）</label>
-	  </div>
-	  <div id="date-date" class="form-group mL10">
-	    <input type="text" name="project[date]" class="form-control datepicker w150" placeholder="{eln:date($_today_, '%Y/%m/%d')}">
+	  <div class="form-group">
+	    <input type="text" name="project[from_date]" class="form-control datepicker w150">
+	    〜
+	    <input type="text" name="project[to_date]" class="form-control datepicker w150">
 	  </div>
 	</div>
       </div>
       <div class="form-group">
-	<label for="title">送信時間</label>
+	<label for="title">日誌</label>
 	<div class="form-inline mB10">
 	  <div class="form-group">
-	    <select name="time_h" class="form-control" eln:options="{$hourChoices}">
+	    <select name="diary" class="form-control" eln:options="{$diaryChoices}">
 	      <option value="0">00</option>
 	    </select>
-	    :
-	    <select name="time_m" class="form-control" eln:options="{$minuteChoices}">
-	      <option value="0">00</option>
-	    </select>
-	    <button id="time-button" type="button" class="btn btn-md btn-default">
+	    <button id="diary-button" type="button" class="btn btn-md btn-default">
 	      <span class="glyphicon glyphicon-plus"></span>
 	    </button>
 	  </div>
 	</div>
-	<ul id="time-list" class="list-group">
+	<ul id="diary-list" class="list-group">
 	  <li class="list-group-item">
 	    09:30
 	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -102,13 +61,41 @@
 	    </button>
 	  </li>
 	</ul>
+	<input type="hidden" name="project[diaries]">
+      </div>
+      <div class="form-group">
+	<label for="title">メール</label>
+	<div class="form-inline mB10">
+	  <div class="form-group">
+	    <select name="mail" class="form-control" eln:options="{$mailChoices}">
+	      <option value="0">00</option>
+	    </select>
+	    <button id="mail-button" type="button" class="btn btn-md btn-default">
+	      <span class="glyphicon glyphicon-plus"></span>
+	    </button>
+	  </div>
+	</div>
+	<ul id="mail-list" class="list-group">
+	  <li class="list-group-item">
+	    09:30
+	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+	  </li>
+	  <li class="list-group-item">
+	    11:25
+	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+	  </li>
+	</ul>
+	<input type="hidden" name="project[mails]">
       </div>
       <a href="{eln:uri('default:admin/project.search')}" class="btn btn-md btn-default">キャンセル</a>
       <button type="submit" class="btn btn-lg btn-success">保存</button>
     </div>
   </div>
   <input type="hidden" name="project[id]">
-  <input type="hidden" name="project[times]">
 </form>
 <!-- /search -->
 
@@ -119,70 +106,55 @@
 <script>
 //<![CDATA[
 $(function(){
-    // date flag.
-    $("input[name='project[flag]']").on("click", function(){
-	onDateFlag();
+    // diary list.
+    $("button#diary-button").on("click", function(){
+	addDiary();
     });
-    onDateFlag();
+    reloadDiaries();
 
-    // time list.
-    $("button#time-button").on("click", function(){
-	var hour = $("select[name='time_h'] option:selected").val();
-	var minute = $("select[name='time_m'] option:selected").val();
-	addTime(hour, minute);
+    // mail list.
+    $("button#mail-button").on("click", function(){
+	addMail();
     });
-    reloadTimes();
+    reloadMails();
 });
-function onDateFlag(){
-    // hide all.
-    $("#date-before").hide();
-    $("#date-after").hide();
-    $("#date-date").hide();
-
-    // show.
-    if($("input[name='project[flag]']:checked").length > 0){
-	var selected = $("input[name='project[flag]']:checked").val();
-	if(selected == "{PROJECT_BEFORE}"){
-	    $("#date-before").show();
-	}else if(selected == "{PROJECT_AFTER}"){
-	    $("#date-after").show();
-	}else if(selected == "{PROJECT_DATE}"){
-	    $("#date-date").show();
-	}
-    }
-}
-function addTime(hour, minute){
+//
+function addDiary(){
     // add.
-    var time = hour * 100 + minute;
-    var times = JSON.parse($("input[name='project[times]']").val());
-    if(times.indexOf(time) >= 0){
-	return;
+    var diaryId = $("select[name='diary'] option:selected").val();
+    if(diaryId.length > 0){
+	var diaryText = $("select[name='diary'] option:selected").text();
+	var diaries = JSON.parse($("input[name='project[diaries]']").val());
+	for(var i = 0; i < diaries.length; ++ i){
+	    if(diaries[i].id == diaryId){
+		return;
+	    }
+	}
+	diaries.push({ id: diaryId, text, diaryText });
+	$("input[name='project[diaries]']").val(JSON.stringify(diaries));
+	reloadDiaries();
     }
-    times.push_back(time);
-    times.sort();
-    $("input[name='project[times]']").val(JSON.stringify(items));
 }
-function deleteTime(element){
+function deleteDiary(element){
     // delete.
-    var time = $(element).data("time");
-    var timesOrg = JSON.parse($("input[name='project[times]']").val());
-    var timesNew = [];
-    for(var i = 0; i < timesOrg.length; ++ i){
-	if(timesOrg[i] != time){
-	    timesNew.push_back(timesOrg[i]);
+    var diaryId = $(element).data("diary");
+    var diariesOrg = JSON.parse($("input[name='project[diaries]']").val());
+    var diariesNew = [];
+    for(var i = 0; i < diariesOrg.length; ++ i){
+	if(diariesOrg[i].id != diaryId){
+	    diariesNew.push(diariesOrg[i]);
 	}
     }
-    $("input[name='project[times]']").val(JSON.stringify(items));
+    $("input[name='project[diaries]']").val(JSON.stringify(diaries));
+    reloadDiaries();
 }
-function reloadTimes(){
-    var times = JSON.parse($("input[name='project[times]']").val());
-    $("ul#time-list").html("");
-    for(var i = 0; i < times.length; ++ i){
-	var hour = ("0" + (times[i] / 100)).slice(-2);
-	var minute = ("0" + (times[i] % 100)).slice(-2);
-	$("ul#time-list").append(
+function reloadDiaries(){
+    var diaries = JSON.parse($("input[name='project[diaries]']").val());
+    $("ul#diary-list").html("");
+    for(var i = 0; i < diaries.length; ++ i){
+	$("ul#diary-list").append(
 	    $("<li>").addClass("list-group-item").append(
-		hour + ":" + minute
+		diaries[i].text
 	    ).append(
 		$("<button>")
 		    .addClass("close")
@@ -191,9 +163,62 @@ function reloadTimes(){
 		    )
 		    .attr("type", "button")
 		    .attr("aria-label", "Close")
-		    .data("time", times[i])
+		    .data("diary", diaries[i].id)
 		    .on("click", function(){
-			deleteTime($(this));
+			deleteDiary($(this));
+		    })
+	    )
+	);
+    }
+}
+//
+function addMail(){
+    // add.
+    var mailId = $("select[name='mail'] option:selected").val();
+    if(mailId.length > 0){
+	var mailText = $("select[name='mail'] option:selected").text();
+	var mails = JSON.parse($("input[name='project[mails]']").val());
+	for(var i = 0; i < mails.length; ++ i){
+	    if(mails[i].id == mailId){
+		return;
+	    }
+	}
+	mails.push({ id: mailId, text, mailText });
+	$("input[name='project[mails]']").val(JSON.stringify(mails));
+	reloadMails();
+    }
+}
+function deleteMail(element){
+    // delete.
+    var mailId = $(element).data("mail");
+    var mailsOrg = JSON.parse($("input[name='project[mails]']").val());
+    var mailsNew = [];
+    for(var i = 0; i < mailsOrg.length; ++ i){
+	if(mailsOrg[i].id != mailId){
+	    mailsNew.push(mailsOrg[i]);
+	}
+    }
+    $("input[name='project[mails]']").val(JSON.stringify(mails));
+    reloadMails();
+}
+function reloadMails(){
+    var mails = JSON.parse($("input[name='project[mails]']").val());
+    $("ul#mail-list").html("");
+    for(var i = 0; i < mails.length; ++ i){
+	$("ul#mail-list").append(
+	    $("<li>").addClass("list-group-item").append(
+		mails[i].text
+	    ).append(
+		$("<button>")
+		    .addClass("close")
+		    .append(
+			$("<span>").attr("aria-hidden", "true").html("&times;")
+		    )
+		    .attr("type", "button")
+		    .attr("aria-label", "Close")
+		    .data("mail", mails[i].id)
+		    .on("click", function(){
+			deleteMail($(this));
 		    })
 	    )
 	);

@@ -14,9 +14,8 @@ class AdminProjectSaveAction extends AdminProjectController {
    */
   public function action(){
     /**/
-    $this->useModel('Project');
+    $this->useModel('Project', 'ProjectDiary', 'ProjectMail');
     $this->useValidator('ProjectForm');
-    $this->useModule('Mail');
 
     /* トランザクション */
     $this->db->begin();
@@ -28,41 +27,69 @@ class AdminProjectSaveAction extends AdminProjectController {
 
       /* 保存 */
       if($data['id'] !== null){
-	$project = $this->ProjectModel->one(
-	  array('where'=>'[id] = :id'),
-	  array('id'=>$data['id'])
-	);
-	if($project === null){
-	  // $this->redirect('invalid_access_error');
+	if(($project = $this->ProjectModel->findById($data['id'])) === null){
+	  $this->redirect('default:admin/error.invalid_access');
 	}
 	$project->setAttributes($data);
       }else{
 	$project = $this->ProjectModel->newModel($data);
+	$project->token = $this->ProjectModel->generateToken();
+	$project->status = STATUS_ENABLED;
+	$project->created_at = $this->app->data['_now_'];
       }
+      $project->updated_at = $this->app->data['_now_'];
       $project->save();
-
-      /* メール */
-      if($data['id'] === null){
-	$this->MailModule->reset();
-       	$this->MailModule->setCharset('ISO-2022-JP');
-	$this->MailModule->setHeaderEncoding('B');
-	$this->MailModule->setSender('sender@system.app', 'Elnath');
-	$this->MailModule->setRecipient('to', 'to@customer.app');
-	$this->MailModule->setRecipient('bcc', 'bcc@syste.app');
-	$this->MailModule->read('message_tempalte');
-	$this->MailModule->assign('project', $data);
-	$this->MailModule->send();
+      /**/
+      $list = $this->ProjectDiaryModel->all(array('where'=>'[project_id] = :project_id'), array('project_id'=>$project->id));
+      $ids = array();
+      foreach($data['diaries'] as $diary){
+	$found = false;
+	foreach($list as $entry){
+	  if($entry->diary_id == $diary['id']){
+	    $ids[] = $entry->id;
+	    $found = true;
+	    break;
+	  }
+	}
+	if($found === false){
+	  $pd = $this->ProjectDiaryModel->newModel();
+	  $pd->project_id = $project->id;
+	  $pd->diary_id = $diary['id'];
+	  $pd->save();
+	  $ids[] = $pd->id;
+	}
       }
+      $this->db->query(
+	'DELETE FROM project_diary WHERE id NOT IN :ids AND project_id = :project_id',
+	array('ids'=>$ids, 'project_id'=>$project->id)
+      );
+      /**/
+      $list = $this->ProjectMailModel->all(array('where'=>'[project_id] = :project_id'), array('project_id'=>$project->id));
+      $ids = array();
+      foreach($data['mails'] as $mail){
+	$found = false;
+	foreach($list as $entry){
+	  if($entry->mail_id == $mail['id']){
+	    $ids[] = $entry->id;
+	    $found = true;
+	    break;
+	  }
+	}
+	if($found === false){
+	  $pd = $this->ProjectMail->newModel();
+	  $pd->project_id = $project->id;
+	  $pd->mail_id = $mail['id'];
+	  $pd->save();
+	  $ids[] = $pd->id;
+	}
+      }
+      $this->db->query(
+	'DELETE FROM project_mail WHERE id NOT IN :ids AND project_id = :project_id',
+	array('ids'=>$ids, 'project_id'=>$project->id)
+      );
 
       /* コミット */
       $this->db->commit();
-
-      /* フラグ */
-      if($data['id'] !== null){
-	$this->app->storeSession('project_alert', 'Modified !!');
-      }else{
-	$this->app->storeSession('project_alert', 'Registered !!');
-      }
     }catch(Exception $e){
       /* ロールバック */
       $this->db->rollback();
@@ -77,38 +104,12 @@ class AdminProjectSaveAction extends AdminProjectController {
 	throw $e;
       }else{
 	/* 例外 */
-	// $this->app->writeLog('admin/project/save', $e->getMessage());
-	// $this->redirect('unexpected_error');
+	$this->app->writeLog('admin/project/save', $e->getMessage());
+	$this->redirect('default:admin/error.unexpected');
       }
     }
 
     /**/
     $this->redirect('default:admin/project.search');
-  }
-
-  /* ===== ===== */
-
-  /*
-   * コールバック [beforeSession()]
-   */
-  protected function beforeSession(){
-    /**/
-    parent::beforeSession();
-  }
-
-  /*
-   * コールバック [beforeAction()]
-   */
-  protected function beforeAction(){
-    /**/
-    parent::beforeAction();
-  }
-
-  /*
-   * コールバック [afterAction()]
-   */
-  protected function afterAction(){
-    /**/
-    parent::afterAction();
   }
 }

@@ -1,0 +1,26 @@
+<div class="form-group">
+  <eln:tag eln:foreach="$item:{$row.items}">
+    <label eln:if="{$item.type EQ 'label'}">{$item.text}</label>
+    <div class="col-xs-12 mB20" eln:if="{$item.type EQ 'choice'}">
+      <!--
+      <div class="btn-group btn-group-toggle btn-group-justified" data-toggle="buttons">
+	<label class="btn btn-default" eln:foreach="$choice:{$item.choices}">
+	  <input type="radio" name="inquiry[{$item.name}]" value="{$choice.value}" class="choice">
+	  {$choice.text}
+	</label>
+      </div>
+      -->
+      <eln:tag eln:if="{$item.columns}">
+	<div class="btn-group-vertical">
+	  <a href="#" type="button" class="btn btn-default choice" data-name="{$item.name}" data-value="{$choice.value}" eln:foreach="$choice:{$item.choices}">{$choice.text}</a>
+	</div>
+      </eln:tag>
+      <eln:tag eln:unless="{$item.columns}">
+	<div class="btn-group btn-group-justified">
+	  <a href="#" type="button" class="btn btn-default choice" data-name="{$item.name}" data-value="{$choice.value}" eln:foreach="$choice:{$item.choices}">{$choice.text}</a>
+	</div>
+      </eln:tag>
+      <input type="hidden" name="inquiry[{$item.name}]" class="choice">
+    </div>
+  </eln:tag>
+</div>

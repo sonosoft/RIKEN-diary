@@ -15,7 +15,6 @@ class ProjectSearchValidator extends Validator {
   protected function validateData(){
     /**/
     $this->validatePage('page');
-    $this->ifEmpty('order', 'a01');
     /**/
     $this->validateTextList('text');
     /**/

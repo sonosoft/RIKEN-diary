@@ -1,0 +1,15 @@
+<div class="form-group row check">
+  <eln:tag eln:foreach="$item:{$row.items}">
+    <!-- [check] -->
+    <div class="col-xs-{$item.width} mB3" eln:if="{$item.type EQ 'check'}">
+      <label class="checkbox-inline">
+	<input type="checkbox" name="inquiry[{$item.name}][]" value="{$item.value}" id="{$item.id}" class="{$item.ex}" data-relation="{$item.enableIf}">
+	{$item.text}
+      </label>
+    </div>
+    <!-- [label] -->
+    <div class="col-xs-{$item.width}" eln:if="{$item.type EQ 'label'}">
+      <p class="help-block">{$item.text}</p>
+    </div>
+  </eln:tag>
+</div>

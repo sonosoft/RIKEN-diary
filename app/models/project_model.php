@@ -14,6 +14,18 @@ class ProjectModelFactory extends ModelFactory {
    */
   protected $model = 'Project';
   protected $table = 'project';
+  protected $relations = array(
+    'mails'=>array(
+      'type'=>'hasMany',
+      'model'=>'ProjectMail',
+      'conditions'=>array('id'=>'project_id')
+    ),
+    'diaries'=>array(
+      'type'=>'hasMany',
+      'model'=>'ProjectDiary',
+      'conditions'=>array('id'=>'project_id')
+    ),
+  );
 
   /* ===== ===== */
 
@@ -21,15 +33,15 @@ class ProjectModelFactory extends ModelFactory {
     return $this->one(array('where'=>'[id] = :id AND [status] = :enabled'), array('id'=>$id, 'enabled'=>STATUS_ENABLED));
   }
   
-  public function generateRandom(){
+  public function generateToken(){
     $base = array_merge(range(2, 9), range('a', 'k'), range('m', 'z'), range('A', 'H'), range('J', 'N'), range('P', 'Z'));
     while(true){
-      $random = '';
-      while(strlen($random) < 10){
-	$random .= $base[array_rand($base)];
+      $token = '';
+      while(strlen($token) < 5){
+	$token .= $base[array_rand($base)];
       }
-      if($this->one(array('where'=>'[randomString] = :random'), array('random'=>$random)) === null){
-	return $random;
+      if($this->one(array('where'=>'[token] = :token'), array('token'=>$token)) === null){
+	return $token;
       }
     }
   }

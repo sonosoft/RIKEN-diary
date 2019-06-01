@@ -1,0 +1,19 @@
+<div class="form-group mB20">
+  <eln:tag eln:foreach="$item:{$row.items}">
+    <label eln:if="{$item.type EQ 'label'}">{$item.text}</label>
+    <div class="col-xs-12 " eln:if="{$item.type EQ 'vas'}">
+      <div class="slider-container">
+	<div class="row">
+	  <div class="col-xs-12 text-center">{$item.text}</div>
+	</div>
+	<div class="text-center mT10">
+	  <input type="text" name="inquiry[{$item.name}]" class="vas" data-slider-tooltip="hide">
+	</div>
+	<div class="row mT10 mB20">
+	  <div class="col-xs-6 text-left">{$item.minLabel}</div>
+	  <div class="col-xs-6 text-right">{$item.maxLabel}</div>
+	</div>
+      </div>
+    </div>
+  </eln:tag>
+</div>

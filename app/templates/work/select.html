@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head eln:include="work/head.html"></head>
+
+<body>
+
+<!-- container -->
+<div class="container mT40 mB20">
+
+<!-- user -->
+<p class="text-right">ID: {$user.code}</p>
+<!-- /user -->
+
+<!-- panel -->
+<div class="panel panel-default">
+  <div class="panel-body">
+    前回、途中まで入力したデータが残っています。続きから始めますか？
+    <div class="row mT20">
+      <div class="col-xs-12 text-center">
+	<a href="{eln:uri('default:work.start')}" class="btn btn-lg btn-default">最初からやり直す</a>
+	<a href="{eln:uri('default:work.page')}" class="btn btn-lg btn-default">続きから始める</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /panel -->
+
+</div>
+<!-- /container -->
+
+<eln:tag eln:include="work/foot.html"></eln:tag>
+
+</body>
+</html>

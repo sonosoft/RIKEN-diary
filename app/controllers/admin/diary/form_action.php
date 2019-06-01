@@ -19,7 +19,7 @@ class AdminDiaryFormAction extends AdminDiaryController {
     /* モデル */
     if($this->app->route['id'] !== null){
       if(($diary = $this->DiaryModel->findById($this->app->route['id'])) === null){
-	$this->redirect('default:admin/diary.list');
+	$this->redirect('default:admin/error.invalid_access');
       }
       $this->app->data['diary'] = $diary->getAttributes();
       $this->app->data['diary']['from_time_h'] = intval($diary->from_time / 100);

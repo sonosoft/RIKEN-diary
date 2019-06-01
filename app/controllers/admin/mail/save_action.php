@@ -28,7 +28,7 @@ class AdminMailSaveAction extends AdminMailController {
       /* 保存 */
       if($data['id'] !== null){
 	if(($mail = $this->MailModel->findById($data['id'])) === null){
-	  $this->redirect('default:admin/home.error');
+	  $this->redirect('default:admin/error.invalid_access');
 	}
 	$mail->setAttributes($data);
       }else{
@@ -56,7 +56,7 @@ class AdminMailSaveAction extends AdminMailController {
       }else{
 	/* 例外 */
 	$this->app->writeLog('admin/mail/save', $e->getMessage());
-	$this->redirect('default:admin/error.error');
+	$this->redirect('default:admin/error.unexpected');
       }
     }
 

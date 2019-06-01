@@ -23,7 +23,7 @@
       <div class="form-group">
 	<label class="col-xs-12 col-sm-3 control-label">キーワード（部分一致）</label>
 	<div class="col-xs-12 col-sm-5 form-input">
-	  <input type="text" name="project_search[text]" class="form-control" placeholder="ID・タイトル・本文">
+	  <input type="text" name="project_search[text]" class="form-control" placeholder="タイトル">
 	</div>
       </div>
       <div class="form-group">
@@ -57,10 +57,10 @@
 	    追加
 	  </a>
 	</th>
-	<th>ID</th>
 	<th>タイトル</th>
-	<th>本文</th>
-	<th>送信日時</th>
+	<th>期間</th>
+	<th>日誌</th>
+	<th>メール</th>
       </tr>
     </thead>
     <tbody>
@@ -75,10 +75,10 @@
 	    削除
 	  </a>
 	</td>
-	<td>ML{$project.code}</td>
 	<td>{$project.title}</td>
-	<td>{eln:truncate($project.body, 50)}</td>
-	<td>{$project.schedule_tos}</td>
+	<td>{eln:date($project.from_date, '%Y/%m/%d（%a）')} 〜 {eln:date($project.to_date, '%Y/%m/%d（%a）')}</td>
+	<td></td>
+	<td></td>
       </tr>
       <tr eln:if="{count($projects) EQ 0}">
 	<td colspan="5">見つかりません</td>
@@ -106,7 +106,7 @@
         </button>
       </div>
       <div class="modal-body" id="modal-project">
-        メールを削除します。
+        プロジェクトを削除します。
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>

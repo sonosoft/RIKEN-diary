@@ -22,11 +22,12 @@ class AdminMailDeleteAction extends AdminMailController {
     /**/
     try{
       /* 削除 */
-      if(($mail = $this->MailModel->findById($this->app->route['id'])) !== null){
-	$mail->status = STATUS_DISABLED;
-	$mail->deleted_at = $this->app->data['_now_'];
-	$mail->save();
+      if(($mail = $this->MailModel->findById($this->app->route['id'])) === null){
+	$this->redirect('default:admin/error.invalid_access');
       }
+      $mail->status = STATUS_DISABLED;
+      $mail->deleted_at = $this->app->data['_now_'];
+      $mail->save();
 
       /* コミット */
       $this->db->commit();
@@ -41,7 +42,7 @@ class AdminMailDeleteAction extends AdminMailController {
       }else{
 	/* 例外 */
 	$this->app->writeLog('admin/mail/delete', $e->getMail());
-	$this->redirect('default:admin/error.error');
+	$this->redirect('default:admin/error.unexpected');
       }
     }
 

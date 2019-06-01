@@ -5,6 +5,18 @@
  */
 Eln_Router::$routes = array(
 			    
+  'diary'=>array(
+    'uri'=>'/u/:token',
+    'defaults'=>array(
+      'controller'=>'work',
+      'action'=>'index',
+      'token'=>null,
+    ),
+    'patterns'=>array(
+      'token'=>'/^[0-9a-zA-z]{15}$/',
+    ),
+  ),
+
   'default'=>array(
     'uri'=>'/:controller/:action/:id',
     'defaults'=>array(
@@ -22,4 +34,4 @@ Eln_Router::$routes = array(
 /*
  * セッション引き継ぎ
  */
-Eln_Router::$session = Eln_Router::SESSION_AUTO;
+Eln_Router::$session = Eln_Router::SESSION_COOKIE;

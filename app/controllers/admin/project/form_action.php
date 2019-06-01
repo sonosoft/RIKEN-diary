@@ -18,12 +18,8 @@ class AdminProjectFormAction extends AdminProjectController {
 
     /* モデル */
     if($this->app->route['id'] !== null){
-      $project = $this->ProjectModel->one(
-	array('where'=>'[id] = :id'),
-	array('id'=>$this->app->route['id'])
-      );
-      if($project === null){
-	// $this->redirect('invalid_access_error');
+      if(($project = $this->ProjectModel->findById($this->app->route['id'])) === null){
+	$this->redirect('default:admin/error.invalid_access');
       }
       $this->app->data['project'] = $project->getAttributes();
     }else{
@@ -32,31 +28,5 @@ class AdminProjectFormAction extends AdminProjectController {
 
     /**/
     return $this->viewForm();
-  }
-
-  /* ===== ===== */
-
-  /*
-   * コールバック [beforeSession()]
-   */
-  protected function beforeSession(){
-    /**/
-    parent::beforeSession();
-  }
-
-  /*
-   * コールバック [beforeAction()]
-   */
-  protected function beforeAction(){
-    /**/
-    parent::beforeAction();
-  }
-
-  /*
-   * コールバック [afterAction()]
-   */
-  protected function afterAction(){
-    /**/
-    parent::afterAction();
   }
 }

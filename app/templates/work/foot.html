@@ -1,0 +1,30 @@
+<!-- Bootstrap core JavaScript
+     ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="{eln:path('js/bootstrap-slider.min.js')}"></script>
+<script>
+//<![CDATA[
+
+$(function(){
+    // [Enter]
+    $("input[type=text],input[type=password]").keydown(function(e){
+	if(e.keyCode == 13){
+	    var elems = $("input[type=text],input[type=password],textarea,select");
+	    var index = $("input[type=text],input[type=password]").index(this);
+	    if(index + 1 < elems.length){
+		elems[index + 1].focus();
+	    }else{
+		elems[0].focus();
+	    }
+	    return false;
+	}
+	return true;
+    });
+});
+
+//]]>
+</script>
