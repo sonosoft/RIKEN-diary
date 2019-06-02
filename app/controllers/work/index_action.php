@@ -14,7 +14,7 @@ class WorkIndexAction extends Controller {
    */
   public function action(){
     /**/
-    $this->useModel('User', 'Visit');
+    $this->useModel('User', 'Project', 'Visit');
     
     /* 検索条件初期化 */
     $this->app->removeSession('work_data');
