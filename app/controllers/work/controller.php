@@ -33,13 +33,14 @@ class WorkController extends Controller {
 
     /* セッションデータ */
     $this->workData = $this->app->restoreSession('work_data', array());
-    var_dump($this->workData);exit;
 
     /* 訪問 */
     if(($this->visit = $this->VisitModel->findById($this->workData['visit_id'])) === null){
+      $this->app->writeLog('work/* #1', 'No visit found.');
       $this->redirect('default:work.error');
     }
-    if(($this->user = $this->UserModel->findById($visit->user_id)) === null){
+    if(($this->user = $this->UserModel->findById($this->visit->user_id)) === null){
+      $this->app->writeLog('work/* #2', 'No user found.');
       $this->redirect('default:work.error');
     }
     if($this->visit !== null){
