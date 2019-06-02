@@ -14,7 +14,7 @@ class AdminProjectFormAction extends AdminProjectController {
    */
   public function action(){
     /**/
-    $this->useModel('Project');
+    $this->useModel('Project', 'ProjectDiary', 'ProjectMail');
 
     /* モデル */
     if($this->app->route['id'] !== null){
@@ -22,8 +22,20 @@ class AdminProjectFormAction extends AdminProjectController {
 	$this->redirect('default:admin/error.invalid_access');
       }
       $this->app->data['project'] = $project->getAttributes();
+      /**/
+      $diaries = array();
+      foreach($this->ProjectDiaryModel->getByProject($project->id) as $record){
+	$diaries[] = array('id'=>$record->id, 'text'=>$record->tos);
+      }
+      $this->app->data['project']['diaries'] = json_encode($diaries);
+      /**/
+      $mails = array();
+      foreach($this->ProjectMailModel->getByProject($project->id) as $record){
+	$mails[] = array('id'=>$record->id, 'text'=>$record->tos);
+      }
+      $this->app->data['project']['mails'] = json_encode($mails);
     }else{
-      $this->app->data['project'] = array('id'=>null);
+      $this->app->data['project'] = array('id'=>null, 'diaries'=>'[]', 'mails'=>'[]');
     }
 
     /**/

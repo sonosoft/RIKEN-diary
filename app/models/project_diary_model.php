@@ -21,6 +21,19 @@ class ProjectDiaryModelFactory extends ModelFactory {
       'conditions'=>array('diary_id'=>'id')
     ),
   );
+
+  /* ===== ===== */
+
+  public function getByProject($projectI){
+    return $this->all(
+      array(
+	'joins'=>'diary',
+	'where'=>'[project_id] = :project_id AND diary.status = :enabled',
+	'order'=>'diary.code ASC',
+      ),
+      array('id'=>$id, 'enabled'=>STATUS_ENABLED)
+    );
+  }
 }
 
 class ProjectDiaryModel extends Model {

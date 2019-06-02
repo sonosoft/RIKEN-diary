@@ -34,10 +34,7 @@ class MailModelFactory extends ModelFactory {
       $choices[] = array('value'=>'', 'label'=>$default);
     }
     foreach($this->all(array('where'=>'[status] = :enabled', 'order'=>'[code] ASC'), array('enabled'=>STATUS_ENABLED)) as $record){
-      $choices[] = array(
-	'value'=>$record->id,
-	'label'=>'ML'.$record->code.':'.$record->title,
-      );
+      $choices[] = array('value'=>$record->id, 'label'=>$record->tos);
     }
     return $choices;
   }
@@ -58,6 +55,8 @@ class MailModelFactory extends ModelFactory {
 class MailModel extends Model {
   public function __isset($name){
     if(strcmp($name, 'schedule_tos') == 0){
+      return true;
+    }else if(strcmp($name, 'tos') == 0){
       return true;
     }
     return false;
@@ -85,6 +84,8 @@ class MailModel extends Model {
 	$info .= ' ['.implode('/', $times).']';
       }
       return $info;
+    }else if(strcmp($name, 'tos') == 0){
+      return 'ML'.$this->code.':'.$this->title;
     }
     return null;
   }

@@ -21,6 +21,19 @@ class ProjectMailModelFactory extends ModelFactory {
       'conditions'=>array('mail_id'=>'id')
     ),
   );
+
+  /* ===== ===== */
+
+  public function getByProject($projectI){
+    return $this->all(
+      array(
+	'joins'=>',mail',
+	'where'=>'[project_id] = :project_id AND ,mail.status = :enabled',
+	'order'=>',mail.code ASC',
+      ),
+      array('id'=>$id, 'enabled'=>STATUS_ENABLED)
+    );
+  }
 }
 
 class ProjectMailModel extends Model {

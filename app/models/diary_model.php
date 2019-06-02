@@ -34,10 +34,7 @@ class DiaryModelFactory extends ModelFactory {
       $choices[] = array('value'=>'', 'label'=>$default);
     }
     foreach($this->all(array('where'=>'[status] = :enabled', 'order'=>'[code] ASC'), array('enabled'=>STATUS_ENABLED)) as $record){
-      $choices[] = array(
-	'value'=>$record->id,
-	'label'=>'DY'.$record->code.':'.$record->title,
-      );
+      $choices[] = array('value'=>$record->id, 'label'=>$record->tos);
     }
     return $choices;
   }
@@ -48,6 +45,8 @@ class DiaryModel extends Model {
     if(strcmp($name, 'path') == 0){
       return true;
     }else if(strcmp($name, 'schedule_tos') == 0){
+      return true;
+    }else if(strcmp($name, 'tos') == 0){
       return true;
     }
     return false;
@@ -67,6 +66,8 @@ class DiaryModel extends Model {
 	intval($this->from_time / 100), intval($this->from_time % 100),
 	intval($this->to_time / 100), intval($this->to_time % 100)
       );
+    }else if(strcmp($name, 'tos') == 0){
+      return 'DY'.$this->code.':'.$this->title;
     }
     return null;
   }
