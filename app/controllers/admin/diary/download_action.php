@@ -17,7 +17,7 @@ class AdminDiaryDownloadAction extends AdminDiaryController {
     $this->useModel('Diary');
 
     /* XML */
-    if(($diary = $this->DiaryModel->findById($data['id'])) === null){
+    if(($diary = $this->DiaryModel->findById($this->app->route['id'])) === null){
       $this->redirect('default:admin/home.error');
     }
     /**/
