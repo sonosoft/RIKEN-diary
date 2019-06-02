@@ -14,6 +14,16 @@ class AnswerModelFactory extends ModelFactory {
    */
   protected $model = 'Answer';
   protected $table = 'answer';
+
+  /* ===== ===== */
+
+  public function collectByPage($user, $visit, $page){
+    /**/
+    return $this->all(
+      array('where'=>'[user_id] = :user_id AND [visit_id] = :visit_id AND [page] = :page'),
+      array('user_id'=>$user->id, 'visit_id'=>$visit->id, 'page'=>$page)
+    );
+  }
 }
 
 class AnswerModel extends Model {
