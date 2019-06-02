@@ -30,6 +30,8 @@ Eln_Application::$settings = array(
  */
 define('STATUS_ENABLED', 1);
 define('STATUS_DISABLED', 0);
+define('STATUS_STARTED', 1);
+define('STATUS_FINISHED', 9);
 /**/
 define('MAIL_BEFORE', 1);
 define('MAIL_AFTER', 2);

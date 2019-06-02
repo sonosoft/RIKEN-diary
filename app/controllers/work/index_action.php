@@ -57,6 +57,7 @@ class WorkIndexAction extends Controller {
 	$visit = $this->VisitModel->newModel();
 	$visit->user_id = $user->id;
 	$visit->project_id = $project->id;
+	$visit->status = STATUS_STARTED;
 	$visit->started_at = $this->app->data['_now_'];
 	$visit->save();
 	
