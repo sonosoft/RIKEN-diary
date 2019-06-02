@@ -49,6 +49,7 @@ class AdminProjectController extends AdminController {
       foreach($this->ProjectDiaryModel->getByProject($project->id) as $record){
 	$diaries[] = 'DY'.$record->diary->code;
       }
+      var_dump($diaries);exit;
       $this->app->data['projects'][$index]->diaries_tos = implode('/', $diaries);
       /**/
       $mails = array();
