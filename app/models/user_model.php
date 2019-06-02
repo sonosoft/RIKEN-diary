@@ -13,7 +13,7 @@ class UserModelFactory extends ModelFactory {
    * プロパティ
    */
   protected $model = 'User';
-  protected $table = 'users';
+  protected $table = 'user';
   protected $relations = array(
     'measurement'=>array(
       'type'=>'belongsTo',
