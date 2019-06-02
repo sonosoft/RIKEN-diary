@@ -42,6 +42,7 @@ class AdminProjectSaveAction extends AdminProjectController {
       /**/
       $list = $this->ProjectDiaryModel->all(array('where'=>'[project_id] = :project_id'), array('project_id'=>$project->id));
       $ids = array();
+      var_dump($data['diaries']);exit;
       foreach($data['diaries'] as $diary){
 	$found = false;
 	foreach($list as $entry){
