@@ -30,7 +30,7 @@ class DiaryModelFactory extends ModelFactory {
 
   public function collectChoices($default=''){
     $choices = array();
-    if(empty($default === false){
+    if(empty($default) === false){
       $choices[] = array('value'=>'', 'label'=>$default);
     }
     foreach($this->all(array('where'=>'[status] = :enabled', 'order'=>'[code] ASC'), array('enabled'=>STATUS_ENABLED)) as $record){
