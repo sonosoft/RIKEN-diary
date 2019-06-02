@@ -224,7 +224,7 @@
 	</div>
 	<div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-danger" id="button-link">実行</button>
+          <button type="button" class="btn btn-success" id="button-link">実行</button>
 	</div>
       </div>
     </form>
@@ -305,10 +305,21 @@ $(function(){
 	onCheckbox();
     });
     onCheckbox();
+
+    // select.
+    $("select[name='project']").on("change", function(){
+	var projectId = $("select[name='project'] option:selected").val();
+	if(projectId.length > 0){
+	    $("#button-link").prop("disabled", false).removeClass("disabled");
+	}else{
+	    $("#button-link").prop("disabled", true).addClass("disabled");
+	}
+    });
     
     // commands.
     $(".to-link").on("click", function(){
 	$("select[name='project']").val("");
+	$("#button-link").prop("disabled", true).addClass("disabled");
 	$("#project-modal").modal("show");
 	return false;
     });
