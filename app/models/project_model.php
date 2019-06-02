@@ -55,7 +55,11 @@ class ProjectModelFactory extends ModelFactory {
     if(empty($default) === false){
       $choices[] = array('value'=>'', 'label'=>$default);
     }
-    foreach($this->all(array('where'=>'[status] = :enabled', 'order'=>'[code] ASC'), array('enabled'=>STATUS_ENABLED)) as $record){
+    $records = $this->all(
+      array('where'=>'[to_date] >= CURDATE() AND [status] = :enabled', 'order'=>'[from_date] ASC'),
+      array('enabled'=>STATUS_ENABLED)
+    );
+    foreach($records as $record){
       $choices[] = array('value'=>$record->id, 'label'=>$record->tos);
     }
     return $choices;
