@@ -56,8 +56,8 @@ try{
     ' `id` int NOT NULL AUTO_INCREMENT,'.
     ' `token` varchar(10) NOT NULL,'.
     ' `title` varchar(100) NOT NULL,'.
-    ' `started_on` date NOT NULL,'.
-    ' `ended_on` date NOT NULL,'.
+    ' `from_date` date NOT NULL,'.
+    ' `to_date` date NOT NULL,'.
     ' `status` tinyint(1) NOT NULL,'.
     ' `created_at` datetime NOT NULL,'.
     ' `updated_at` datetime NOT NULL,'.

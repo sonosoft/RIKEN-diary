@@ -105,6 +105,7 @@ class AdminProjectSaveAction extends AdminProjectController {
       }else{
 	/* 例外 */
 	$this->app->writeLog('admin/project/save', $e->getMessage());
+	$this->app->writeLog('admin/project/save', print_r(Eln_Database::$logs, true));
 	$this->redirect('default:admin/error.unexpected');
       }
     }
