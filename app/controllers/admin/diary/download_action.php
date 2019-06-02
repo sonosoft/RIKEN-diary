@@ -14,16 +14,16 @@ class AdminDiaryDownloadAction extends AdminDiaryController {
    */
   public function action(){
     /**/
-    $this->useModel('Mail');
+    $this->useModel('Diary');
 
     /* XML */
-    if(($mail = $this->MailModel->findById($data['id'])) === null){
+    if(($diary = $this->DiaryModel->findById($data['id'])) === null){
       $this->redirect('default:admin/home.error');
     }
     /**/
     header('Content-type: application/xml');
-    if(file_exists($mail->path)){
-      readfile($mail->path);
+    if(file_exists($diary->path)){
+      readfile($diary->path);
     }
 
     /**/
