@@ -76,7 +76,7 @@ class AdminProjectSaveAction extends AdminProjectController {
 	  }
 	}
 	if($found === false){
-	  $pd = $this->ProjectMail->newModel();
+	  $pd = $this->ProjectMailModel->newModel();
 	  $pd->project_id = $project->id;
 	  $pd->mail_id = $mail['id'];
 	  $pd->save();
