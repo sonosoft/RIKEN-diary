@@ -33,7 +33,6 @@ class WorkIndexAction extends Controller {
 	
 	/* プロジェクト・ユーザ */
 	if(($project = $this->ProjectModel->findByToken($this->app->route['token'])) === null){
-	  var_dump(Eln_Database::$logs);
 	  $this->db->rollback();
 	  return 'work/error/invalid_url';
 	}
