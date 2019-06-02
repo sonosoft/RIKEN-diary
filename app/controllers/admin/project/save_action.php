@@ -44,6 +44,7 @@ class AdminProjectSaveAction extends AdminProjectController {
       $ids = array();
       var_dump($data['diaries']);
       foreach($data['diaries'] as $diary){
+	var_dump($diary);
 	$found = false;
 	foreach($list as $entry){
 	  if($entry->diary_id == $diary['id']){
