@@ -70,6 +70,7 @@ class WorkIndexAction extends Controller {
 	  $this->redirect('default:work.error');
 	}
 	$indexes = $this->PageModel->collectIndexes($pages);
+	var_dump($indexes);exit;
 	if(empty($indexes)){
 	  $this->app->writeLog('work/index #2', 'failed to get page indexes.');
 	  $this->redirect('default:work.error');
