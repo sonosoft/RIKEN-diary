@@ -336,7 +336,7 @@ $(function(){
 		data: { ids: JSON.stringify(ids), project: projectId },
 		dataType: "JSON",
 		complete: function(result){
-		    if(result){
+		    if(result.status){
 			$("#receipt-message").text("プロジェクトへの参加を登録しました。");
 		    }else{
 			$("#receipt-message").text("プロジェクトへの参加登録に失敗しました。");
