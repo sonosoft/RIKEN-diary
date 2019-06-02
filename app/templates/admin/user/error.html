@@ -12,14 +12,14 @@
 
 <!-- breadcrumb -->
 <ol class="breadcrumb">
-  <li><a href="{eln:uri('default:admin/user.form')}">ユーザアップロード</a></li>
+  <li><a href="{eln:uri('default:admin/user.form')}">被験者アップロード</a></li>
   <li class="active">アップロードエラー</li>
 </ol>
 <!-- /breadcrumb -->
 
 <!-- error -->
 <div class="alert alert-danger" role="alert">
-  ユーザ登録に失敗しました。
+  被験者登録に失敗しました。
   <ul>
     <li eln:foreach="$error:{$upload_errors}">{$error}</li>
   </ul>

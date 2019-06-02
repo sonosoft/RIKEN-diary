@@ -132,6 +132,7 @@ class AdminUserUploadAction extends AdminUserController {
     }
 
     /**/
+    var_dump($errors);exit;
     if(empty($errors) === false){
       $this->app->storeSession('upload_errors', $errors);
       $this->redirect('default:admin/user.error');
