@@ -32,6 +32,10 @@ class UserModelFactory extends ModelFactory {
     return $this->one(array('where'=>'[code] = :code AND [status] = :enabled'), array('code'=>$code, 'enabled'=>STATUS_ENABLED));
   }
 
+  public function findByToken($token){
+    return $this->one(array('where'=>'[token] = :token AND [status] = :enabled'), array('token'=>$token, 'enabled'=>STATUS_ENABLED));
+  }
+
   public function generateToken(){
     $base = array_merge(range(2, 9), range('a', 'k'), range('m', 'z'), range('A', 'H'), range('J', 'N'), range('P', 'Z'));
     while(true){

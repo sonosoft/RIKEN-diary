@@ -14,7 +14,7 @@ class WorkIndexAction extends Controller {
    */
   public function action(){
     /**/
-    $this->useModel('User', 'Project', 'Visit');
+    $this->useModel('User', 'Project', 'ProjectUser', 'Visit');
     
     /* 検索条件初期化 */
     $this->app->removeSession('work_data');
@@ -32,13 +32,22 @@ class WorkIndexAction extends Controller {
 	}
 	
 	/* プロジェクト・ユーザ */
-	if(($project = $this->ProjectModel->findByToken($this->app->route['token'])) === null){
+	if(($user = $this->UserModel->findByToken(substr($this->app->route['token'], 5))) === null){
 	  $this->db->rollback();
 	  return 'work/error/invalid_url';
 	}
-	var_dump(Eln_Database::$logs);exit;
-	$user = $project->users->user;
-	/**/
+	if(($project = $this->ProjectModel->findByToken(substr($this->app->route['token'], 0, 5))) === null){
+	  $this->db->rollback();
+	  return 'work/error/invalid_url';
+	}
+	$link = $this->ProjectUserModel->one(
+	  array('where'=>'[project_id] = :project_id AND [user_id] = :user_id'),
+	  array('project_id'=>$project->id, 'user_id'=>$user->id)
+	);
+	if($link === null){
+	  $this->db->rollback();
+	  return 'work/error/invalid_url';
+	}
 	if($project->from_date->compare($this->app->data['_today_']) > 0 || $project->to_date->compare($this->app->data['_today_']) < 0){
 	  $this->db->rollback();
 	  return 'work/error/out_of_date';
