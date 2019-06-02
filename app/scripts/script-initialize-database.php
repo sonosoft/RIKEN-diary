@@ -56,7 +56,6 @@ try{
     ' `id` int NOT NULL AUTO_INCREMENT,'.
     ' `token` varchar(10) NOT NULL,'.
     ' `title` varchar(100) NOT NULL,'.
-    ' `overview` varchar(400) NOT NULL,'.
     ' `started_on` date NOT NULL,'.
     ' `ended_on` date NOT NULL,'.
     ' `status` tinyint(1) NOT NULL,'.
