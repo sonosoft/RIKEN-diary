@@ -45,11 +45,6 @@ class AdminProjectController extends AdminController {
     /* 検索 */
     list($this->app->data['projects'], $this->app->data['paginator']) = $this->ProjectModel->page($options, $parameters);
     foreach($this->app->data['projects'] as $index=>$project){
-      $list = $this->ProjectDiaryModel->getByProject($project->id);
-      echo count($list);
-      var_dump(Eln_Database::$logs);
-      exit;
-      /**/
       $diaries = array();
       foreach($this->ProjectDiaryModel->getByProject($project->id) as $record){
 	$diaries[] = 'DY'.$record->diary->code;

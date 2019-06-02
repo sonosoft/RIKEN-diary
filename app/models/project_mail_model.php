@@ -24,14 +24,14 @@ class ProjectMailModelFactory extends ModelFactory {
 
   /* ===== ===== */
 
-  public function getByProject($projectI){
+  public function getByProject($projectId){
     return $this->all(
       array(
 	'joins'=>'mail',
 	'where'=>'[project_id] = :project_id AND mail.status = :enabled',
 	'order'=>'mail.code ASC',
       ),
-      array('project_id'=>$id, 'enabled'=>STATUS_ENABLED)
+      array('project_id'=>$projectId, 'enabled'=>STATUS_ENABLED)
     );
   }
 }
