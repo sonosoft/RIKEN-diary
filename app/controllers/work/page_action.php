@@ -14,7 +14,7 @@ class WorkPageAction extends WorkController {
    */
   public function action(){
     /**/
-    $this->useModel('Page', 'Inquiry', 'System');
+    $this->useModel('Page', 'Visit', 'ProjectDiary');
     
     /* データ */
     if(($pages = $this->PageModel->load($this->session->system)) === null){

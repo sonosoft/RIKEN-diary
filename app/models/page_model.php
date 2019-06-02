@@ -10,16 +10,16 @@
 
 class PageModelFactory extends Eln_Object {
 
-  public function load($diary){
-    $pages = null;
-    $path = $this->app->projectFile('data/inquiry.xml');
-    if(file_exists($path)){
-      $xml = simplexml_load_file($path);
-      $pages = array();
-      $index = 1;
-      foreach($xml->page as $page){
-	$pages[$index] = $page;
-	++ $index;
+  public function load($diaries){
+    $pages = array();
+    $index = 1;
+    foreach($diaries as $diary){
+      if(file_exists($diary->path)){
+	$xml = simplexml_load_file($diary->path);
+	foreach($xml->page as $page){
+	  $pages[$index] = $page;
+	  ++ $index;
+	}
       }
     }
     return $pages;

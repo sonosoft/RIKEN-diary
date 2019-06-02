@@ -14,7 +14,7 @@ class WorkIndexAction extends Controller {
    */
   public function action(){
     /**/
-    $this->useModel('User', 'Project', 'ProjectUser', 'Visit');
+    $this->useModel('User', 'Project', 'ProjectUser', 'Visit', 'Page');
     
     /* 検索条件初期化 */
     $this->app->removeSession('work_data');
@@ -52,11 +52,30 @@ class WorkIndexAction extends Controller {
 	  $this->db->rollback();
 	  return 'work/error/out_of_date';
 	}
-	
+
+	/* 日誌 */
+	$diaries = array();
+	$now = $this->app->data['_now_']->hour * 100 + $this->app->data['_now_']->minute;
+	foreach($this->ProjectDiaryModel->findByProject($project->id) as $entry){
+	  if($entry->from_time <= $now && $entry->to_time >= $now){
+	    $diaries[] = $entry->diary;
+	  }
+	}
+	if(($pages = $this->PageModel->load($diaries)) === null){
+	  $this->app->writeLog('work/start #1', 'failed to read profile data file.');
+	  $this->redirect('default:work.error');
+	}
+	$indexes = $this->PageModel->collectIndexes($pages);
+	if(empty($indexes)){
+	  $this->app->writeLog('work/start #1', 'failed to get page indexes.');
+	  $this->redirect('default:work.error');
+	}
+
 	/* 訪問 */
 	$visit = $this->VisitModel->newModel();
 	$visit->user_id = $user->id;
 	$visit->project_id = $project->id;
+	$visit->page = $indexes[0];;
 	$visit->status = STATUS_STARTED;
 	$visit->started_at = $this->app->data['_now_'];
 	$visit->save();
@@ -66,7 +85,6 @@ class WorkIndexAction extends Controller {
 	
 	/* セッション */
 	$this->app->data['user'] = $user;
-	$this->app->storeSession('work_data.user_id', $user->id);
 	$this->app->storeSession('work_data.visit_id', $visit->id);
       }catch(Exception $e){
 	/* ロールバック */
@@ -82,6 +100,6 @@ class WorkIndexAction extends Controller {
     }
     
     /**/
-    return 'work/index';
+    $this->redirect('default:work.page');
   }
 }
