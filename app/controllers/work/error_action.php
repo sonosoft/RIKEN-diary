@@ -14,6 +14,6 @@ class WorkErrorAction extends Controller {
    */
   public function action(){
     /**/
-    return 'work/error';
+    return 'work/error/error';
   }
 }

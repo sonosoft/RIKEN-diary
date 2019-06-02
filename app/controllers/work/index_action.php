@@ -21,8 +21,7 @@ class WorkIndexAction extends Controller {
     $this->app->data['work_data'] = array();
     
     /* URL */
-    var_dump($this->app->route['route']);
-    if(strcmp($this->app->route['route'], 'entrance') == 0){
+    if(strcmp($this->app->route['route'], 'diary') == 0){
       /**/
       $this->db->begin();
       try{
@@ -64,7 +63,7 @@ class WorkIndexAction extends Controller {
 	
 	/* エラー */
 	$this->app->writeLog('work/index', $e->getMessage());
-	$this->redirect('default:work/error.unexpected');
+	$this->redirect('default:work.error');
       }
     }else{
       /* 不正なURL */
