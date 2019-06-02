@@ -26,7 +26,7 @@ Eln_Application::$settings = array(
 /* ===== ===== */
 
 /*
- * ステータス
+ *
  */
 define('STATUS_ENABLED', 1);
 define('STATUS_DISABLED', 0);
@@ -35,6 +35,9 @@ define('MAIL_BEFORE', 1);
 define('MAIL_AFTER', 2);
 define('MAIL_DURING', 3);
 define('MAIL_DATE', 4);
+/**/
+define('SEX_MALE', 1);
+define('SEX_FEMALE', 2);
 
 /*
  * メール設定
