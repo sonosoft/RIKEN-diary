@@ -25,12 +25,12 @@ class WorkPageAction extends WorkController {
       }
     }
     if(($pages = $this->PageModel->load($diaries)) === null){
-      $this->app->writeLog('work/start #1', 'failed to read profile data file.');
+      $this->app->writeLog('work/page #1', 'failed to read data file.');
       $this->redirect('default:work.error');
     }
     $indexes = $this->PageModel->collectIndexes($pages);
     if(empty($indexes)){
-      $this->app->writeLog('work/start #1', 'failed to get page indexes.');
+      $this->app->writeLog('work/page #2', 'failed to get page indexes.');
       $this->redirect('default:work.error');
     }
 

@@ -69,8 +69,6 @@ class WorkIndexAction extends Controller {
 	  $this->app->writeLog('work/index #1', 'failed to read data file.');
 	  $this->redirect('default:work.error');
 	}
-	$indexes = $this->PageModel->collectIndexes($pages);
-	var_dump($indexes);exit;
 	if(empty($indexes)){
 	  $this->app->writeLog('work/index #2', 'failed to get page indexes.');
 	  $this->redirect('default:work.error');
@@ -80,7 +78,7 @@ class WorkIndexAction extends Controller {
 	$visit = $this->VisitModel->newModel();
 	$visit->user_id = $user->id;
 	$visit->project_id = $project->id;
-	$visit->page = $indexes[0];;
+	$visit->page = $indexes[0];
 	$visit->status = STATUS_STARTED;
 	$visit->started_at = $this->app->data['_now_'];
 	$visit->save();

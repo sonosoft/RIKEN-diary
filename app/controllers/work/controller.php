@@ -33,6 +33,7 @@ class WorkController extends Controller {
 
     /* セッションデータ */
     $this->workData = $this->app->restoreSession('work_data', array());
+    var_dump($this->workData);exit;
 
     /* 訪問 */
     if(($this->visit = $this->VisitModel->findById($this->workData['visit_id'])) === null){
