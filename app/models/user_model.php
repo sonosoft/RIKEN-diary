@@ -61,10 +61,12 @@ class UserModel extends Model {
     if(strcmp($name, 'userIDa') == 0){
       return 'M'.substr($this->userID, -5);
     }else if(strcmp($name, 'sex_tos') == 0){
-      if($this->isMan){
+      if($this->sex == 'M'){
 	return '男性';
+      }else if($this->sex == 'F'){
+	return '女性';
       }
-      return '女性';
+      return '-';
     }else if(strcmp($name, 'progress') == 0){
       if($this->questionnaireDate){
 	return '質問紙';

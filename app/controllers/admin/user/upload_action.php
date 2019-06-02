@@ -97,7 +97,7 @@ class AdminUserUploadAction extends AdminUserController {
 		    $user->save();
 		    /**/
 		    $users[] = array(
-		      'code'=>$user->id.'-'.$user->code,
+		      'code'=>$user->code,
 		      'name'=>$user->family_name.' '.$user->first_name,
 		    );
 		  }
