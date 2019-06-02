@@ -59,14 +59,14 @@ class AdminUserUploadAction extends AdminUserController {
 		  if(strlen($row[4]) == 0){
 		    $errors[] = sprintf('%d件目(%d行目): [メールアドレス]が指定されていません', $lno - 1, $lno);
 		    $validity = false;
-		  }else if(!preg_match('/^[0-9a-zA-Z]+[-_\.0-9a-zA-Z]*@[-_0-9a-zA-Z0-9]+(?:\.[-_0-9a-zA-Z]+)+$/', $row[3])){
+		  }else if(!preg_match('/^[0-9a-zA-Z]+[-_\.0-9a-zA-Z]*@[-_0-9a-zA-Z0-9]+(?:\.[-_0-9a-zA-Z]+)+$/', $row[4])){
 		    $errors[] = sprintf('%d件目(%d行目): [メールアドレス]を正しい形式で入力してください', $lno - 1, $lno);
 		    $validity = false;
 		  }
 		  if(strlen($row[5]) == 0){
 		    $errors[] = sprintf('%d件目(%d行目): [性別]が指定されていません', $lno - 1, $lno);
 		    $validity = false;
-		  }else if(preg_match('/^[MF]$/', $row[5])){
+		  }else if(!preg_match('/^[MF]$/', $row[5])){
 		    $errors[] = sprintf('%d件目(%d行目): [性別]は「M」または「F」と入力してください', $lno - 1, $lno);
 		    $validity = false;
 		  }
@@ -132,7 +132,6 @@ class AdminUserUploadAction extends AdminUserController {
     }
 
     /**/
-    var_dump($errors);exit;
     if(empty($errors) === false){
       $this->app->storeSession('upload_errors', $errors);
       $this->redirect('default:admin/user.error');

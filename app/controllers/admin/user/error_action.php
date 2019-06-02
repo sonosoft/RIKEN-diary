@@ -14,8 +14,8 @@ class AdminUserErrorAction extends AdminUserController {
    */
   public function action(){
     /* エラー */
-    $this->app->data['uploaded_errors'] = $this->app->restoreSession('uploaded_errors', array());
-    $this->app->removeSession('uploaded_errors');
+    $this->app->data['upload_errors'] = $this->app->restoreSession('upload_errors', array());
+    $this->app->removeSession('upload_errors');
     
     /**/
     return 'admin/user/error';
