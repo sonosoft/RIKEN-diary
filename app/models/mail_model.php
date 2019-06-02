@@ -66,7 +66,7 @@ class MailModel extends Model {
 	}
 	$times = array();
 	foreach($data['times'] as $time){
-	  $times[] = intval($time / 100).':'.intval($time % 100);
+	  $times[] = sprintf('%02d:%02d', intval($time / 100), intval($time % 100));
 	}
 	$info .= ' ['.implode('/', $times).']';
       }
