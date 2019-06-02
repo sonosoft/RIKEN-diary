@@ -6,7 +6,7 @@
 Eln_Router::$routes = array(
 			    
   'diary'=>array(
-    'uri'=>'/u/:token',
+    'uri'=>'/:token',
     'defaults'=>array(
       'controller'=>'work',
       'action'=>'index',
