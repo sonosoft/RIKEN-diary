@@ -78,7 +78,7 @@ class AdminUserUploadAction extends AdminUserController {
 		    /* 被験者 */
 		    if(($user = $this->UserModel->findByCode($row[0])) === null){
 		      $user = $this->UserModel->newModel();
-		      $user->code = $code;
+		      $user->code = $row[0];
 		    }
 		    $user->token = $this->UserModel->generateToken();
 		    $user->family_name = $row[1];
@@ -128,7 +128,7 @@ class AdminUserUploadAction extends AdminUserController {
 
       /**/
       $this->app->writeLog('admin/user/upload', $e->getMessage());
-      $this->redirect('default:admin/error.error');
+      $this->redirect('default:admin/error.unexpected');
     }
 
     /**/
