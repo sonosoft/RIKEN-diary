@@ -12,21 +12,21 @@
 
 <!-- breadcrumb -->
 <ol class="breadcrumb">
-  <li><a href="{eln:uri('default:admin/import.form')}">申し込みCSVアップロード</a></li>
+  <li><a href="{eln:uri('default:admin/user.form')}">ユーザアップロード</a></li>
   <li class="active">アップロードエラー</li>
 </ol>
 <!-- /breadcrumb -->
 
 <!-- error -->
 <div class="alert alert-danger" role="alert">
-  申し込み登録に失敗しました。
+  ユーザ登録に失敗しました。
   <ul>
     <li eln:foreach="$error:{$upload_errors}">{$error}</li>
   </ul>
 </div>
 <!-- /error -->
 
-<a href="{eln:uri('default:admin/import.form')}" class="btn btn-md btn-default">戻る</a>
+<a href="{eln:uri('default:admin/user.form')}" class="btn btn-md btn-default">戻る</a>
 
 </div>
 <!-- /container -->

@@ -18,6 +18,6 @@ class AdminUserReceiptAction extends AdminUserController {
     $this->app->removeSession('uploaded_users');
     
     /**/
-    'admin/user/receipt';
+    return 'admin/user/receipt';
   }
 }
