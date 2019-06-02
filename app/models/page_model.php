@@ -14,7 +14,6 @@ class PageModelFactory extends Eln_Object {
     $pages = array();
     $index = 1;
     foreach($diaries as $diary){
-      echo $diary->path;
       if(file_exists($diary->path)){
 	$xml = simplexml_load_file($diary->path);
 	foreach($xml->page as $page){
@@ -23,7 +22,6 @@ class PageModelFactory extends Eln_Object {
 	}
       }
     }
-    exit;
     return $pages;
   }
 

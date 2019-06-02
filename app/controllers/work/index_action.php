@@ -61,6 +61,10 @@ class WorkIndexAction extends Controller {
 	    $diaries[] = $entry->diary;
 	  }
 	}
+	if(empty($diaries)){
+	  $this->db->rollback();
+	  return 'work/error/out_of_time';
+	}
 	if(($pages = $this->PageModel->load($diaries)) === null){
 	  $this->app->writeLog('work/index #1', 'failed to read data file.');
 	  $this->redirect('default:work.error');
