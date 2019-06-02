@@ -84,6 +84,20 @@ class AdminUserController extends AdminController {
     return 'admin/user/list';
   }
 
+  /*
+   * フォーム
+   */
+  protected function viewForm(){
+    /**/
+    $this->useModel('Project');
+    
+    /* 時間 */
+    $this->app->data['projectChoices'] = $this->ProjectModel->collectChoices('選択してください');
+    
+    /**/
+    return 'admin/diary/form';
+  }
+
   /* ===== ===== */
 
   private function download($options, $parameters){

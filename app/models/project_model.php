@@ -50,6 +50,17 @@ class ProjectModelFactory extends ModelFactory {
     );
   }
   
+  public function collectChoices($default=''){
+    $choices = array();
+    if(empty($default) === false){
+      $choices[] = array('value'=>'', 'label'=>$default);
+    }
+    foreach($this->all(array('where'=>'[status] = :enabled', 'order'=>'[code] ASC'), array('enabled'=>STATUS_ENABLED)) as $record){
+      $choices[] = array('value'=>$record->id, 'label'=>$record->tos);
+    }
+    return $choices;
+  }
+  
   public function generateToken(){
     $base = array_merge(range(2, 9), range('a', 'k'), range('m', 'z'), range('A', 'H'), range('J', 'N'), range('P', 'Z'));
     while(true){
@@ -65,4 +76,16 @@ class ProjectModelFactory extends ModelFactory {
 }
 
 class ProjectModel extends Model {
+  public function __isset($name){
+    if(strcmp($name, 'tos') == 0){
+      return true;
+    }
+    return false;
+  }
+  public function __get($name){
+    if(strcmp($name, 'tos') == 0){
+      return sprintf('%s [%s-%s]', $this->title, $this->from_date->format('%Y/%m/%d'), $this->to_date->format('%Y/%m/%d'));
+    }
+    return null;
+  }
 }

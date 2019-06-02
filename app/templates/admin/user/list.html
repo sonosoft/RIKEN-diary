@@ -69,6 +69,10 @@
     <nav eln:include="admin/paginator.html"></nav>
   </div>
   <div class="col-sm-7 text-right command-box">
+    <a href="#" class="btn btn-sm btn-info to-link">
+      <span class="glyphicon glyphicon-link"></span>
+      プロジェクト
+    </a>
     <a href="#" class="btn btn-sm btn-danger to-delete">
       削除
     </a>
@@ -76,65 +80,63 @@
 </div>
 <!-- /paginator -->
 
-<!-- customer list -->
-<form id="message-form" action="{eln:uri('default:admin/user.message')}" method="post">
-  <div class="table-box">
-    <table class="table table-bordered table-hover list-table">
-      <thead>
-	<tr>
-	  <th class="text-center">
-	    <input type="checkbox" id="lead-checkbox" name="lead">
-	  </th>
-	  <th></th>
-	  <th class="clickable" data-order="i">
-	    ユーザID
-	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'i-a'}"></span>
-	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'i-d'}"></span>
-	  </th>
-	  <th>乱数</th>
-	  <th class="clickable" data-order="n">
-	    氏名
-	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'n-a'}"></span>
-	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'n-d'}"></span>
-	  </th>
-	  <th class="clickable" data-order="k">
-	    ふりがな
-	    <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'k-a'}"></span>
-	    <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'k-d'}"></span>
-	  </th>
-	  <th>メールアドレス</th>
-	  <th>性別</th>
-	  <th>生年月日</th>
-	</tr>
-      </thead>
-      <tbody>
-	<tr class="list-row" eln:foreach="$user:{$users}">
-	  <td class="text-center">
-	    <input type="checkbox" name="ids[]" value="{$user.id}" class="ids" eln:unless="{$user.deleted_at}">
-	  </td>
-	  <td class="text-center">
-	    <span class="glyphicon glyphicon-remove text-danger" eln:if="{$user.deleted_at}"></span>
-	    <a href="#" class="btn btn-sm btn-default modify" data-id="{$user.id}" eln:unless="{$user.deleted_at}">
-	      <span class="glyphicon glyphicon-pencil"></span>
-	      編集
-	    </a>
-	  </td>
-	  <td>{$user.code}</td>
-	  <td>{$user.token}</td>
-	  <td>{$user.family_name} {$user.first_name}</td>
-	  <td>{$user.kana}</td>
-	  <td>{$user.email}</td>
-	  <td>{$user.sex_tos}</td>
-	  <td>{eln:date($user.birthday, '%Y/%m/%d')}</td>
-	</tr>
-	<tr eln:if="{count($user) EQ 0}">
-	  <td colspan="9">見つかりません</td>
-	</tr>
-      </tbody>
-    </table>
-  </div>
-</form>
-<!-- /customer list -->
+<!-- user list -->
+<div class="table-box">
+  <table class="table table-bordered table-hover list-table">
+    <thead>
+      <tr>
+	<th class="text-center">
+	  <input type="checkbox" id="lead-checkbox" name="lead">
+	</th>
+	<th></th>
+	<th class="clickable" data-order="i">
+	  ユーザID
+	  <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'i-a'}"></span>
+	  <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'i-d'}"></span>
+	</th>
+	<th>乱数</th>
+	<th class="clickable" data-order="n">
+	  氏名
+	  <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'n-a'}"></span>
+	  <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'n-d'}"></span>
+	</th>
+	<th class="clickable" data-order="k">
+	  ふりがな
+	  <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'k-a'}"></span>
+	  <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'k-d'}"></span>
+	</th>
+	<th>メールアドレス</th>
+	<th>性別</th>
+	<th>生年月日</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="list-row" eln:foreach="$user:{$users}">
+	<td class="text-center">
+	  <input type="checkbox" name="ids[]" value="{$user.id}" class="ids" eln:unless="{$user.deleted_at}">
+	</td>
+	<td class="text-center">
+	  <span class="glyphicon glyphicon-remove text-danger" eln:if="{$user.deleted_at}"></span>
+	  <a href="#" class="btn btn-sm btn-default modify" data-id="{$user.id}" eln:unless="{$user.deleted_at}">
+	    <span class="glyphicon glyphicon-pencil"></span>
+	    編集
+	  </a>
+	</td>
+	<td>{$user.code}</td>
+	<td>{$user.token}</td>
+	<td>{$user.family_name} {$user.first_name}</td>
+	<td>{$user.kana}</td>
+	<td>{$user.email}</td>
+	<td>{$user.sex_tos}</td>
+	<td>{eln:date($user.birthday, '%Y/%m/%d')}</td>
+      </tr>
+      <tr eln:if="{count($user) EQ 0}">
+	<td colspan="9">見つかりません</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- /user list -->
 
 <!-- paginator -->
 <div class="row">
@@ -142,6 +144,10 @@
     <nav eln:include="admin/paginator.html"></nav>
   </div>
   <div class="col-sm-7 text-right command-box">
+    <a href="#" class="btn btn-sm btn-info to-link">
+      <span class="glyphicon glyphicon-link"></span>
+      プロジェクト
+    </a>
     <a href="#" class="btn btn-sm btn-danger to-delete">
       削除
     </a>
@@ -203,18 +209,49 @@
     </form>
   </div>
 </div>
-<div class="modal fade" id="alert-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade" id="project-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form action="{eln:uri('default:admin/user.update')}" method="post">
+      <div class="modal-content">
+	<div class="modal-header">
+          <h5 class="modal-title">プロジェクトへの参加登録</h5>
+	</div>
+	<div class="modal-body">
+          <div class="form-group">
+            <label>プロジェクト</label>
+	    <select name="project" class="form-control" eln:options="{$projectChoices}"></select>
+          </div>
+	</div>
+	<div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-danger" id="button-link">実行</button>
+	</div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal fade" id="receipt-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" id="receipt-message"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">確認</h5>
+        <h5 class="modal-title">確認</h5>
       </div>
-      <div class="modal-body" id="modal-message">
+      <div class="modal-body">
         選択されている申し込みを削除します。
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-        <button type="button" class="btn btn-danger command" id="button-delete">削除</button>
+        <button type="button" class="btn btn-danger" id="button-delete">削除</button>
       </div>
     </div>
   </div>
@@ -270,8 +307,37 @@ $(function(){
     onCheckbox();
     
     // commands.
+    $(".to-link").on("click", function(){
+	$("select[name='project']").val("");
+	$("#project-modal").modal("show");
+	return false;
+    });
+    $("#button-link").on("click", function(){
+	var projectId = $("select[name='project'] option:selected").val();
+	if(projectId.length > 0){
+	    var ids = [];
+	    $("input.ids:checked").each(function(){
+		ids.push($(this).val());
+	    });
+	    $.ajax({
+		url: "{eln:uri('default:admin/user.async_project')}",
+		method: "POST",
+		data: { ids: JSON.stringify(ids), project: projectId },
+		dataType: "JSON",
+		complete: function(result){
+		    if(result){
+			$("#receipt-message").text("プロジェクトへの参加を登録しました。");
+		    }else{
+			$("#receipt-message").text("プロジェクトへの参加登録に失敗しました。");
+		    }
+		    $("#receipt-modal").modal("show");
+		    $("#project-modal").modal("hide");
+		}
+	    });
+	}
+    });
     $(".to-delete").on("click", function(){
-	$("#alert-modal").modal("show");
+	$("#delete-modal").modal("show");
 	return false;
     });
     $("#button-delete").on("click", function(){

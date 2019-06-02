@@ -86,9 +86,9 @@ class AdminUserUploadAction extends AdminUserController {
 		    $user->kana = $row[3];
 		    $user->email = $row[4];
 		    if($row[5] == 'M'){
-		      $user->sex = 1;
+		      $user->sex = SEX_MALE;
 		    }else{
-		      $user->sex = 2;
+		      $user->sex = SEX_FEMALE;
 		    }
 		    $user->birthday = $row[6];
 		    $user->status = 1;
