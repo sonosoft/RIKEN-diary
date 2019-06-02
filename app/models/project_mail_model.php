@@ -28,7 +28,7 @@ class ProjectMailModelFactory extends ModelFactory {
     return $this->all(
       array(
 	'joins'=>'mail',
-	'where'=>'[project_id] = :project_id AND ,mail.status = :enabled',
+	'where'=>'[project_id] = :project_id AND mail.status = :enabled',
 	'order'=>'mail.code ASC',
       ),
       array('project_id'=>$id, 'enabled'=>STATUS_ENABLED)
