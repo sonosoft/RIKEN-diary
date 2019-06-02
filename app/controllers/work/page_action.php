@@ -19,7 +19,7 @@ class WorkPageAction extends WorkController {
     /* 日誌 */
     $diaries = array();
     $time = $this->visit->started_at->hour * 100 + $this->visit->started_at->minute;
-    foreach($this->ProjectDiaryModel->getByProject($project->id) as $entry){
+    foreach($this->ProjectDiaryModel->getByProject($this->visit->project_id) as $entry){
       if($entry->diary->from_time <= $time && $entry->diary->to_time >= $time){
 	$diaries[] = $entry->diary;
       }
