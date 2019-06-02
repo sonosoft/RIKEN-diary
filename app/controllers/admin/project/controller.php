@@ -56,6 +56,9 @@ class AdminProjectController extends AdminController {
    * フォーム
    */
   protected function viewForm(){
+    /**/
+    $this->useModel('Diary', 'Mail');
+    
     /* 選択肢 */
     $this->app->data['diaryChoices'] = $this->DiaryModel->collectChoices('選択してください');
     $this->app->data['mailChoices'] = $this->MailModel->collectChoices('選択してください');
