@@ -17,7 +17,7 @@ class AdminUserController extends AdminController {
    */
   protected function viewList(){
     /**/
-    $this->useModel('User');
+    $this->useModel('User', 'Project');
     $this->useValidator('UserSearch');
 
     /* 検索条件検証 */
@@ -80,23 +80,11 @@ class AdminUserController extends AdminController {
     $this->app->data['user_search']['page'] = $this->app->data['paginator']->currentPage;
     $this->app->storeSession('user_search', $this->app->data['user_search']);
 
+    /* 選択肢 */
+    $this->app->data['projectChoices'] = $this->ProjectModel->collectChoices('選択してください');
+    
     /**/
     return 'admin/user/list';
-  }
-
-  /*
-   * フォーム
-   */
-  protected function viewForm(){
-    /**/
-    $this->useModel('Project');
-    
-    /* 時間 */
-    $this->app->data['projectChoices'] = $this->ProjectModel->collectChoices('選択してください');
-    var_dump($this->app->data['projectChoices']);exit;
-    
-    /**/
-    return 'admin/diary/form';
   }
 
   /* ===== ===== */
