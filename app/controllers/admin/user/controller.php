@@ -93,6 +93,7 @@ class AdminUserController extends AdminController {
     
     /* 時間 */
     $this->app->data['projectChoices'] = $this->ProjectModel->collectChoices('選択してください');
+    var_dump($this->app->data['projectChoices']);exit;
     
     /**/
     return 'admin/diary/form';
