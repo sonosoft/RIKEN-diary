@@ -27,7 +27,7 @@ class ProjectMailModelFactory extends ModelFactory {
   public function getByProject($projectI){
     return $this->all(
       array(
-	'joins'=>',mail',
+	'joins'=>'mail',
 	'where'=>'[project_id] = :project_id AND ,mail.status = :enabled',
 	'order'=>',mail.code ASC',
       ),

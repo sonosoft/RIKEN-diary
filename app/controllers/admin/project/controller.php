@@ -17,7 +17,7 @@ class AdminProjectController extends AdminController {
    */
   protected function viewList(){
     /**/
-    $this->useModel('Project');
+    $this->useModel('Project', 'ProjectDiary', 'ProjectMail');
     $this->useValidator('ProjectSearch');
 
     /* 検索条件検証 */
@@ -44,6 +44,19 @@ class AdminProjectController extends AdminController {
 
     /* 検索 */
     list($this->app->data['projects'], $this->app->data['paginator']) = $this->ProjectModel->page($options, $parameters);
+    foreach($this->app->data['projects'] as $index=>$project){
+      $diaries = array();
+      foreach($this->ProjectDiaryModel->getByProject($project->id) as $record){
+	$diaries[] = 'DY'.$record->diary->code;
+      }
+      $this->app->data['projects'][$index]->diaries_tos = implode('/', $diaries);
+      /**/
+      $mails = array();
+      foreach($this->ProjectMailModel->getByProject($project->id) as $record){
+	$mails[] = 'ML'.$record->mail->code;
+      }
+      $this->app->data['projects'][$index]->mails_tos = implode('/', $mails);
+    }
     /**/
     $this->app->data['project_search']['page'] = $this->app->data['paginator']->currentPage;
     $this->app->storeSession('project_search', $this->app->data['project_search']);
