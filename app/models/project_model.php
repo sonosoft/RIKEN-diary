@@ -39,7 +39,7 @@ class ProjectModelFactory extends ModelFactory {
   }
   
   public function findByToken($token){
-    return $this->one(array('where'=>'[token] = :token [status] = :enabled'), array('project'=>$token, 'enabled'=>STATUS_ENABLED));
+    return $this->one(array('where'=>'[token] = :token [status] = :enabled'), array('token'=>$token, 'enabled'=>STATUS_ENABLED));
   }
   
   public function collectChoices($default=''){
