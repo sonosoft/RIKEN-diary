@@ -64,7 +64,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr eln:foreach="$diary:{$diarys}">
+      <tr eln:foreach="$diary:{$diaries}">
 	<td>
 	  <a href="{eln:uri('default:admin/diary.form?id={$diary.id}')}" class="btn btn-sm btn-default">
 	    <span class="glyphicon glyphicon-pencil"></span>
@@ -85,7 +85,7 @@
 	<td>{$diary.title}</td>
 	<td>{$diary.schedule_tos}</td>
       </tr>
-      <tr eln:if="{count($diarys) EQ 0}">
+      <tr eln:if="{count($diaries) EQ 0}">
 	<td colspan="5">見つかりません</td>
       </tr>
     </tbody>
