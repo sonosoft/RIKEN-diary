@@ -17,7 +17,7 @@ class WorkController extends Controller {
    */
   protected $workData = null;
   protected $user = null;
-  protected $session = null;
+  protected $visit = null;
 
   /* ===== ===== */
   
@@ -29,30 +29,30 @@ class WorkController extends Controller {
     parent::beforeAction();
 
     /**/
-    $this->useModel('User', 'Session');
+    $this->useModel('User', 'Visit');
 
     /* セッションデータ */
     $this->workData = $this->app->restoreSession('work_data', array());
-    if(isset($this->workData['user_id'])){
-      $this->user = $this->UserModel->one(array('where'=>'[id] = :user_id'), $this->workData);
-    }
-    if($this->user === null){
+
+    /* 訪問 */
+    if(($this->visit = $this->VisitModel->findById($this->workData['visit_id'])) === null){
       $this->redirect('default:work.error');
     }
-    if(isset($this->workData['session_id'])){
+    if(($this->user = $this->UserModel->findById($visit->user_id)) === null){
+      $this->redirect('default:work.error');
+    }
+    if($this->visit !== null){
       $this->db->begin();
       try{
-	if(($this->session = $this->SessionModel->one(array('joins'=>'system', 'where'=>'[id] = :session_id'), $this->workData)) !== null){
-	  $this->session->accessed_at = $this->app->data['_now_'];
-	  $this->session->save();
-	}
+	$this->visit->accessed_at = $this->app->data['_now_'];
+	$this->visit->save();
 	$this->db->commit();
       }catch(Exception $e){
 	$this->db->rollback();
 	$this->app->writeLog('work/*', $e->getMessage());
       }
     }
-
+    
     /**/
     $this->app->data['user'] = $this->user;
   }

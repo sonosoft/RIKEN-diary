@@ -14,6 +14,12 @@ class VisitModelFactory extends ModelFactory {
    */
   protected $model = 'Visit';
   protected $table = 'visit';
+  
+  /* ===== ===== */
+
+  public function findById($id){
+    return $this->one(array('where'=>'[id] = :id'), array('id'=>$id));
+  }
 }
 
 class VisitModel extends Model {

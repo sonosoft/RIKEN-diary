@@ -14,38 +14,46 @@ class WorkPageAction extends WorkController {
    */
   public function action(){
     /**/
-    $this->useModel('Page', 'Visit', 'ProjectDiary');
-    
-    /* データ */
-    if(($pages = $this->PageModel->load($this->session->system)) === null){
-      $this->app->writeLog('work/page', 'invalid session file.');
+    $this->useModel('Page', 'Visit', 'ProjectDiary', 'Answer');
+
+    /* 日誌 */
+    $diaries = array();
+    $time = $this->visit->started_at->hour * 100 + $this->visit->started_at->minute;
+    foreach($this->ProjectDiaryModel->findByProject($project->id) as $entry){
+      if($entry->from_time <= $time && $entry->to_time >= $time){
+	$diaries[] = $entry->diary;
+      }
+    }
+    if(($pages = $this->PageModel->load($diaries)) === null){
+      $this->app->writeLog('work/start #1', 'failed to read profile data file.');
+      $this->redirect('default:work.error');
+    }
+    $indexes = $this->PageModel->collectIndexes($pages);
+    if(empty($indexes)){
+      $this->app->writeLog('work/start #1', 'failed to get page indexes.');
       $this->redirect('default:work.error');
     }
 
     /* ページ */
-    if(isset($pages[$this->session->page]) === false){
+    if(isset($pages[$this->visit->page]) === false){
       $this->redirect('default:work.error');
     }
-    list($this->app->data['rows'], $names, $values) = $this->PageModel->convert($pages[$this->session->page]);
+    list($this->app->data['rows'], $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
     
     /**/
-    $this->app->data['inquiry'] = $values;
-    $inquiries = $this->InquiryModel->collectByPage($this->user, $this->session, $this->session->page);
-    foreach($inquiries as $inquiry){
-      if($inquiry->listed){
-	if(empty($inquiry->value) === false){
-	  $this->app->data['inquiry'][$inquiry->name] = explode(',', $inquiry->value);
+    $this->app->data['answers'] = $values;
+    foreach($this->AnswerModel->collectByPage($this->user, $this->visit, $this->visit->page) as $answer){
+      if($answer->listed){
+	if(empty($answer->value) === false){
+	  $this->app->data['answers'][$answer->name] = explode(',', $answer->value);
 	}else{
-	  $this->app->data['inquiry'][$inquiry->name] = array();
+	  $this->app->data['answers'][$answer->name] = array();
 	}
       }else{
-	$this->app->data['inquiry'][$inquiry->name] = $inquiry->value;
+	$this->app->data['answers'][$answer->name] = $answer->value;
       }
     }
 
-    /**/
-    $this->app->data['pageProgress'] = $this->PageModel->formatProgress($pages, $this->session->page);
-    
     /**/
     return 'work/page';
   }

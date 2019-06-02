@@ -170,6 +170,7 @@ try{
     ' `page` tinyint(2) NOT NULL,'.
     ' `status` tinyint(1) NOT NULL,'.
     ' `started_at` datetime NOT NULL,'.
+    ' `accessed_at` datetime DEFAULT NULL,'.
     ' `finished_at` datetime DEFAULT NULL,'.
     ' PRIMARY KEY (`id`),'.
     ' INDEX `project_id` (`project_id`),'.
