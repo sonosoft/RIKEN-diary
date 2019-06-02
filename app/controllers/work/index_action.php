@@ -56,7 +56,7 @@ class WorkIndexAction extends Controller {
 	/* 日誌 */
 	$diaries = array();
 	$now = $this->app->data['_now_']->hour * 100 + $this->app->data['_now_']->minute;
-	foreach($this->ProjectDiaryModel->findByProject($project->id) as $entry){
+	foreach($this->ProjectDiaryModel->getByProject($project->id) as $entry){
 	  if($entry->from_time <= $now && $entry->to_time >= $now){
 	    $diaries[] = $entry->diary;
 	  }
