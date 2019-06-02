@@ -130,7 +130,7 @@ function addDiary(){
 		return;
 	    }
 	}
-	diaries.push({ id: diaryId, text, diaryText });
+	diaries.push({ id: diaryId, text: diaryText });
 	$("input[name='project[diaries]']").val(JSON.stringify(diaries));
 	reloadDiaries();
     }
@@ -183,7 +183,7 @@ function addMail(){
 		return;
 	    }
 	}
-	mails.push({ id: mailId, text, mailText });
+	mails.push({ id: mailId, text: mailText });
 	$("input[name='project[mails]']").val(JSON.stringify(mails));
 	reloadMails();
     }
