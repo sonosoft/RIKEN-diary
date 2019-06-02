@@ -1,0 +1,425 @@
+* {
+	box-sizing: border-box;
+}
+html {
+	font-family: sans-serif;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+body {
+	margin: 0;
+}
+article,
+footer,
+header,
+nav,
+section {
+	display: block;
+}
+[hidden],
+template {
+	display: none;
+}
+a {
+	color: #04C;
+	text-decoration: none;
+	background-color: transparent;
+}
+a:active,
+a:hover {
+	outline: 0;
+}
+h1,
+h2,
+h3,
+h4,
+p {
+	margin: 0;
+	font-weight: 400;
+}
+b,
+strong {
+	font-weight: 400;
+}
+ol, ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+sup {
+	top: -0.5em;
+}
+sub {
+	bottom: -0.25em;
+}
+img {
+	border: 0;
+	vertical-align: top;
+}
+svg:not(:root) {
+	overflow: hidden;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+	color: inherit;
+	font: inherit;
+	margin: 0;
+}
+button {
+	overflow: visible;
+}
+button,
+select {
+	text-transform: none;
+}
+
+input[type="button"]{
+	padding:0;
+}
+
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+	-webkit-appearance: button;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+input {
+	line-height: normal;
+}
+input[type="checkbox"],
+input[type="radio"] {
+	box-sizing: border-box;
+	padding: 0;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	height: auto;
+}
+input[type="search"] {
+	-webkit-appearance: textfield;
+	box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+	-webkit-appearance: none;
+}
+textarea {
+	overflow: auto;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+td,
+th {
+	padding: 0;
+}
+dl,
+dd {
+	margin: 0;
+}
+
+/*-------------------------
+	Hide
+--------------------------*/
+.drawer-btn,
+.tool-btn,
+.chart-btn,
+.chart,
+.estate-btn,
+input[type=file],
+input[type=submit] {
+	display: none;
+}
+
+/* Add button */
+.add-btn {
+	display: block;
+	position: relative;
+	width: 250px;
+	height: 48px;
+	line-height: 48px;
+	margin: 12px auto 20px auto;
+	text-align: center;
+
+	font-size: 17px;
+	color: #FFF;
+	background: #FF6671;
+	border-radius: 4px;
+}
+
+.add-btn-large {
+	width: 380px;
+}
+
+.add-btn::before {
+	display: block;
+	position: absolute;
+	top: 15px;
+	left: 30px;
+	width: 16px;
+	height: 16px;
+	content: '';
+}
+
+
+/*-------------------------
+	Input area
+--------------------------*/
+.form {
+	font-size: 16px;
+	color: #666;
+}
+.form input[type=text],
+.form input[type=password],
+.form input[type=number],
+.form input[type=email] {
+	width: 84%;
+	height: 38px;
+	line-height: 38px;
+	margin: 0 8% 18px 8%;
+	padding: 0 8px;
+	font-size: 20px;
+	color: #333;
+	border: 1px solid #CCC;
+	border-radius: 3px;
+}
+.form textarea {
+	width: 84%;
+	height: 80px;
+	margin: 0 8% 11px 8%;
+	padding: 4px 8px;
+	font-size: 20px;
+	color: #333;
+	border: 1px solid #CCC;
+	border-radius: 3px;
+	resize: none;
+}
+.form ::-webkit-input-placeholder {
+	font-size: 17px;
+	color: #BBB;
+}
+.file {
+	display: block;
+	position: relative;
+	width: 100px;
+	height: 100px;
+	margin: 0 0 26px 8%;
+	background: url(../img/user-ico.png) no-repeat 0/94px;
+	border: 3px solid #FFF;
+	box-shadow: 0 0 0 1px #CCC;
+	overflow: hidden;
+}
+.file img {
+	display: block;
+	position: absolute;
+	left: 50%;
+	width: auto;
+	height: 100px;
+	transform: translateX(-50%);
+}
+
+/*-------------------------
+	Edit user & pass
+--------------------------*/
+
+.form-main{
+	margin-top: 20px;
+}
+
+.edit-user header,
+.edit-pass header,
+.form-main header,
+.login header {
+	height: 80px;
+	margin-bottom: 26px;
+}
+.edit-user h1,
+.edit-pass h1,
+.form-main h1,
+.login h1 {
+	margin: 0 8% 20px 8%;
+	font-size: 24px;
+	font-weight: bold;
+	color: #333;
+}
+.edit-user .add-btn {
+	text-indent: 22px;
+}
+.edit-user .add-btn::before {
+	left: 22px;
+}
+
+/*-------------------------
+	Edit property
+--------------------------*/
+.form-main h2 {
+	line-height: 24px;
+	margin: 15px 0 10px 8%;
+	padding-left: 8px;
+	font-size: 22px;
+	font-weight: bold;
+	color: #333;
+	border-left: 6px solid #3A6E88;
+}
+
+.form-main h3 {
+	line-height: 24px;
+	margin: 12px 0 10px 8%;
+	padding-left: 8px;
+	font-size: 20px;
+	font-weight: bold;
+	color: #333;
+}
+
+.form-main p {
+	line-height: 24px;
+	margin: 12px 0 10px 8%;
+	padding-left: 8px;
+	padding-right: 30px;
+
+	font-size: 16px;
+
+	color: #333;
+}
+
+.form-main ul {
+	line-height: 24px;
+	margin: 12px 0 10px 8%;
+	padding-left: 8px;
+	padding-right: 8px;
+
+	font-size: 16px;
+
+	color: #333;
+}
+
+.form-main .bold{
+	font-weight: bold;
+}
+
+.form-main .alert{
+	color: #ff0000;
+}
+
+.form-main .inner{
+	margin: 0 8% 0 8%;
+	padding:0;
+}
+
+.form-main .bold2{
+	font-size: 20px;
+	font-weight: bold;
+	color: #666;
+}
+
+
+.form-main input[type=text],
+.form-main input[type=number],
+.form-main select {
+	width: calc(84% - 30px);
+	margin: 0 4px 18px 8%;
+}
+.form-main select {
+	height: 38px;
+	line-height: 38px;
+	padding: 0 8px;
+	font-size: 17px;
+	color: #BBB;
+	background: #FFF;
+	border: 1px solid #CCC;
+	border-radius: 3px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	ime-mode: disabled;
+}
+
+#sickOther{
+	margin: 0;
+}
+#beforeSickOther{
+	margin: 0;
+}
+#pillOther{
+	margin: 0;
+}
+
+
+select.short {
+	width: 24%;
+	margin: 0 4px 18px 8%;
+}
+select.short:not(:first-child) {
+	margin: 0 4px 18px 4px;
+}
+.radio {
+	line-height: 38px;
+	margin: -4px 8% 4px 8%;
+}
+.radio label:not(:first-child) {
+	margin-left: 18px;
+}
+.radio input[type=radio],
+.checkbox input[type=checkbox] {
+	position: relative;
+	top: 2px;
+	margin-right: 4px;
+}
+.checkbox {
+	line-height: 30px;
+	margin: 14px 8% 20px 8%;
+}
+.checkbox label {
+	display: block;
+}
+
+
+
+table , td, th {
+	width :78%;
+	margin: 0 8% 20px 8%;
+	border: 1px solid #595959;
+	border-collapse: collapse;
+}
+td, th {
+	padding: 3px;
+	width: 30px;
+	height: 25px;
+}
+th {
+	background: #f0e6cc;
+}
+.even {
+	background: #fbf8f0;
+}
+.odd {
+	background: #fefcf9;
+}
+
+.main_img {
+    width: 100%;
+    height: 157px;
+    background: url('../img/page/mainimg.jpg');
+}
+
+.img_block {
+
+	text-align:center;
+}
+
