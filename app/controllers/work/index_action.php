@@ -21,6 +21,7 @@ class WorkIndexAction extends Controller {
     $this->app->data['work_data'] = array();
     
     /* URL */
+    var_dump($this->app->route['route']);
     if(strcmp($this->app->route['route'], 'entrance') == 0){
       /**/
       $this->db->begin();
