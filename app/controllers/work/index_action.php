@@ -69,6 +69,7 @@ class WorkIndexAction extends Controller {
 	  $this->app->writeLog('work/index #1', 'failed to read data file.');
 	  $this->redirect('default:work.error');
 	}
+	$indexes = $this->PageModel->collectIndexes($pages);
 	if(empty($indexes)){
 	  $this->app->writeLog('work/index #2', 'failed to get page indexes.');
 	  $this->redirect('default:work.error');
