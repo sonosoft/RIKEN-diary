@@ -28,6 +28,20 @@ class MailModelFactory extends ModelFactory {
     return $this->one(array('where'=>'[code] = :code AND [status] = :enabled'), array('code'=>$code, 'enabled'=>STATUS_ENABLED));
   }
 
+  public function collectChoices($default=''){
+    $choices = array();
+    if(empty($default === false){
+      $choices[] = array('value'=>'', 'label'=>$default);
+    }
+    foreach($this->all(array('where'=>'[status] = :enabled', 'order'=>'[code] ASC'), array('enabled'=>STATUS_ENABLED)) as $record){
+      $choices[] = array(
+	'value'=>$record->id,
+	'label'=>'ML'.$record->code.':'.$record->title,
+      );
+    }
+    return $choices;
+  }
+    
   public function replace($src, $user, $dialy){
     $dst = str_replace('【氏名】', $user->family_name.' '.$user->first_name, $src);
     if($measurement !== null){
