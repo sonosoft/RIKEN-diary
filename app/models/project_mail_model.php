@@ -31,7 +31,7 @@ class ProjectMailModelFactory extends ModelFactory {
 	'where'=>'[project_id] = :project_id AND ,mail.status = :enabled',
 	'order'=>',mail.code ASC',
       ),
-      array('id'=>$id, 'enabled'=>STATUS_ENABLED)
+      array('project_id'=>$id, 'enabled'=>STATUS_ENABLED)
     );
   }
 }

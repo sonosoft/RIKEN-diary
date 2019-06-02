@@ -31,7 +31,7 @@ class ProjectDiaryModelFactory extends ModelFactory {
 	'where'=>'[project_id] = :project_id AND diary.status = :enabled',
 	'order'=>'diary.code ASC',
       ),
-      array('id'=>$id, 'enabled'=>STATUS_ENABLED)
+      array('project_id'=>$id, 'enabled'=>STATUS_ENABLED)
     );
   }
 }
