@@ -42,9 +42,7 @@ class AdminProjectSaveAction extends AdminProjectController {
       /**/
       $list = $this->ProjectDiaryModel->all(array('where'=>'[project_id] = :project_id'), array('project_id'=>$project->id));
       $ids = array();
-      var_dump($data['diaries']);
-      foreach($data['diaries'] as $diary){
-	var_dump($diary);
+      foreach($data['data_diaries'] as $diary){
 	$found = false;
 	foreach($list as $entry){
 	  if($entry->diary_id == $diary['id']){
@@ -53,7 +51,6 @@ class AdminProjectSaveAction extends AdminProjectController {
 	    break;
 	  }
 	}
-	var_dump($found);exit;
 	if($found === false){
 	  $pd = $this->ProjectDiaryModel->newModel();
 	  $pd->project_id = $project->id;
@@ -62,7 +59,6 @@ class AdminProjectSaveAction extends AdminProjectController {
 	  $ids[] = $pd->id;
 	}
       }
-      exit;
       $this->db->query(
 	'DELETE FROM project_diary WHERE id NOT IN :ids AND project_id = :project_id',
 	array('ids'=>$ids, 'project_id'=>$project->id)
@@ -70,7 +66,7 @@ class AdminProjectSaveAction extends AdminProjectController {
       /**/
       $list = $this->ProjectMailModel->all(array('where'=>'[project_id] = :project_id'), array('project_id'=>$project->id));
       $ids = array();
-      foreach($data['mails'] as $mail){
+      foreach($data['data_mails'] as $mail){
 	$found = false;
 	foreach($list as $entry){
 	  if($entry->mail_id == $mail['id']){
