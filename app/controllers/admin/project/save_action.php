@@ -42,6 +42,7 @@ class AdminProjectSaveAction extends AdminProjectController {
       /**/
       $list = $this->ProjectDiaryModel->all(array('where'=>'[project_id] = :project_id'), array('project_id'=>$project->id));
       $ids = array();
+      var_dump($data['diaries']);
       foreach($data['diaries'] as $diary){
 	$found = false;
 	foreach($list as $entry){
@@ -60,6 +61,7 @@ class AdminProjectSaveAction extends AdminProjectController {
 	  $ids[] = $pd->id;
 	}
       }
+      exit;
       $this->db->query(
 	'DELETE FROM project_diary WHERE id NOT IN :ids AND project_id = :project_id',
 	array('ids'=>$ids, 'project_id'=>$project->id)
@@ -106,7 +108,6 @@ class AdminProjectSaveAction extends AdminProjectController {
       }else{
 	/* 例外 */
 	$this->app->writeLog('admin/project/save', $e->getMessage());
-	$this->app->writeLog('admin/project/save', print_r(Eln_Database::$logs, true));
 	$this->redirect('default:admin/error.unexpected');
       }
     }
