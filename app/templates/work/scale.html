@@ -50,6 +50,22 @@
 $(function(){
     // [SCALE]
     var width = parseInt($("div#scale-base").width());
+    var half = parseInt((width - 2) / 2);
+    width = half * 2 + 3;
+    //
+    $("div#scale-base").width(width).height(width);
+    $("div#scale-q1").width(half).height(half).css( { right: 0 });
+    $("div#scale-q2").width(half).height(half);
+    $("div#scale-q3").width(half).height(half).css( { bottom: 0 });
+    $("div#scale-q4").width(half).height(half).css( { right: 0, bottom: 0 });
+
+    // [LABEL]
+    var ow = parseInt($("div#outer").width());
+    var oh = parseInt($("div#outer").height());
+    $("p#label-yp").css( { left: parseInt((ow - $("p#label-yp").width()) / 2), top: - parseInt($("p#label-yp").height() + 2) } );
+    $("p#label-yn").css( { left: parseInt((ow - $("p#label-yn").width()) / 2), top: parseInt(width + 2) } );
+    $("p#label-xp").css( { left: parseInt(width + $("p#label-xp").width() + 10), top: parseInt((oh - $("p#label-xp").height()) / 2) } );
+    $("p#label-xn").css( { left: 4, top: parseInt((oh - $("p#label-xn").height()) / 2 + 2) } );
     
     // [SCOPE]
     var image = parseInt($("img.scope").width());
