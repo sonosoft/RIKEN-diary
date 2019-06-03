@@ -13,6 +13,12 @@ $(function(){
     // datepicker.
     $("input.datepicker").datepicker();
 });
+function _escape(src){
+    return src.replace("\"", "&quot;");
+}
+function _unescape(src){
+    return src.replace("&quot;", "\"");
+}
 //]]>
 </script>
 <script eln:if="{count($errors) GT 0}">

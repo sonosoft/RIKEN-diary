@@ -131,26 +131,25 @@ function addDiary(){
 	    }
 	}
 	diaries.push({ id: diaryId, text: diaryText });
-	$("input[name='project[diaries]']").val(JSON.stringify(diaries));
+	$("input[name='project[diaries]']").val(_escape(JSON.stringify(diaries)));
 	reloadDiaries();
     }
 }
 function deleteDiary(element){
     // delete.
     var diaryId = $(element).data("diary");
-    var diariesOrg = JSON.parse($("input[name='project[diaries]']").val());
+    var diariesOrg = JSON.parse(_unescape($("input[name='project[diaries]']").val()));
     var diariesNew = [];
     for(var i = 0; i < diariesOrg.length; ++ i){
 	if(diariesOrg[i].id != diaryId){
 	    diariesNew.push(diariesOrg[i]);
 	}
     }
-    $("input[name='project[diaries]']").val(JSON.stringify(diaries));
+    $("input[name='project[diaries]']").val(_escape(JSON.stringify(diaries)));
     reloadDiaries();
 }
 function reloadDiaries(){
-    var diaries = JSON.parse($("input[name='project[diaries]']").val().replace("&quot;", "\""));
-    alert(diaries[0].id + "/" + diaries[0].text);
+    var diaries = JSON.parse(_unescape($("input[name='project[diaries]']").val()));
     $("ul#diary-list").html("");
     for(var i = 0; i < diaries.length; ++ i){
 	$("ul#diary-list").append(
@@ -178,32 +177,32 @@ function addMail(){
     var mailId = $("select[name='mail'] option:selected").val();
     if(mailId.length > 0){
 	var mailText = $("select[name='mail'] option:selected").text();
-	var mails = JSON.parse($("input[name='project[mails]']").val());
+	var mails = JSON.parse(_unescape($("input[name='project[mails]']").val()));
 	for(var i = 0; i < mails.length; ++ i){
 	    if(mails[i].id == mailId){
 		return;
 	    }
 	}
 	mails.push({ id: mailId, text: mailText });
-	$("input[name='project[mails]']").val(JSON.stringify(mails));
+	$("input[name='project[mails]']").val(_escape(JSON.stringify(mails)));
 	reloadMails();
     }
 }
 function deleteMail(element){
     // delete.
     var mailId = $(element).data("mail");
-    var mailsOrg = JSON.parse($("input[name='project[mails]']").val());
+    var mailsOrg = JSON.parse(_unescape($("input[name='project[mails]']").val()));
     var mailsNew = [];
     for(var i = 0; i < mailsOrg.length; ++ i){
 	if(mailsOrg[i].id != mailId){
 	    mailsNew.push(mailsOrg[i]);
 	}
     }
-    $("input[name='project[mails]']").val(JSON.stringify(mails));
+    $("input[name='project[mails]']").val(_escape(JSON.stringify(mails)));
     reloadMails();
 }
 function reloadMails(){
-    var mails = JSON.parse($("input[name='project[mails]']").val());
+    var mails = JSON.parse(_unescape($("input[name='project[mails]']").val()));
     $("ul#mail-list").html("");
     for(var i = 0; i < mails.length; ++ i){
 	$("ul#mail-list").append(

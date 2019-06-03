@@ -25,13 +25,13 @@ class AdminProjectFormAction extends AdminProjectController {
       /**/
       $diaries = array();
       foreach($this->ProjectDiaryModel->getByProject($project->id) as $record){
-	$diaries[] = array('id'=>$record->id, 'text'=>$record->tos);
+	$diaries[] = array('id'=>$record->diary->id, 'text'=>$record->diary->tos);
       }
       $this->app->data['project']['diaries'] = json_encode($diaries);
       /**/
       $mails = array();
       foreach($this->ProjectMailModel->getByProject($project->id) as $record){
-	$mails[] = array('id'=>$record->id, 'text'=>$record->tos);
+	$mails[] = array('id'=>$record->mail->id, 'text'=>$record->mail->tos);
       }
       $this->app->data['project']['mails'] = json_encode($mails);
     }else{
