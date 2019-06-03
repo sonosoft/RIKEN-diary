@@ -78,9 +78,12 @@ canvas.time {
 }
 
 /**/
+div.scale-container {
+    max-width: 650px !important;
+    margin: 0 auto;
+}
 div.outer {
     position: relative;
-    max-width: 650px;
 }
 p.label-x {
     font-size: 18px;
