@@ -149,7 +149,7 @@ function deleteDiary(element){
     reloadDiaries();
 }
 function reloadDiaries(){
-    var diaries = JSON.parse($("input[name='project[diaries]']").val());
+    var diaries = JSON.parse($("input[name='project[diaries]']").val().replace("&quot;", "\""));
     $("ul#diary-list").html("");
     for(var i = 0; i < diaries.length; ++ i){
 	$("ul#diary-list").append(
