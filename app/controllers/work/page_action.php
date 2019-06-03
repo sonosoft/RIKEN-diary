@@ -38,6 +38,10 @@ class WorkPageAction extends WorkController {
     if(isset($pages[$this->visit->page]) === false){
       $this->redirect('default:work.error');
     }
+    if(($scale = $this->PageModel->getScale($pages[$this->visit->page])) !== false){
+      $this->app->data['scale'] = $scale;
+      return 'work/scale';
+    }
     list($this->app->data['rows'], $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
     
     /**/

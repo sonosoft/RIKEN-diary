@@ -27,7 +27,15 @@ class PageModelFactory extends Eln_Object {
 
   public function getScale($page){
     if(isset($page['type']) && strcmp($page['type'], 'scale') == 0){
-      $scale = array('title'=>'', 'xpos'=>'', 'xneg'=>'', 'ypos'=>'', 'yneg'=>'');
+      $scale = array(
+	'name'=>strval($page['name']),
+	'header'=>strval($page['header']),
+	'title'=>'',
+	'xpos'=>'',
+	'xneg'=>'',
+	'ypos'=>'',
+	'yneg'=>'',
+      );
       foreach($page->title as $title){
 	$scale['title'] = $title;
       }

@@ -14,22 +14,29 @@ class WorkSendAction extends WorkController {
    */
   public function action(){
     /**/
-    $this->useModel('Page', 'Inquiry');
+    $this->useModel('Page', 'Answer');
 
     /* データ */
-    if($this->session === null){
-      $this->app->writeLog('work/send #1', 'invalid session.');
+    $diaries = array();
+    $time = $this->visit->started_at->hour * 100 + $this->visit->started_at->minute;
+    foreach($this->ProjectDiaryModel->getByProject($this->visit->project_id) as $entry){
+      if($entry->diary->from_time <= $time && $entry->diary->to_time >= $time){
+	$diaries[] = $entry->diary;
+      }
+    }
+    if(($pages = $this->PageModel->load($diaries)) === null){
+      $this->app->writeLog('work/send #1', 'failed to read data file.');
       $this->redirect('default:work.error');
     }
-    if(($pages = $this->PageModel->load($this->session->system)) === null){
-      $this->app->writeLog('work/send #1', 'failed to load pages.');
+    if(isset($pages[$this->visit->page]) === false){
+      $this->app->writeLog('work/send #2', 'invalid visit page.');
       $this->redirect('default:work.error');
     }
-    if(isset($pages[$this->session->page]) === false){
-      $this->app->writeLog('work/send #1', 'invalid session page.');
-      $this->redirect('default:work.error');
+    if(($scale = $this->PageModel->getScale($pages[$this->visit->page])) !== false){
+      $names = array(array($scale['header'], $scale['name'], false));
+    }else{
+      list($rows, $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
     }
-    list($rows, $names, $values) = $this->PageModel->convert($pages[$this->session->page]);
 
     /* トランザクション */
     $this->db->begin();
@@ -37,71 +44,68 @@ class WorkSendAction extends WorkController {
     /**/
     try{
       /* 保存 */
-      $inquiries = array();
-      foreach($this->InquiryModel->collectByPage($this->user, $this->session, $this->session->page) as $record){
-	$inquiries[$record->name] = $record;
+      $answers = array();
+      foreach($this->AnswerModel->collectByPage($this->user, $this->visit, $this->visit->page) as $record){
+	$answers[$record->name] = $record;
       }
       /**/
-      $sequence = 1;
       foreach($names as $entry){
-	$this->saveInquiry($inquiries, $sequence, $entry);
-	++ $sequence;
+	$this->saveAnswer($answers, $entry);
       }
       
       /* ページ */
-      $direction = $this->app->readRequest('inquiry.direction', 0);
+      $direction = $this->app->readRequest('answer.direction', 0);
       if($direction == DIRECTION_NEXT){
 	/**/
 	$indexes = $this->PageModel->collectIndexes($pages);
 	$curr = -1;
 	foreach($indexes as $i=>$index){
-	  if($index == $this->session->page){
+	  if($index == $this->visit->page){
 	    $curr = $i;
 	    break;
 	  }
 	}
 	if($curr < 0){
 	  /* エラー */
-	  $this->app->writeLog('work/send #2', 'invalid session page.');
+	  $this->app->writeLog('work/send #3', 'invalid visit page.');
 	  $this->redirect('default:work.error');
 	}else if(isset($indexes[$curr + 1]) === false){
 	  /* 終了 */
-	  $this->session->finished_at = $this->app->data['_now_'];
+	  $this->visit->finished_at = $this->app->data['_now_'];
 	}else{
 	  /* 次のページ */
-	  $this->session->target = $pages[$indexes[$curr + 1]]['target'];
-	  $this->session->page = $indexes[$curr + 1];
+	  $this->visit->target = $pages[$indexes[$curr + 1]]['target'];
+	  $this->visit->page = $indexes[$curr + 1];
 	}
       }else if($direction == DIRECTION_PREV){
 	/**/
 	$indexes = $this->PageModel->collectIndexes($pages);
 	$curr = -1;
 	foreach($indexes as $i=>$index){
-	  if($index == $this->session->page){
+	  if($index == $this->visit->page){
 	    $curr = $i;
 	    break;
 	  }
 	}
 	if($curr < 0){
 	  /* エラー */
-	  $this->app->writeLog('work/send #3', 'invalid session page.');
+	  $this->app->writeLog('work/send #3', 'invalid visit page.');
 	  $this->redirect('default:work.error');
 	}else if(isset($indexes[$curr - 1]) === false){
 	  /* エラー */
-	  $this->app->writeLog('work/send #3', 'invalid session page.');
+	  $this->app->writeLog('work/send #3', 'invalid visit page.');
 	  $this->redirect('default:work.error');
 	}else{
 	  /* 前のページ */
-	  $this->session->target = $pages[$indexes[$curr - 1]]['target'];
-	  $this->session->page = $indexes[$curr - 1];
+	  $this->visit->page = $indexes[$curr - 1];
 	}
       }else{
 	/* エラー */
 	$this->app->writeLog('work/send #4', 'invalid page direction.');
 	$this->redirect('default:work.error');
       }
-      $this->session->accessed_at = $this->app->data['_now_'];
-      $this->session->save();
+      $this->visit->accessed_at = $this->app->data['_now_'];
+      $this->visit->save();
 
       /* コミット */
       $this->db->commit();
@@ -121,20 +125,7 @@ class WorkSendAction extends WorkController {
     }
     
     /**/
-    if($this->session->finished_at !== null){
-      if($this->user->code !== null && $this->user->token !== null){
-	$this->db->begin();
-	try{
-	  $this->db->query(
-	    'UPDATE applicants SET isSentQuestionnaire = 1 WHERE userID = :code AND randomString = :token',
-	    array('code'=>$this->user->code, 'token'=>$this->user->token)
-	  );
-	  $this->db->commit();
-	}catch(Exception $e){
-	  $this->db->rollback();
-	  $this->app->writeLog('work/send', $e->getMessage());
-	}
-      }
+    if($this->visit->finished_at !== null){
       $this->redirect('default:work.finish');
     }
     $this->redirect('default:work.page');
@@ -142,9 +133,9 @@ class WorkSendAction extends WorkController {
 
   /* ===== ===== */
 
-  private function saveInquiry($inquiries, $sequence, $item){
+  private function saveAnswer($answers, $item){
     /**/
-    $value = $this->app->readRequest('inquiry.'.$item[1]);
+    $value = $this->app->readRequest('answer.'.$item[1]);
     $listed = 0;
     if(is_array($value)){
       if(empty($value)){
@@ -154,21 +145,19 @@ class WorkSendAction extends WorkController {
       }
       $listed = 1;
     }
-    if(isset($inquiries[$item[1]])){
-      $inquiry = $inquiries[$item[1]];
+    if(isset($answers[$item[1]])){
+      $answer = $answers[$item[1]];
     }else{
-      $inquiry = $this->InquiryModel->newModel();
-      $inquiry->user_id = $this->user->id;
-      $inquiry->session_id = $this->session->id;
-      $inquiry->target = $this->session->target;
-      $inquiry->page = $this->session->page;
+      $answer = $this->AnswerModel->newModel();
+      $answer->user_id = $this->user->id;
+      $answer->visit_id = $this->visit->id;
+      $answer->page = $this->visit->page;
     }
-    $inquiry->sequence = $sequence;
-    $inquiry->header = $item[0];
-    $inquiry->name = $item[1];
-    $inquiry->value = $value;
-    $inquiry->listed = $listed;
-    $inquiry->registered_at = $this->app->data['_now_'];
-    $inquiry->save();
+    $answer->header = $item[0];
+    $answer->name = $item[1];
+    $answer->value = $value;
+    $answer->listed = $listed;
+    $answer->answered_at = $this->app->data['_now_'];
+    $answer->save();
   }
 }

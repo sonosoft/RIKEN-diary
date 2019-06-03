@@ -40,6 +40,9 @@ define('MAIL_DATE', 4);
 /**/
 define('SEX_MALE', 1);
 define('SEX_FEMALE', 2);
+/**/
+define('DIRECTION_NEXT', 1);
+define('DIRECTION_PREV', 2);
 
 /*
  * メール設定

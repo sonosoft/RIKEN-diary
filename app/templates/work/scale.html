@@ -12,12 +12,12 @@
 <!-- /user -->
 
 <!-- scale -->
-<div class="title text-center">{$title}</div>
+<div class="title text-center">{$scale.title}</div>
 <div id="outer" class="outer">
-  <p id="label-xp" class="label-x">{$xpos}</p>
-  <p id="label-xn" class="label-x">{$xneg}</p>
-  <p id="label-yp" class="label-y">{$ypos}</p>
-  <p id="label-yn" class="label-y">{$yneg}</p>
+  <p id="label-xp" class="label-x">{$scale.xpos}</p>
+  <p id="label-xn" class="label-x">{$scale.xneg}</p>
+  <p id="label-yp" class="label-y">{$scale.ypos}</p>
+  <p id="label-yn" class="label-y">{$scale.yneg}</p>
   <div id="scale-base" class="scale-square scale-base">
     <div id="scale-q1" class="scale-square scale-quadrant"></div>
     <div id="scale-q2" class="scale-square scale-quadrant"></div>
@@ -28,15 +28,9 @@
 </div>
 
 <form action="{eln:uri('default:work.send')}" method="post">
-  <div class="checkbox aha" eln:if="{$_aha_}">
-    <label>
-      <input type="checkbox" name="sample[aha]" value="1">
-      AHA体験があった
-    </label>
-  </div>
-  <input type="hidden" name="sample[x]">
-  <input type="hidden" name="sample[y]">
-  <input type="hidden" name="sample[page]">
+  <input type="hidden" name="answer[{$scale.name}_x]">
+  <input type="hidden" name="answer[{$scale.name}_y]">
+  <input type="hidden" name="answer[direction]">
   <div class="row cols-xs-12 text-center">
     <button class="btn btn-lg btn-default prev" type="button">戻る</button>
     <button class="btn btn-lg btn-default next" type="button">次へ</button>
@@ -93,7 +87,18 @@ $(function(){
 	pressed = 0;
     });
     onMoveScope(score, width, image);
-    $("button.submit").prop("disabled", true).addClass("disabled");
+    $("button.next").prop("disabled", true).addClass("disabled");
+
+    // [NEXT/PREV]
+    $("button.next").on("click", function(){
+	$("button.next").addClass("disabled").prop("disabled", true);
+	$("input[name='answer[direction]']").val({DIRECTION_NEXT});
+	$("form").submit();
+    });
+    $("button.prev").on("click", function(){
+	$("input[name='answer[direction]']").val({DIRECTION_PREV});
+	$("form").submit();
+    });
 });
 //
 function getScore(event, width, offset, isTouch){
@@ -123,9 +128,9 @@ function onMoveScope(score, field, scope){
 	left: parseInt(((score.x + 100) / 100) * (field / 2) - (scope / 2)),
 	top: parseInt(((100 - score.y) / 100) * (field / 2) - (scope / 2))
     });
-    $("input[name='sample[x]']").val(parseInt(Math.round(score.x * 100)));
-    $("input[name='sample[y]']").val(parseInt(Math.round(score.y * 100)));
-    $("button.submit").prop("disabled", false).removeClass("disabled");
+    $("input[name='answer[{$scale.name}_x]']").val(parseInt(Math.round(score.x * 100)));
+    $("input[name='answer[{$scale.name}_y]']").val(parseInt(Math.round(score.y * 100)));
+    $("button.next").prop("disabled", false).removeClass("disabled");
 }
 //]]>
 </script>

@@ -13,6 +13,7 @@ body {
 .mT25 { margin-top: 25px; }
 .mT30 { margin-top: 30px; }
 .mT40 { margin-top: 40px; }
+.mT50 { margin-top: 50px; }
 .mT80 { margin-top: 80px; }
 .mB3 { margin-bottom: 3px; }
 .mB5 { margin-bottom: 5px; }
@@ -21,6 +22,7 @@ body {
 .mB25 { margin-bottom: 25px; }
 .mB30 { margin-bottom: 30px; }
 .mB40 { margin-bottom: 40px; }
+.mB50 { margin-bottom: 50px; }
 .mR5 { margin-right: 5px; }
 .mR10 { margin-right: 10px; }
 
@@ -73,6 +75,45 @@ label.time {
 }
 canvas.time {
     margin-left: -15px;
+}
+
+/**/
+div.outer {
+    position: relative;
+}
+p.label-x {
+    font-size: 18px;
+    writing-mode: vertical-rl;
+    -moz-writing-mode: vertical-rl;
+    -o-writing-mode: vertical-rl;
+    -webkit-writing-mode: vertical-rl;
+    -ms-writing-mode: tb-rl;
+    position: absolute;
+}
+p.label-y {
+    font-size: 18px;
+    margin: 0 auto 4px;
+    position: absolute;
+}
+div.scale-square {
+    border: 1px solid #9d9c9a;
+    background: #fffef0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+}
+div.scale-base {
+    margin: 20px 30px;
+    position: relative;
+}
+div.scale-quadrant {
+    position: absolute;
+}
+img.scope {
+    position: absolute;
+    width: 72px;
+    height: 72px;
 }
 
 /**/
