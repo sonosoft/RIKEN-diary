@@ -80,6 +80,7 @@ canvas.time {
 /**/
 div.outer {
     position: relative;
+    max-width: 650px;
 }
 p.label-x {
     font-size: 18px;
