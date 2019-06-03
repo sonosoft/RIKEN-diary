@@ -77,6 +77,7 @@ class WorkIndexAction extends Controller {
 	  $this->app->writeLog('work/index #2', 'failed to get page indexes.');
 	  $this->redirect('default:work.error');
 	}
+	$this->app->data['numPages'] = count($indexes);
 
 	/* 訪問 */
 	$visit = $this->VisitModel->newModel();

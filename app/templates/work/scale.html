@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head eln:include="work/head.html"></head>
+
+<body>
+
+<!-- container -->
+<div class="container mT40 mB20">
+
+<!-- user -->
+<p class="text-right">ID: {$user.code}</p>
+<!-- /user -->
+
+<!-- scale -->
+<div class="title text-center">{$title}</div>
+<div id="outer" class="outer">
+  <p id="label-xp" class="label-x">{$xpos}</p>
+  <p id="label-xn" class="label-x">{$xneg}</p>
+  <p id="label-yp" class="label-y">{$ypos}</p>
+  <p id="label-yn" class="label-y">{$yneg}</p>
+  <div id="scale-base" class="scale-square scale-base">
+    <div id="scale-q1" class="scale-square scale-quadrant"></div>
+    <div id="scale-q2" class="scale-square scale-quadrant"></div>
+    <div id="scale-q3" class="scale-square scale-quadrant"></div>
+    <div id="scale-q4" class="scale-square scale-quadrant"></div>
+    <img src="{eln:path('img/scope.png')}" class="scope" />
+  </div>
+</div>
+
+<form action="{eln:uri('default:work.send')}" method="post">
+  <div class="checkbox aha" eln:if="{$_aha_}">
+    <label>
+      <input type="checkbox" name="sample[aha]" value="1">
+      AHA体験があった
+    </label>
+  </div>
+  <input type="hidden" name="sample[x]">
+  <input type="hidden" name="sample[y]">
+  <input type="hidden" name="sample[page]">
+  <div class="row cols-xs-12 text-center">
+    <button class="btn btn-lg btn-default prev" type="button">戻る</button>
+    <button class="btn btn-lg btn-default next" type="button">次へ</button>
+  </div>
+</form>
+
+<div id="scale-screen"></div>
+
+</div>
+<!-- /container -->
+
+<eln:tag eln:include="work/foot.html"></eln:tag>
+<script>
+//<![CDATA[
+$(function(){
+    // [SCALE]
+    var width = parseInt($("div#scale-base").width());
+    
+    // [SCOPE]
+    var image = parseInt($("img.scope").width());
+
+    // [MOTION]
+    var keyStart, keyMove, keyEnd;
+    var isTouch;
+    if("ontouchstart" in window){
+	keyStart = "touchstart";
+	keyMove = "touchmove";
+	keyEnd = "touchend";
+	isTouch = true;
+    }else{
+	keyStart = "mousedown";
+	keyMove = "mousemove";
+	keyEnd = "mouseup";
+	isTouch = false;
+    }
+    var score = { x: 0.0, y: 0.0, s: 1 };
+    var offset = $("div#scale-base").offset();
+    var pressed = 0;
+    $("div#scale-base").bind(keyStart, function(e){
+	e.preventDefault();
+	score = getScore(e, width, offset, isTouch);
+	onMoveScope(score, width, image);
+	pressed = 1;
+    });
+    $("div#scale-base").bind(keyMove, function(e){
+	if(pressed){
+	    e.preventDefault();
+	    score = getScore(e, width, offset, isTouch);
+	    onMoveScope(score, width, image);
+	    pressed = score.s;
+	}
+    });
+    $("div#scale-base").bind(keyEnd, function(e){
+	pressed = 0;
+    });
+    onMoveScope(score, width, image);
+    $("button.submit").prop("disabled", true).addClass("disabled");
+});
+//
+function getScore(event, width, offset, isTouch){
+    var score = { s: 1 };
+    var eventX, eventY;
+    if(isTouch){
+	eventX = event.originalEvent.changedTouches[0].pageX;
+	eventY = event.originalEvent.changedTouches[0].pageY;
+    }else{
+	eventX = event.pageX;
+	eventY = event.pageY;
+    }
+    score.x = (((eventX - offset.left) - (width / 2)) / (width / 2)) * 100;
+    if(score.x < -100 || score.x > 100){
+	score.x = Math.max(Math.min(score.x, 100), -100);
+	score.s = 0;
+    }
+    score.y = (((width / 2) - (eventY - offset.top)) / (width / 2)) * 100;
+    if(score.y < -100 || score.y > 100){
+	score.y = Math.max(Math.min(score.y, 100), -100);
+	score.s = 0;
+    }
+    return score;
+}
+function onMoveScope(score, field, scope){
+    $("img.scope").css( {
+	left: parseInt(((score.x + 100) / 100) * (field / 2) - (scope / 2)),
+	top: parseInt(((100 - score.y) / 100) * (field / 2) - (scope / 2))
+    });
+    $("input[name='sample[x]']").val(parseInt(Math.round(score.x * 100)));
+    $("input[name='sample[y]']").val(parseInt(Math.round(score.y * 100)));
+    $("button.submit").prop("disabled", false).removeClass("disabled");
+}
+//]]>
+</script>
+</body>
+</html>

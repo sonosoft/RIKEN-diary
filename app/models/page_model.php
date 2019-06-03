@@ -25,6 +25,30 @@ class PageModelFactory extends Eln_Object {
     return $pages;
   }
 
+  public function getScale($page){
+    if(isset($page['type']) && strcmp($page['type'], 'scale') == 0){
+      $scale = array('title'=>'', 'xpos'=>'', 'xneg'=>'', 'ypos'=>'', 'yneg'=>'');
+      foreach($page->title as $title){
+	$scale['title'] = $title;
+      }
+      foreach($page->label as $label){
+	if(isset($label['position'])){
+	  if(strcmp($label['position'], 'x-positive') == 0){
+	    $scale['xpos'] = strval($label);
+	  }else if(strcmp($label['position'], 'x-negative') == 0){
+	    $scale['xneg'] = strval($label);
+	  }else if(strcmp($label['position'], 'y-positive') == 0){
+	    $scale['ypos'] = strval($label);
+	  }else if(strcmp($label['position'], 'y-negative') == 0){
+	    $scale['yneg'] = strval($label);
+	  }
+	}
+      }
+      return $scale;
+    }
+    return false;
+  }
+  
   public function convert($page){
     $rows = array();
     $names = array();

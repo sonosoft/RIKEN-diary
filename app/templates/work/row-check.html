@@ -3,7 +3,7 @@
     <!-- [check] -->
     <div class="col-xs-{$item.width} mB3" eln:if="{$item.type EQ 'check'}">
       <label class="checkbox-inline">
-	<input type="checkbox" name="inquiry[{$item.name}][]" value="{$item.value}" id="{$item.id}" class="{$item.ex}" data-relation="{$item.enableIf}">
+	<input type="checkbox" name="answer[{$item.name}][]" value="{$item.value}" id="{$item.id}" class="{$item.ex}" data-relation="{$item.enableIf}">
 	{$item.text}
       </label>
     </div>

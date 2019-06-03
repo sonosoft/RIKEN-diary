@@ -7,7 +7,7 @@
     <!-- [addition] -->
     <p class="addition" eln:if="{$item.type EQ 'addition'}">{$item.text}</p>
     <!-- [text] -->
-    <input type="text" name="inquiry[{$item.name}]" id="{$item.id}" class="form-control {$item.ex}" data-relation="{$item.enableIf}" eln:if="{$item.type EQ 'text'}">
+    <input type="text" name="answer[{$item.name}]" id="{$item.id}" class="form-control {$item.ex}" data-relation="{$item.enableIf}" eln:if="{$item.type EQ 'text'}">
     <!-- [timeline] -->
     <eln:tag eln:include="work/item-timeline.html" eln:if="{$item.type EQ 'timeline'}"></eln:tag>
     <!-- [source] -->

@@ -7,7 +7,7 @@
       <div class="col-xs-12 col-sm-{$item.width} form-inline {$item.ex}" data-relation="{$item.enableIf}" eln:if="{$item.type EQ 'inline'}">
 	<eln:tag eln:foreach="$inline:{$item.inline}">
 	  <!-- [text] -->
-	  <input type="text" name="inquiry[{$inline.name}]" id="{$item.id}" class="form-control inline-5 {$inline.ex}" data-relation="{$inline.enableIf}" eln:if="{$inline.type EQ 'text'}">
+	  <input type="text" name="answer[{$inline.name}]" id="{$item.id}" class="form-control inline-5 {$inline.ex}" data-relation="{$inline.enableIf}" eln:if="{$inline.type EQ 'text'}">
 	  <!-- [number] -->
 	  <div id="{$inline.id}" class="input-group inline-5 {$inline.ex}" data-relation="{$inline.enableIf}" eln:if="{$inline.type EQ 'number'}">
 	    <span class="input-group-btn">
@@ -15,7 +15,7 @@
 		<span class="glyphicon glyphicon-minus"></span>
 	      </button>
 	    </span>
-	    <input type="text" name="inquiry[{$inline.name}]" class="form-control inline-number" data-min="{$inline.minValue}" data-max="{$inline.maxValue}">
+	    <input type="text" name="answer[{$inline.name}]" class="form-control inline-number" data-min="{$inline.minValue}" data-max="{$inline.maxValue}">
 	    <span class="input-group-btn">
 	      <button class="btn btn-default n-plus" type="button" data-target="{$inline.name}" data-step="{$inline.stepValue}">
 		<span class="glyphicon glyphicon-plus"></span>
@@ -25,16 +25,16 @@
 	  <!-- [date] -->
 	  <div class="input-group inline-5" eln:if="{$inline.type EQ 'date'}">
 	    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-	    <input type="text" name="inquiry[{$inline.name}]" id="{$inline.id}" class="form-control datepicker {$inline.ex}" data-relation="{$inline.enableIf}">
+	    <input type="text" name="answer[{$inline.name}]" id="{$inline.id}" class="form-control datepicker {$inline.ex}" data-relation="{$inline.enableIf}">
 	  </div>
 	  <!-- [radio] -->
 	  <label class="radio-inline inline-10" eln:if="{$inline.type EQ 'radio'}">
-	    <input type="radio" name="inquiry[{$inline.name}]" value="{$inline.value}" id="{$inline.id}" class="{$inline.ex}" data-relation="{$inline.enableIf}">
+	    <input type="radio" name="answer[{$inline.name}]" value="{$inline.value}" id="{$inline.id}" class="{$inline.ex}" data-relation="{$inline.enableIf}">
 	    {$inline.text}
 	  </label>
 	  <!-- [check] -->
 	  <label class="checkbox-inline inline-10" eln:if="{$inline.type EQ 'check'}">
-	    <input type="checkbox" name="inquiry[{$inline.name}][]" value="{$inline.value}" id="{$inline.id}" class="{$inline.ex}" data-relation="{$inline.enableIf}">
+	    <input type="checkbox" name="answer[{$inline.name}][]" value="{$inline.value}" id="{$inline.id}" class="{$inline.ex}" data-relation="{$inline.enableIf}">
 	    {$inline.text}
 	  </label>
 	  <!-- [label] -->

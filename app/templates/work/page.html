@@ -24,13 +24,10 @@
 	  <button class="btn btn-lg btn-default prev" type="button">戻る</button>
 	  <button class="btn btn-lg btn-default next" type="button">次へ</button>
 	</div>
-	<div class="col-xs-12 text-center">
-	  <p class="help-block">途中でやめても、最初のURLにアクセスしていただくと、次回続きから始めることができます。</p>
-	</div>
       </div>
     </div>
   </div>
-  <input type="hidden" name="inquiry[direction]">
+  <input type="hidden" name="answer[direction]">
 </form>
 <!-- /form -->
 
@@ -40,7 +37,7 @@
 <eln:tag eln:include="work/foot.html"></eln:tag>
 <script>
 //<![CDATA[
-var pageData = {json_encode($inquiry)|raw};
+var pageData = {json_encode($answer)|raw};
 $(function(){
     // [PLUS/MINUS]
     $(".n-minus").on("click", function(){
@@ -66,7 +63,7 @@ $(function(){
     $("a.choice").on("click", function(){
 	$("a.choice", $(this).parent()).removeClass("active");
 	$(this).addClass("active");
-	$("input[name='inquiry[" + $(this).data("name") + "]']").val($(this).data("value"));
+	$("input[name='answer[" + $(this).data("name") + "]']").val($(this).data("value"));
 	validateRelations();
 	validatePage();
 	return false;
@@ -118,11 +115,11 @@ $(function(){
     // [NEXT/PREV]
     $("button.next").on("click", function(){
 	$("button.next").addClass("disabled").prop("disabled", true);
-	$("input[name='inquiry[direction]']").val({DIRECTION_NEXT});
+	$("input[name='answer[direction]']").val({DIRECTION_NEXT});
 	$("form").submit();
     });
     $("button.prev").on("click", function(){
-	$("input[name='inquiry[direction]']").val({DIRECTION_PREV});
+	$("input[name='answer[direction]']").val({DIRECTION_PREV});
 	$("form").submit();
     });
 
@@ -139,7 +136,7 @@ $(function(){
     validatePage();
 });
 function modifyNumber(target, step, pm){
-    var name = "inquiry[" + target + "]";
+    var name = "answer[" + target + "]";
     var value = parseInt($("input[name='" + name + "']").val());
     if(!isNaN(value)){
 	var min = parseInt($("input[name='" + name + "']").data("min"));
@@ -254,10 +251,10 @@ function validateRelations(){
 function validatePage(){
     var isValid = true;
     for(var name in pageData){
-	var text = $("input[type=text][name='inquiry[" + name + "]']");
-	var radio = $("input[type=radio][name='inquiry[" + name + "]']");
-	var check = $("input[type=check][name='inquiry[" + name + "][]']");
-	var hidden = $("input[type=hidden][name='inquiry[" + name + "]']");
+	var text = $("input[type=text][name='answer[" + name + "]']");
+	var radio = $("input[type=radio][name='answer[" + name + "]']");
+	var check = $("input[type=check][name='answer[" + name + "][]']");
+	var hidden = $("input[type=hidden][name='answer[" + name + "]']");
 	if(text.length > 0){
 	    if(!text.hasClass("optional") && !text.hasClass("disabled") && text.val().length == 0){
 		isValid = false;
