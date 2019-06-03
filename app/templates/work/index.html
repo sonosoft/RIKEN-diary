@@ -8,42 +8,36 @@
 <div class="container mT40 mB20">
 
 <!-- form -->
-<form class="form-horizontal" role="form" action="{eln:uri('default:work.start')}" method="post">
-  <div class="panel panel-success">
-    <div class="panel-heading"><h3>日誌</h3></div>
-    <div class="panel-body">
-      <p class="lead">
-	この質問票は、皆さまの疲労・うつと生活習慣を調べるためのものです。<br>
-	あなたについての質問、疲労についての質問、生活・ストレス・睡眠等についての質問にお答えください。
-      </p>
-      <p id="index-note">
-	この質問票にご記入いただくことで、試験運用に参加することを同意されたものとみなします。<br>
-	質問に答えないと先に進めないシステムになっております。<br>
-	あなたのお名前などの個人情報及び個人が特定される形でデータが公表されることはありません。
-      </p>
-      <div class="form-group">
-	<label class="col-xs-12 col-sm-6 control-label">ユーザID</label>
-	<div class="col-xs-12 col-sm-6">
-	  <p class="form-control-static">{$user.code}</p>
-	</div>
+<div class="panel panel-success">
+  <div class="panel-heading"><h3>日誌</h3></div>
+  <div class="panel-body">
+    <p class="lead">
+      {eln:date($_today_, '%Y年%m月%d日（%a） %H時%M分')}<br>
+      {$project.title}の日誌です。<br>
+      何か説明文を表示？<br>
+    </p>
+    <p id="index-note">
+      あなたのお名前などの個人情報及び個人が特定される形でデータが公表されることはありません。
+    </p>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-6 control-label">ユーザID</label>
+      <div class="col-xs-12 col-sm-6">
+	<p class="form-control-static">{$user.code}</p>
       </div>
-      <div id="index-done" eln:if="{$is_done}">
-	<h4 class="text-danger">{$is_done}にすでに回答を終了されています。再度の入力をご希望の場合は下のボタンから先へお進みください。</h4>
+    </div>
+    <div class="row button" style="display:none;">
+      <div class="col-xs-12 text-center">
+	<a href="{eln:uri('default:work.page')}" class="btn btn-lg btn-default">同意して先に進む</button>
       </div>
-      <div class="row button" style="display:none;">
-	<div class="col-xs-12 text-center">
-	  <button class="btn btn-lg btn-default" type="submit">同意して先に進む</button>
-	</div>
-      </div>
-      <div class="row">
-	<div class="col-xs-12">
-	  <p class="no-script">※この質問票はJavaScriptを使用します。お使いのブラウザのJavaScriptを有効にしてください。</p>
-	  <p class="no-cookie">※この質問票はcookieを使用します。お使いのブラウザのcookieを有効にしてください。</p>
-	</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+	<p class="no-script">※この質問票はJavaScriptを使用します。お使いのブラウザのJavaScriptを有効にしてください。</p>
+	<p class="no-cookie">※この質問票はcookieを使用します。お使いのブラウザのcookieを有効にしてください。</p>
       </div>
     </div>
   </div>
-</form>
+</div>
 <!-- /form -->
 
 </div>

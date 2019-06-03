@@ -52,7 +52,10 @@ class WorkIndexAction extends Controller {
 	  $this->db->rollback();
 	  return 'work/error/out_of_date';
 	}
-
+	/**/
+	$this->app->data['user'] = $user;
+	$this->app->data['project'] = $project;
+	
 	/* 日誌 */
 	$diaries = array();
 	$now = $this->app->data['_now_']->hour * 100 + $this->app->data['_now_']->minute;
@@ -104,6 +107,6 @@ class WorkIndexAction extends Controller {
     }
     
     /**/
-    $this->redirect('default:work.page');
+    return 'work/index';
   }
 }

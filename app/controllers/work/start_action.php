@@ -21,9 +21,6 @@ class WorkStartAction extends WorkController {
 
     /**/
     try{
-      /* システム設定 */
-      $system = $this->SystemModel->one(array('order'=>'[registered_at] DESC'));
-      
       /* セッション */
       if(($pages = $this->PageModel->load($system)) === null){
 	$this->app->writeLog('work/start #1', 'failed to read profile data file.');
