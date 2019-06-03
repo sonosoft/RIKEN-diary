@@ -14,7 +14,7 @@ class WorkSendAction extends WorkController {
    */
   public function action(){
     /**/
-    $this->useModel('Page', 'Answer');
+    $this->useModel('Page', 'Answer', 'ProjectDiary');
 
     /* データ */
     $diaries = array();
