@@ -21,8 +21,10 @@ class MailFormValidator extends Validator {
     /**/
     $this->notEmpty('code')->pattern('code', '/^[0-9a-zA-Z]{3}$/', '英数字3文字で入力してください。');
     if($this->isValid('code')){
-      if($this->MailModel->findByCode($this->getValue('code')) !== null){
-	$this->setError('code', '同じIDがすでに登録されています。');
+      if(($record = $this->MailModel->findByCode($this->getValue('code'))) !== null){
+	if($record->id != $this->getValue('id')){
+	  $this->setError('code', '同じIDがすでに登録されています。');
+	}
       }
     }
     /**/
