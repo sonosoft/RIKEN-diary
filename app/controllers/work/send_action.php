@@ -33,7 +33,10 @@ class WorkSendAction extends WorkController {
       $this->redirect('default:work.error');
     }
     if(($scale = $this->PageModel->getScale($pages[$this->visit->page])) !== false){
-      $names = array(array($scale['header'], $scale['name'], false));
+      $names = array(
+	array($scale['header'].'_x', $scale['name'].'_x', false),
+	array($scale['header'].'_y', $scale['name'].'_y', false),
+      );
     }else{
       list($rows, $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
     }

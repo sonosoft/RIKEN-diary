@@ -104,8 +104,16 @@ $(function(){
     $("div#scale-base").bind(keyEnd, function(e){
 	pressed = 0;
     });
-    onMoveScope(score, width, image);
-    $("button.next").prop("disabled", true).addClass("disabled");
+    var x = parseInt($("input[name='answer[{$scale.name}_x]']").val());
+    var y = parseInt($("input[name='answer[{$scale.name}_y]']").val());
+    if(x.length > 0 && y.length > 0){
+	score.x = x / 100;
+	score.y = y / 100;
+	onMoveScope(score, width, image);
+    }else{
+	onMoveScope(score, width, image);
+	$("button.next").prop("disabled", true).addClass("disabled");
+    }
 
     // [NEXT/PREV]
     $("button.next").on("click", function(){

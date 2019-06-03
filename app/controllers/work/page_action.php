@@ -39,10 +39,10 @@ class WorkPageAction extends WorkController {
       $this->redirect('default:work.error');
     }
     if(($scale = $this->PageModel->getScale($pages[$this->visit->page])) !== false){
-      $this->app->data['scale'] = $scale;
-      return 'work/scale';
+      $values = array();
+    }else{
+      list($this->app->data['rows'], $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
     }
-    list($this->app->data['rows'], $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
     
     /**/
     $this->app->data['answers'] = $values;
@@ -59,6 +59,10 @@ class WorkPageAction extends WorkController {
     }
 
     /**/
+    if($scale !== false){
+      $this->app->data['scale'] = $scale;
+      return 'work/scale';
+    }
     return 'work/page';
   }
 }
