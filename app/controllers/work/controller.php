@@ -43,16 +43,14 @@ class WorkController extends Controller {
       $this->app->writeLog('work/* #2', 'No user found.');
       $this->redirect('default:work.error');
     }
-    if($this->visit !== null){
-      $this->db->begin();
-      try{
-	$this->visit->accessed_at = $this->app->data['_now_'];
-	$this->visit->save();
-	$this->db->commit();
-      }catch(Exception $e){
-	$this->db->rollback();
-	$this->app->writeLog('work/*', $e->getMessage());
-      }
+    $this->db->begin();
+    try{
+      $this->visit->accessed_at = $this->app->data['_now_'];
+      $this->visit->save();
+      $this->db->commit();
+    }catch(Exception $e){
+      $this->db->rollback();
+      $this->app->writeLog('work/*', $e->getMessage());
     }
     
     /**/
