@@ -21,6 +21,19 @@ class ProjectUserModelFactory extends ModelFactory {
       'conditions'=>array('user_id'=>'id')
     ),
   );
+
+  /* ===== ===== */
+
+  public function getByProject($projectId){
+    return $this->all(
+      array(
+	'joins'=>'user',
+	'where'=>'[project_id] = :project_id AND user.status = :enabled',
+	'order'=>'user.code ASC',
+      ),
+      array('project_id'=>$projectId, 'enabled'=>STATUS_ENABLED)
+    );
+  }
 }
 
 class ProjectUserModel extends Model {

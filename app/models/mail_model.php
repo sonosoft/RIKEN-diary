@@ -38,16 +38,17 @@ class MailModelFactory extends ModelFactory {
     }
     return $choices;
   }
-    
-  public function replace($src, $user, $dialy){
-    $dst = str_replace('【氏名】', $user->family_name.' '.$user->first_name, $src);
-    if($measurement !== null){
-      $dst = str_replace('【計測開始日】', $measurement->measurementDate->format('%Y年%m月%d日（%a）%H時'), $dst);
+  
+  public function replace($src, $project, $user){
+    $dst = $src;
+    $dst = str_replace('【氏名】', $user->family_name.' '.$user->first_name, $dst);
+    if($project !== null){
+      $dst = str_replace('【計測開始日】', $project->from_date->format('%Y年%m月%d日（%a）'), $dst);
     }
     if($measurement !== null){
-      $dst = str_replace('【計測終了日】', $measurement->measurementDate->format('%Y年%m月%d日（%a）%H時'), $dst);
+      $dst = str_replace('【計測終了日】', $project->to_date->format('%Y年%m月%d日（%a）'), $dst);
     }
-    $dst = str_replace('【乱数】', $user->token, $dst);
+    $dst = str_replace('【乱数】', $project->token.$user->token, $dst);
     return $dst;
   }
 }
@@ -90,4 +91,3 @@ class MailModel extends Model {
     return null;
   }
 }
-
