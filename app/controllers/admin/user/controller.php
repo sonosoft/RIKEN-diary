@@ -42,6 +42,9 @@ class AdminUserController extends AdminController {
     }else{
       $where[] = '[status] = :enabled';
     }
+    if($this->app->data['user_search']['project_id'] !== null){
+      $where[] = 'projects.project_id = :project_id';
+    }
     /**/
     $options = array(
       'where'=>implode(' AND ', $where),
@@ -49,6 +52,9 @@ class AdminUserController extends AdminController {
       'indexSize'=>10,
       'page'=>$this->app->data['user_search']['page'],
     );
+    if($this->app->data['user_search']['project_id'] !== null){
+      $options['joins'] = 'projects';
+    }
     switch($this->app->data['user_search']['order']){
     case 'i-a':
       $options['order'] = '[code] ASC';
@@ -81,7 +87,8 @@ class AdminUserController extends AdminController {
     $this->app->storeSession('user_search', $this->app->data['user_search']);
 
     /* 選択肢 */
-    $this->app->data['projectChoices'] = $this->ProjectModel->collectChoices('選択してください');
+    $this->app->data['projectChoices1'] = $this->ProjectModel->collectChoices('全て');
+    $this->app->data['projectChoices2'] = $this->ProjectModel->collectChoices('選択してください');
     
     /**/
     return 'admin/user/list';
@@ -99,7 +106,6 @@ class AdminUserController extends AdminController {
     header('Content-type: text/csv');
     header('Content-Disposition: attachment; filename=users-'.$this->app->data['_now_']->format('%Y%m%d_%H%M%S').'.csv');
     echo mb_convert_encoding('"ユーザID",', 'SJIS', 'UTF-8');
-    echo mb_convert_encoding('"ユーザIDα",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"氏名",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"ふりがな",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"メールアドレス",', 'SJIS', 'UTF-8');

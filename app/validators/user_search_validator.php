@@ -17,8 +17,7 @@ class UserSearchValidator extends Validator {
     $this->validatePage('page');
     /**/
     $this->validateTextList('text');
-    $this->ifEmpty('from', null)->toDate('from');
-    $this->ifEmpty('to', null)->toDate('to');
+    $this->ifEmpty('project_id', null)->toInteger('project_id');
     $this->ifEmpty('order', 'i-d');
     /**/
     $this->toBoolean('all');

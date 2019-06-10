@@ -15,7 +15,10 @@ class AdminUserListAction extends AdminUserController {
   public function action(){
     /* セッションクリア */
     $this->app->removeSession('user_search');
-      
+    if(($projectId = intval($this->app->readRequest('project_id')))){
+      $this->app->storeSession('user_search.project_id', $projectId);
+    }
+    
     /**/
     return $this->redirect('default:admin/user.search');
   }

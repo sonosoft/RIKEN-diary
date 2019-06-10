@@ -27,11 +27,9 @@
 	</div>
       </div>
       <div class="form-group">
-	<label class="col-xs-12 col-sm-3 control-label">計測日</label>
+	<label class="col-xs-12 col-sm-3 control-label">参加プロジェクト</label>
 	<div class="col-xs-12 col-sm-9 form-input">
-	  <input type="text" name="user_search[from]" class="form-control datepicker pull-left" style="width:200px">
-	  <p class="form-control-static pull-left">&nbsp;〜&nbsp;</p>
-	  <input type="text" name="user_search[to]" class="form-control datepicker pull-left" style="width:200px">
+	  <select name="user_search[project_id]" class="form-control" eln:options="{$projectChoices1}"></select>
 	</div>
       </div>
       <div class="form-group">
@@ -220,7 +218,7 @@
 	<div class="modal-body">
           <div class="form-group">
             <label>プロジェクト</label>
-	    <select name="project" class="form-control" eln:options="{$projectChoices}"></select>
+	    <select name="project" class="form-control" eln:options="{$projectChoices2}"></select>
           </div>
 	</div>
 	<div class="modal-footer">

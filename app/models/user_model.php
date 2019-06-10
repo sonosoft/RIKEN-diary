@@ -15,10 +15,10 @@ class UserModelFactory extends ModelFactory {
   protected $model = 'User';
   protected $table = 'user';
   protected $relations = array(
-    'measurement'=>array(
-      'type'=>'belongsTo',
-      'model'=>'Measurement',
-      'conditions'=>array('belongMeasurementDateID'=>'id')
+    'projects'=>array(
+      'type'=>'hasMany',
+      'model'=>'ProjectUser',
+      'conditions'=>array('id'=>'user_id')
     ),
   );
 
