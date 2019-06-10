@@ -117,9 +117,9 @@ try{
 	  /* 送信 */
 	  foreach($projectUserModel->getByProject($project->id) as $user){
 	    //_send($mail->mail, $project, $user->user);
-	    echo $mail->mail->code.PHP_EOL;
-	    echo $project->title.PHP_EOL;
-	    echo $user->user->code.PHP_EOL;
+	    echo $mailModel->replace($mail->mail->title, $project, $user->user).PHP_EOL;
+	    echo $mailModel->replace($mail->mail->body, $project, $user->user).PHP_EOL;
+	    echo $user->user->email.PHP_EOL;
 	  }
 	}
       }
