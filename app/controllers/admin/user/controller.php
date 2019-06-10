@@ -109,50 +109,23 @@ class AdminUserController extends AdminController {
     echo mb_convert_encoding('"氏名",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"ふりがな",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"メールアドレス",', 'SJIS', 'UTF-8');
-    echo mb_convert_encoding('"計測日時",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"乱数",', 'SJIS', 'UTF-8');
-    echo mb_convert_encoding('"受付日時",', 'SJIS', 'UTF-8');
-    echo mb_convert_encoding('"質問紙",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"性別",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"生年月日",', 'SJIS', 'UTF-8');
-    echo mb_convert_encoding('"企業・大学機関",', 'SJIS', 'UTF-8');
-    echo mb_convert_encoding('"電話番号",', 'SJIS', 'UTF-8');
-    echo mb_convert_encoding('"郵便番号",', 'SJIS', 'UTF-8');
-    echo mb_convert_encoding('"住所",', 'SJIS', 'UTF-8');
-    echo mb_convert_encoding('"所属",', 'SJIS', 'UTF-8');
-    echo mb_convert_encoding('"案内可否"', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"状態"', 'SJIS', 'UTF-8');
     echo "\r\n";
     foreach($this->UserModel->all($options, $parameters) as $user){
-      echo '"'.$user->userID.'",';
-      echo '"'.$user->userIDa.'",';
-      echo mb_convert_encoding('"'.$user->familyname.' '.$user->firstname.'",', 'SJIS', 'UTF-8');
+      echo '"'.$user->code.'",';
+      echo mb_convert_encoding('"'.$user->family_name.' '.$user->first_name.'",', 'SJIS', 'UTF-8');
       echo mb_convert_encoding('"'.$user->kana.'",', 'SJIS', 'UTF-8');
       echo '"'.$user->email.'",';
-      if(isset($user->measurement->measurementDate)){
-	echo mb_convert_encoding('"'.$user->measurement->measurementDate->format('%Y/%m/%d (%a) %H:%M').'",', 'SJIS', 'UTF-8');
-      }else{
-	echo '"",';
-      }
-      echo '"'.$user->randomString.'",';
-      if($user->acceptanceDate !== null){
-	echo mb_convert_encoding('"'.$user->acceptanceDate->format('%Y/%m/%d (%a) %H:%M').'",', 'SJIS', 'UTF-8');
-      }else{
-	echo '"",';
-      }
-      echo mb_convert_encoding('"'.$user->questionnaire_tos.'",', 'SJIS', 'UTF-8');
+      echo '"'.$user->token.'",';
       echo mb_convert_encoding('"'.$user->sex_tos.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$user->birthdate.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$user->intermediationName.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$user->tel.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$user->postnumber.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$user->address.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$user->belonging.'",', 'SJIS', 'UTF-8');
-      echo mb_convert_encoding('"'.$user->contacting_tos.'",', 'SJIS', 'UTF-8');
-      if($user->deleted_at !== null){
-	echo mb_convert_encoding('"キャンセル"', 'SJIS', 'UTF-8');
-      }else{
+      echo mb_convert_encoding('"'.$user->birthday->format('%Y/%m/%d').'",', 'SJIS', 'UTF-8');
+      if($user->status == STATUS_ENABLED){
 	echo mb_convert_encoding('"有効"', 'SJIS', 'UTF-8');
+      }else{
+	echo mb_convert_encoding('"削除"', 'SJIS', 'UTF-8');
       }
       echo "\r\n";
     }
