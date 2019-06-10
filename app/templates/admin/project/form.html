@@ -145,7 +145,7 @@ function deleteDiary(element){
 	    diariesNew.push(diariesOrg[i]);
 	}
     }
-    $("input[name='project[diaries]']").val(_escape(JSON.stringify(diaries)));
+    $("input[name='project[diaries]']").val(_escape(JSON.stringify(diariesNew)));
     reloadDiaries();
 }
 function reloadDiaries(){
