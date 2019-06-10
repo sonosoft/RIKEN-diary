@@ -14,10 +14,10 @@ $(function(){
     $("input.datepicker").datepicker();
 });
 function _escape(src){
-    return src.replace("\"", "&quot;");
+    return src.replace(/\"/g, "&quot;");
 }
 function _unescape(src){
-    return src.replace("&quot;", "\"");
+    return src.replace(/\&quot\;/g, "\"");
 }
 //]]>
 </script>
