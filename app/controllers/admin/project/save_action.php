@@ -23,6 +23,7 @@ class AdminProjectSaveAction extends AdminProjectController {
     /**/
     try{
       /* 検証 */
+      $this->app->writeLog('APP', print_r($_REQUEST, true));
       $data = $this->ProjectFormValidator->validate($this->app->readRequest('project', array()));
 
       /* 保存 */
