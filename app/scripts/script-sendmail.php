@@ -116,7 +116,10 @@ try{
 	if(_toSend($mail->mail, $project)){
 	  /* 送信 */
 	  foreach($projectUserModel->getByProject($project->id) as $user){
-	    _send($mail->mail, $project, $user->user);
+	    //_send($mail->mail, $project, $user->user);
+	    echo $mail->mail->code.PHP_EOL;
+	    echo $project->title.PHP_EOL;
+	    echo $user->user->code.PHP_EOL;
 	  }
 	}
       }

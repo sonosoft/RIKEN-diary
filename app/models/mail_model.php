@@ -44,8 +44,6 @@ class MailModelFactory extends ModelFactory {
     $dst = str_replace('【氏名】', $user->family_name.' '.$user->first_name, $dst);
     if($project !== null){
       $dst = str_replace('【計測開始日】', $project->from_date->format('%Y年%m月%d日（%a）'), $dst);
-    }
-    if($measurement !== null){
       $dst = str_replace('【計測終了日】', $project->to_date->format('%Y年%m月%d日（%a）'), $dst);
     }
     $dst = str_replace('【乱数】', $project->token.$user->token, $dst);
