@@ -27,6 +27,9 @@ class AdminMailFormAction extends AdminMailController {
 	  $this->app->data['mail'][$key] = $value;
 	}
       }
+      if(intval($this->app->readRequest('dup'))){
+	$this->app->data['mail']['id'] = null;
+      }
     }else{
       $this->app->data['mail'] = array('id'=>null, 'flag'=>MAIL_DURING);
     }
