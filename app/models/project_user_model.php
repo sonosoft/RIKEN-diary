@@ -20,6 +20,11 @@ class ProjectUserModelFactory extends ModelFactory {
       'model'=>'User',
       'conditions'=>array('user_id'=>'id')
     ),
+    'project'=>array(
+      'type'=>'belongsTo',
+      'model'=>'Project',
+      'conditions'=>array('project_id'=>'id')
+    ),
   );
 
   /* ===== ===== */
@@ -32,6 +37,17 @@ class ProjectUserModelFactory extends ModelFactory {
 	'order'=>'user.code ASC',
       ),
       array('project_id'=>$projectId, 'enabled'=>STATUS_ENABLED)
+    );
+  }
+
+  public function getByUser($userId){
+    return $this->all(
+      array(
+	'joins'=>'project',
+	'where'=>'[user_id] = :user_id AND project.status = :enabled',
+	'order'=>'project.from_date ASC',
+      ),
+      array('user_id'=>$userId, 'enabled'=>STATUS_ENABLED)
     );
   }
 }

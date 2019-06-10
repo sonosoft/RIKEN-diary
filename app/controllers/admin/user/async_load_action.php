@@ -22,6 +22,7 @@ class AdminUserAsyncLoadAction extends AdminUserController {
     /**/
     if(($user = $this->UserModel->findById($this->app->route['id'])) !== null){
       $result = $user->getAttributes();
+      $result['birthday'] = $user->birthday->format('%Y/%m/%d');
     }
       
     /**/
