@@ -61,7 +61,6 @@
 	<th>期間</th>
 	<th>日誌</th>
 	<th>メール</th>
-	<th></th>
       </tr>
     </thead>
     <tbody>
@@ -75,17 +74,19 @@
 	    <span class="glyphicon glyphicon-remove"></span>
 	    削除
 	  </a>
+	  <a href="{eln:uri('default:admin/user.list?project_id={$project.id}')}" class="btn btn-sm btn-info">
+	    <span class="glyphicon glyphicon-list"></span>
+	    参加ユーザ一覧
+	  </a>
+	  <a href="{eln:uri('default:admin/project.download?id={$project.id}')}" class="btn btn-sm btn-default">
+	    <span class="glyphicon glyphicon-download-alt"></span>
+	    データダウンロード
+	  </a>
 	</td>
 	<td>{$project.title}</td>
 	<td>{eln:date($project.from_date, '%Y/%m/%d（%a）')} 〜 {eln:date($project.to_date, '%Y/%m/%d（%a）')}</td>
 	<td>{$project.diaries_tos}</td>
 	<td>{$project.mails_tos}</td>
-	<td>
-	  <a href="{eln:uri('default:admin/user.list?project_id={$project.id}')}" class="btn btn-sm btn-info">
-	    <span class="glyphicon glyphicon-list"></span>
-	    参加ユーザ一覧
-	  </a>
-	</td>
       </tr>
       <tr eln:if="{count($projects) EQ 0}">
 	<td colspan="5">見つかりません</td>
