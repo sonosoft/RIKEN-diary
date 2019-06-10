@@ -37,6 +37,9 @@ class AdminProjectFormAction extends AdminProjectController {
     }else{
       $this->app->data['project'] = array('id'=>null, 'diaries'=>'[]', 'mails'=>'[]');
     }
+    /**/
+    $this->app->data['project']['diaries'] = str_replace('"', '&quot;', $this->app->data['project']['diaries']);
+    $this->app->data['project']['mails'] = str_replace('"', '&quot;', $this->app->data['project']['mails']);
 
     /**/
     return $this->viewForm();

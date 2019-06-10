@@ -22,7 +22,8 @@ class ProjectFormValidator extends Validator {
     /**/
     $this->selection('diaries');
     if($this->isValid('diaries')){
-      if(($data = json_decode($this->getValue('diaries'), true)) === false || empty($data)){
+      $json = str_replace('&quot;', '"', $this->getValue('diaries'));
+      if(($data = json_decode($json, true)) === false || empty($data)){
 	$this->setError('diaries', '指定されていません。');
       }else{
 	$this->setValue('data_diaries', $data);
@@ -31,7 +32,8 @@ class ProjectFormValidator extends Validator {
     /**/
     $this->selection('mails');
     if($this->isValid('mails')){
-      if(($data = json_decode($this->getValue('mails'), true)) === false || empty($data)){
+      $json = str_replace('&quot;', '"', $this->getValue('mails'));
+      if(($data = json_decode($json, true)) === false || empty($data)){
 	$this->setError('mails', '指定されていません。');
       }else{
 	$this->setValue('data_mails', $data);
