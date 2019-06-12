@@ -115,6 +115,7 @@ try{
       foreach($project->mails as $mail){
 	if(_toSend($mail->mail, $project)){
 	  /* 送信 */
+	  echo '['.$project->title.'] <'.$mail->mail->code.'>'.PHP_EOL;
 	  foreach($projectUserModel->getByProject($project->id) as $user){
 	    _send($mail->mail, $project, $user->user);
 	  }
