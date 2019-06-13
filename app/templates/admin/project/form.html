@@ -124,7 +124,7 @@ function addDiary(){
     var diaryId = $("select[name='diary'] option:selected").val();
     if(diaryId.length > 0){
 	var diaryText = $("select[name='diary'] option:selected").text();
-	var diaries = JSON.parse($("input[name='project[diaries]']").val());
+	var diaries = JSON.parse(_unescape($("input[name='project[diaries]']").val()));
 	for(var i = 0; i < diaries.length; ++ i){
 	    if(diaries[i].id == diaryId){
 		return;
