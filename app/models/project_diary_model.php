@@ -36,13 +36,9 @@ class ProjectDiaryModelFactory extends ModelFactory {
   }
 
   public function collectDiaries($visit){
-    // current time.
-    $time = $visit->started_at->hour * 100 + $visit->started_at->minute;
-
-    // collect.
     $diaries = array();
     foreach($this->getByProject($visit->project_id) as $entry){
-      if($entry->diary->from_time <= $time && $entry->diary->to_time >= $time){
+      if($entry->diary->isActive($visit->started_at)){
 	if($visit->diary_id !== null){
 	  if($entry->diary->id == $visit->diary_id){
 	    $diaries[] = $entry->diary;
@@ -52,8 +48,6 @@ class ProjectDiaryModelFactory extends ModelFactory {
 	}
       }
     }
-
-    //
     return $diaries;
   }
 }
