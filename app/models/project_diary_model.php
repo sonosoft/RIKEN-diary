@@ -46,9 +46,11 @@ class ProjectDiaryModelFactory extends ModelFactory {
 	if($visit->diary_id !== null){
 	  if($entry->diary->id == $visit->diary_id){
 	    $diaries[] = $entry->diary;
+	    var_dump($entry->diary->id);
 	  }
 	}else{
 	  $diaries[] = $entry->diary;
+	  var_dump($entry->diary->id);
 	}
       }
     }
