@@ -17,13 +17,7 @@ class WorkPageAction extends WorkController {
     $this->useModel('Page', 'Visit', 'ProjectDiary', 'Answer');
 
     /* 日誌 */
-    $diaries = array();
-    $time = $this->visit->started_at->hour * 100 + $this->visit->started_at->minute;
-    foreach($this->ProjectDiaryModel->getByProject($this->visit->project_id) as $entry){
-      if($entry->diary->from_time <= $time && $entry->diary->to_time >= $time){
-	$diaries[] = $entry->diary;
-      }
-    }
+    $diaries = $this->ProjectDiaryModel->collectDiaries($this->visit);
     if(($pages = $this->PageModel->load($diaries)) === null){
       $this->app->writeLog('work/page #1', 'failed to read data file.');
       $this->redirect('default:work.error');
