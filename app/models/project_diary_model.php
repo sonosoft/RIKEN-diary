@@ -43,6 +43,7 @@ class ProjectDiaryModelFactory extends ModelFactory {
     $diaries = array();
     foreach($this->getByProject($visit->project_id) as $entry){
       if($entry->diary->from_time <= $time && $entry->diary->to_time >= $time){
+	var_dump($visit->diary_id);
 	if($visit->diary_id !== null){
 	  if($entry->diary->id == $visit->diary_id){
 	    $diaries[] = $entry->diary;
