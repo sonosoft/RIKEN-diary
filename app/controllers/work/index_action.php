@@ -59,15 +59,19 @@ class WorkIndexAction extends Controller {
 	/* 日誌 */
 	$code = $this->app->route['code'];
 	/**/
-	$visit = $this->VisitModel->newModel();
-	$visit->user_id = $user->id;
-	$visit->project_id = $project->id;
-	if($code !== null){
-	  $visit->diary_id = $diaries[0]->id;
-	}else{
-	  $visit->diary_id = null;
+	$diaries = array();
+	$now = $this->app->data['_now_']->hour * 100 + $this->app->data['_now_']->minute;
+	foreach($this->ProjectDiaryModel->getByProject($project->id) as $entry){
+	  if($entry->diary->from_time <= $now && $entry->diary->to_time >= $now){
+	    if($code !== null){
+	      if(strcmp($entry->diary->code, $code) == 0){
+		$diaries[] = $entry->diary;
+	      }
+	    }else{
+	      $diaries[] = $entry->diary;
+	    }
+	  }
 	}
-	$diaries = $this->ProjectDiaryModel->collectDiaries($visit);
 	if(empty($diaries)){
 	  $this->db->rollback();
 	  return 'work/error/out_of_time';
@@ -85,6 +89,12 @@ class WorkIndexAction extends Controller {
 	$this->app->data['numPages'] = count($indexes);
 
 	/* 訪問 */
+	$visit = $this->VisitModel->newModel();
+	$visit->user_id = $user->id;
+	$visit->project_id = $project->id;
+	if($code !== null){
+	  $visit->diary_id = $diaries[0]->id;
+	}
 	$visit->page = $indexes[0];
 	$visit->status = STATUS_STARTED;
 	$visit->started_at = $this->app->data['_now_'];
