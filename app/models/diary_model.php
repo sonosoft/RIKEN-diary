@@ -71,4 +71,17 @@ class DiaryModel extends Model {
     }
     return null;
   }
+
+  /* ===== ===== */
+
+  public function isActive($datetime){
+    if($this->from_time == 0 && $this->to_time == 0){
+      return true;
+    }
+    $time = $datetime->hour * 100 + $datetime->minute;
+    if($this->from_time <= $now && $this->to_time >= $now){
+      return true;
+    }
+    return false;
+  }
 }

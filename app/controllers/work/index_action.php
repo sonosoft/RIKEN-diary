@@ -60,9 +60,8 @@ class WorkIndexAction extends Controller {
 	$code = $this->app->route['code'];
 	/**/
 	$diaries = array();
-	$now = $this->app->data['_now_']->hour * 100 + $this->app->data['_now_']->minute;
 	foreach($this->ProjectDiaryModel->getByProject($project->id) as $entry){
-	  if($entry->diary->from_time <= $now && $entry->diary->to_time >= $now){
+	  if($entry->diary->isActive($this->app->data['_now_'])){
 	    if($code !== null){
 	      if($entry->diary->separated && strcmp($entry->diary->code, $code) == 0){
 		$diaries[] = $entry->diary;
