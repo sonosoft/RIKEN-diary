@@ -128,6 +128,7 @@ try{
     ' `overview` text NOT NULL,'.
     ' `from_time` smallint NOT NULL,'.
     ' `to_time` smallint NOT NULL,'.
+    ' `seperated` tinyint(1) NOT NULL,'.
     ' `status` tinyint(1) NOT NULL,'.
     ' `created_at` datetime NOT NULL,'.
     ' `updated_at` datetime NOT NULL,'.

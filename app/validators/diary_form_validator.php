@@ -42,6 +42,8 @@ class DiaryFormValidator extends Validator {
       $this->setValue('to_time', intval($this->getValue('to_time_h')) * 100 + intval($this->getValue('to_time_m')));
     }
     /**/
+    $this->toBoolean('separated');
+    /**/
     if(isset($_FILES['file']['error']) && $_FILES['file']['error'] == UPLOAD_ERR_OK){
       if(simplexml_load_file($_FILES['file']['tmp_name']) === false){
 	$this->setError('file', 'XMLファイルではありません。');
