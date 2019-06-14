@@ -49,7 +49,7 @@
 	  <input type="text" name="name" class="form-control" readonly="readonly">
 	  <input type="hidden" name="diary[file]">
 	</div>
-	<p class="form-control-static">
+	<p class="help-block">
 	  日誌定義[*.xml]ファイル
 	  <span eln:if="{$diary.id}">（変更する場合のみアップロード）</span>
 	</p>
@@ -77,6 +77,7 @@
 	    </select>
 	  </div>
 	</div>
+	<p class="help-block">時間を限定しない場合は、0:00〜0:00と指定してください。</p>
       </div>
       <div class="checkbox">
 	<label>
