@@ -58,6 +58,7 @@ class WorkIndexAction extends Controller {
 	
 	/* 日誌 */
 	$code = $this->app->route['code'];
+	var_dump($code);
 	/**/
 	$diaries = array();
 	$now = $this->app->data['_now_']->hour * 100 + $this->app->data['_now_']->minute;
