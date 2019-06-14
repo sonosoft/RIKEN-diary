@@ -12,7 +12,7 @@ Eln_Database::$databases = array(
     'database'=>'riken_diary',
     'charset'=>'utf8',
     'autocommit'=>false,
-    'caching'=>true,
+    'caching'=>false,
     'logging'=>true,
   ),
 
