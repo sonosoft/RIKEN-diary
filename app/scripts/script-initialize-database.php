@@ -166,8 +166,9 @@ try{
   $db->query(
     'CREATE TABLE IF NOT EXISTS `visit` ('.
     ' `id` int NOT NULL AUTO_INCREMENT,'.
-    ' `project_id` int NOT NULL,'.
     ' `user_id` int NOT NULL,'.
+    ' `project_id` int NOT NULL,'.
+    ' `diary_id` int DEFAULT NULL,'.
     ' `page` tinyint(2) NOT NULL,'.
     ' `status` tinyint(1) NOT NULL,'.
     ' `started_at` datetime NOT NULL,'.

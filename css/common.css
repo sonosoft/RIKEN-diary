@@ -30,6 +30,12 @@ body {
 .clickable { cursor: pointer; }
 
 /**/
+p.lead {
+    font-size: 16px !important;
+}
+p.lead strong {
+    font-size: 18px !important;
+}
 p#index-note {
     margin-left: 50px;
     margin-bottom: 40px;
