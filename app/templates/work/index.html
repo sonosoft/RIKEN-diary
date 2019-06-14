@@ -15,10 +15,12 @@
       <strong>{eln:date($_now_, '%Y年%m月%d日（%a） %H時%M分')}</strong><br><br>
       {$project.title}<br>
       お答えいただくのは下記です。全部で{$numPages}ページあります。<br>
-      <eln:tag eln:foreach="$diary:{$diaries}">
-	<span>{$diary.title}</span><br>
-	{$diary.overview|nl2br|raw}<br>
-      </eln:tag>
+      <ul>
+	<li eln:foreach="$diary:{$diaries}">
+	  {$diary.title}<br>
+	  <blockquote>{$diary.overview}</blockquote>
+	</li>
+      </ul>
     </p>
     <p id="index-note">
       あなたのお名前などの個人情報及び個人が特定される形でデータが公表されることはありません。
