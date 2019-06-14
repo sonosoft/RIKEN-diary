@@ -54,3 +54,8 @@ define('MAIL_FROM', 'rch_health_eval@ml.riken.jp');
 define('MAIL_FROM_NAME', '理化学研究所 リサーチコンプレックス戦略室');
 define('MAIL_ENCODING', 'base64');
 define('MAIL_CHARSET', 'UTF-8');
+
+/*
+ * URL
+ */
+define('DEFAULT_BASE_URL', 'https://rch-keisoku.riken.jp/webdiary/');
