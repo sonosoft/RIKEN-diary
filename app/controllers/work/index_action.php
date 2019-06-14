@@ -64,7 +64,7 @@ class WorkIndexAction extends Controller {
 	foreach($this->ProjectDiaryModel->getByProject($project->id) as $entry){
 	  if($entry->diary->from_time <= $now && $entry->diary->to_time >= $now){
 	    if($code !== null){
-	      if(strcmp($entry->diary->code, $code) == 0){
+	      if($entry->diary->separated && strcmp($entry->diary->code, $code) == 0){
 		$diaries[] = $entry->diary;
 	      }
 	    }else{
