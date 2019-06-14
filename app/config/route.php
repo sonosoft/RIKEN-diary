@@ -6,14 +6,16 @@
 Eln_Router::$routes = array(
 			    
   'diary'=>array(
-    'uri'=>'/:token',
+    'uri'=>'/:token/:code',
     'defaults'=>array(
       'controller'=>'work',
       'action'=>'index',
       'token'=>null,
+      'code'=>null,
     ),
     'patterns'=>array(
       'token'=>'/^[0-9a-zA-z]{15}$/',
+      'code'=>'/^[0-9]{3}$/',
     ),
   ),
 
