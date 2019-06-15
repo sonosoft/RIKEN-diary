@@ -48,6 +48,10 @@ class WorkIndexAction extends Controller {
 	  $this->db->rollback();
 	  return 'work/error/invalid_url';
 	}
+	var_dump($project->from_date->format('%Y/%m/%d'));
+	var_dump($project->from_date->compare($this->app->data['_today_']));
+	var_dump($project->to_date->format('%Y/%m/%d'));
+	var_dump($project->to_date->compare($this->app->data['_today_']));
 	if($project->from_date->compare($this->app->data['_today_']) > 0 || $project->to_date->compare($this->app->data['_today_']) < 0){
 	  $this->db->rollback();
 	  return 'work/error/out_of_date';
@@ -58,7 +62,6 @@ class WorkIndexAction extends Controller {
 	
 	/* 日誌 */
 	$code = $this->app->route['code'];
-	var_dump($code);
 	/**/
 	$diaries = array();
 	foreach($this->ProjectDiaryModel->getByProject($project->id) as $entry){
