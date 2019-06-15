@@ -40,8 +40,6 @@ class WorkIndexAction extends Controller {
 	  $this->db->rollback();
 	  return 'work/error/invalid_url';
 	}
-	var_dump($user->id);
-	var_dump($project->id);
 	$link = $this->ProjectUserModel->one(
 	  array('where'=>'[project_id] = :project_id AND [user_id] = :user_id'),
 	  array('project_id'=>$project->id, 'user_id'=>$user->id)
@@ -60,6 +58,7 @@ class WorkIndexAction extends Controller {
 	
 	/* 日誌 */
 	$code = $this->app->route['code'];
+	var_dump($code);
 	/**/
 	$diaries = array();
 	foreach($this->ProjectDiaryModel->getByProject($project->id) as $entry){
