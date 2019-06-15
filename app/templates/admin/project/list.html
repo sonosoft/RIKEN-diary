@@ -57,6 +57,7 @@
 	    追加
 	  </a>
 	</th>
+	<th>乱数</th>
 	<th>タイトル</th>
 	<th>期間</th>
 	<th>日誌</th>
@@ -83,6 +84,7 @@
 	    データダウンロード
 	  </a>
 	</td>
+	<td>{$project.token}</td>
 	<td>{$project.title}</td>
 	<td>{eln:date($project.from_date, '%Y/%m/%d（%a）')} 〜 {eln:date($project.to_date, '%Y/%m/%d（%a）')}</td>
 	<td>{$project.diaries_tos}</td>

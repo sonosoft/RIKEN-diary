@@ -51,7 +51,7 @@ define('MAIL_HOST', 'postman.riken.jp');
 define('MAIL_ENCRPT', 'ssl');
 define('SMTP_PORT', 465);
 define('MAIL_FROM', 'rch_health_eval@ml.riken.jp');
-define('MAIL_FROM_NAME', '理化学研究所 リサーチコンプレックス戦略室');
+define('MAIL_FROM_NAME', '理化学研究所 健康計測解析チーム');
 define('MAIL_ENCODING', 'base64');
 define('MAIL_CHARSET', 'UTF-8');
 
