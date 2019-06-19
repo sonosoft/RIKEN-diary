@@ -88,7 +88,7 @@ class AdminUserController extends AdminController {
     $this->app->storeSession('user_search', $this->app->data['user_search']);
 
     /* 選択肢 */
-    $this->app->data['projectChoices1'] = $this->ProjectModel->collectChoices('全て');
+    $this->app->data['projectChoices1'] = $this->ProjectModel->collectChoices('全て', true);
     $this->app->data['projectChoices2'] = $this->ProjectModel->collectChoices('選択してください');
     
     /**/

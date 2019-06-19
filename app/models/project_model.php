@@ -42,13 +42,18 @@ class ProjectModelFactory extends ModelFactory {
     return $this->one(array('where'=>'[token] = :token AND [status] = :enabled'), array('token'=>$token, 'enabled'=>STATUS_ENABLED));
   }
   
-  public function collectChoices($default=''){
+  public function collectChoices($default='', $all=false){
     $choices = array();
     if(empty($default) === false){
       $choices[] = array('value'=>'', 'label'=>$default);
     }
+    if($all){
+      $where = '[status] = :enabled';
+    }else{
+      $where = '[to_date] >= CURDATE() AND [status] = :enabled';
+    }
     $records = $this->all(
-      array('where'=>'[to_date] >= CURDATE() AND [status] = :enabled', 'order'=>'[from_date] ASC'),
+      array('where'=>$where, 'order'=>'[from_date] ASC'),
       array('enabled'=>STATUS_ENABLED)
     );
     foreach($records as $record){
