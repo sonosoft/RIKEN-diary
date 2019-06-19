@@ -34,29 +34,16 @@ class AdminUserAsyncProjectAction extends AdminUserController {
 	      }
 	    }
 	    if(empty($userIds) === false){
-	      $list = $this->ProjectUserModel->all(array('where'=>'[project_id] = :project_id'), array('project_id'=>$project->id));
-	      $linkIds = array();
+	      /* 現在のリンクを解除 */
+	      $this->db->query('DELETE FROM project_user WHERE user_id IN :ids', array('ids'=>$userIds));
+
+	      /* リンク作成（プロジェクトに追加） */
 	      foreach($userIds as $userId){
-		$found = false;
-		foreach($list as $entry){
-		  if($entry->user_id == $userId){
-		    $linkIds[] = $entry->id;
-		    $found = true;
-		    break;
-		  }
-		}
-		if($found === false){
-		  $pu = $this->ProjectUserModel->newModel();
-		  $pu->project_id = $project->id;
-		  $pu->user_id = $userId;
-		  $pu->save();
-		  $linkIds[] = $pu->id;
-		}
+		$pu = $this->ProjectUserModel->newModel();
+		$pu->project_id = $project->id;
+		$pu->user_id = $userId;
+		$pu->save();
 	      }
-	      $this->db->query(
-		'DELETE FROM project_user WHERE id NOT IN :ids AND project_id = :project_id',
-		array('ids'=>$linkIds, 'project_id'=>$project->id)
-	      );
 	    }
 	    
 	    /**/

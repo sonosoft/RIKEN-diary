@@ -22,21 +22,13 @@ class AdminUserUpdateAction extends AdminUserController {
     /**/
     try{
       /* 保存 */
-      $user = $this->UserModel->one(
-	array('where'=>'[id] = :id AND [deleted_at] IS NULL'),
-	array('id'=>$this->app->readRequest('id'))
-      );
-      if($user !== null){
-	$user->familyname = $this->app->readRequest('familyname');
-	$user->firstname = $this->app->readRequest('firstname');
+      if(($user = $this->UserModel->findById($this->app->readRequest('id'))) !== null){
+	$user->family_name = $this->app->readRequest('family_name');
+	$user->first_name = $this->app->readRequest('first_name');
 	$user->kana = $this->app->readRequest('kana');
 	$user->email = $this->app->readRequest('email');
-	$user->isMan = $this->app->readRequest('isMan');
-	$user->birthdate = $this->app->readRequest('birthdate');
-	$user->tel = $this->app->readRequest('tel');
-	$user->postnumber = $this->app->readRequest('postnumber');
-	$user->address = $this->app->readRequest('address');
-	$user->isContactOk = $this->app->readRequest('isContactOk');
+	$user->sex = $this->app->readRequest('sex');
+	$user->birthday = new Eln_Date($this->app->readRequest('birthday'));
 	$user->updated_at = $this->app->data['_now_'];
 	$user->save();
       }

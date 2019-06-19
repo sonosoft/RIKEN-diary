@@ -47,6 +47,7 @@ class AdminUserController extends AdminController {
     }
     /**/
     $options = array(
+      'joins'=>array('projects'=>'project'),
       'where'=>implode(' AND ', $where),
       'pageSize'=>50,
       'indexSize'=>10,

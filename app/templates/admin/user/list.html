@@ -106,6 +106,7 @@
 	<th>メールアドレス</th>
 	<th>性別</th>
 	<th>生年月日</th>
+	<th>参加プロジェクト</th>
       </tr>
     </thead>
     <tbody>
@@ -127,6 +128,7 @@
 	<td>{$user.email}</td>
 	<td>{$user.sex_tos}</td>
 	<td>{eln:date($user.birthday, '%Y/%m/%d')}</td>
+	<td>{$user.projects.0.project.title}</td>
       </tr>
       <tr eln:if="{count($user) EQ 0}">
 	<td colspan="9">見つかりません</td>
@@ -185,11 +187,11 @@
             <label for="email">性別</label>
 	    <div>
 	      <label class="radio-inline">
-		<input type="radio" name="sex" value="1">
+		<input type="radio" name="sex" value="{SEX_MALE}">
 		男性
 	      </label>
 	      <label class="radio-inline">
-		<input type="radio" name="sex" value="2">
+		<input type="radio" name="sex" value="{SEX_FEMALE}">
 		女性
 	      </label>
 	    </div>
@@ -210,23 +212,21 @@
 </div>
 <div class="modal fade" id="project-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <form action="{eln:uri('default:admin/user.update')}" method="post">
-      <div class="modal-content">
-	<div class="modal-header">
-          <h5 class="modal-title">プロジェクトへの参加登録</h5>
-	</div>
-	<div class="modal-body">
-          <div class="form-group">
-            <label>プロジェクト</label>
-	    <select name="project" class="form-control" eln:options="{$projectChoices2}"></select>
-          </div>
-	</div>
-	<div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-success" id="button-link">実行</button>
-	</div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">プロジェクトへの参加登録</h5>
       </div>
-    </form>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>プロジェクト</label>
+	  <select name="project" class="form-control" eln:options="{$projectChoices2}"></select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+        <button type="button" class="btn btn-success" id="button-link">実行</button>
+      </div>
+    </div>
   </div>
 </div>
 <div class="modal fade" id="receipt-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -405,7 +405,6 @@ $(function(){
             kana: {
 		required: true
             },
-
             sex:{
 		required: true
             },
