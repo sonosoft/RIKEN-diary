@@ -22,21 +22,22 @@ class AdminUserAsyncProjectAction extends AdminUserController {
     /* リクエスト */
     if(($ids = json_decode($this->app->readRequest('ids'), true)) !== false){
       if(empty($ids) === false){
-	if(($project = $this->ProjectModel->findById($this->app->readRequest('project', 0))) !== null){
-	  /* 実行 */
-	  $this->db->begin();
-	  try{
-	    /**/
-	    $userIds = array();
-	    foreach($ids as $id){
-	      if(($user = $this->UserModel->findById($id)) !== null){
-		$userIds[] = $user->id;
-	      }
+	/* 実行 */
+	$this->db->begin();
+	try{
+	  /**/
+	  $userIds = array();
+	  foreach($ids as $id){
+	    if(($user = $this->UserModel->findById($id)) !== null){
+	      $userIds[] = $user->id;
 	    }
-	    if(empty($userIds) === false){
-	      /* 現在のリンクを解除 */
-	      $this->db->query('DELETE FROM project_user WHERE user_id IN :ids', array('ids'=>$userIds));
+	  }
+	  if(empty($userIds) === false){
+	    /* 現在のリンクを解除 */
+	    $this->db->query('DELETE FROM project_user WHERE user_id IN :ids', array('ids'=>$userIds));
 
+	    /* プロジェクト */
+	    if(($project = $this->ProjectModel->findById($this->app->readRequest('project', 0))) !== null){
 	      /* リンク作成（プロジェクトに追加） */
 	      foreach($userIds as $userId){
 		$pu = $this->ProjectUserModel->newModel();
@@ -45,16 +46,16 @@ class AdminUserAsyncProjectAction extends AdminUserController {
 		$pu->save();
 	      }
 	    }
-	    
-	    /**/
-	    $this->db->commit();
-
-	    /**/
-	    $result['status'] = 1;
-	  }catch(Exception $e){
-	    $this->db->rollback();
-	    $this->app->writeLog('admin/user/async_project', $e->getMessage());
 	  }
+	  
+	  /**/
+	  $this->db->commit();
+	  
+	  /**/
+	  $result['status'] = 1;
+	}catch(Exception $e){
+	  $this->db->rollback();
+	  $this->app->writeLog('admin/user/async_project', $e->getMessage());
 	}
       }
     }

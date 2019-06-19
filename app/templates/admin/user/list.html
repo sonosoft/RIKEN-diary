@@ -219,7 +219,7 @@
     </form>
   </div>
 </div>
-<div class="modal fade" id="project-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade" id="link-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -238,12 +238,18 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="receipt-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade" id="unlink-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-body" id="receipt-message"></div>
+      <div class="modal-header">
+        <h5 class="modal-title">確認</h5>
+      </div>
+      <div class="modal-body">
+        選択されているユーザのプロジェクト参加を取り消します。
+      </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+        <button type="button" class="btn btn-danger" id="button-unlink">実行</button>
       </div>
     </div>
   </div>
@@ -328,7 +334,7 @@ $(function(){
     $(".to-link").on("click", function(){
 	$("select[name='project']").val("");
 	$("#button-link").prop("disabled", true).addClass("disabled");
-	$("#project-modal").modal("show");
+	$("#link-modal").modal("show");
 	return false;
     });
     $("#button-link").on("click", function(){
@@ -344,16 +350,30 @@ $(function(){
 		data: { ids: JSON.stringify(ids), project: projectId },
 		dataType: "JSON",
 		complete: function(result){
-		    if(result.status){
-			$("#receipt-message").text("プロジェクトへの参加を登録しました。");
-		    }else{
-			$("#receipt-message").text("プロジェクトへの参加登録に失敗しました。");
-		    }
-		    $("#receipt-modal").modal("show");
-		    $("#project-modal").modal("hide");
+		    location.href = "{eln:uri('default:admin/user.search')}";
 		}
 	    });
 	}
+    });
+    $(".to-unlink").on("click", function(){
+	$("#button-unlink").prop("disabled", true).addClass("disabled");
+	$("#unlink-modal").modal("show");
+	return false;
+    });
+    $("#button-unlink").on("click", function(){
+	var ids = [];
+	$("input.ids:checked").each(function(){
+	    ids.push($(this).val());
+	});
+	$.ajax({
+	    url: "{eln:uri('default:admin/user.async_project')}",
+	    method: "POST",
+	    data: { ids: JSON.stringify(ids) },
+	    dataType: "JSON",
+	    complete: function(result){
+		location.href = "{eln:uri('default:admin/user.search')}";
+	    }
+	});
     });
     $(".to-delete").on("click", function(){
 	$("#delete-modal").modal("show");
