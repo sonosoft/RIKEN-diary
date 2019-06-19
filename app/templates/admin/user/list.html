@@ -151,7 +151,7 @@
   <div class="col-sm-7 text-right command-box">
     <a href="#" class="btn btn-sm btn-info to-link">
       <span class="glyphicon glyphicon-link"></span>
-      プロジェクト
+      プロジェクト参加
     </a>
     <a href="#" class="btn btn-sm btn-warning to-unlink">
       <span class="glyphicon glyphicon-scissors"></span>
@@ -494,11 +494,13 @@ $(function(){
 });
 function onCheckbox(){
     if($("input.ids:checked").length > 0){
-	$(".to-delete").removeClass("disabled").prop("disabled", false);
 	$(".to-link").removeClass("disabled").prop("disabled", false);
+	$(".to-unlink").removeClass("disabled").prop("disabled", false);
+	$(".to-delete").removeClass("disabled").prop("disabled", false);
     }else{
-	$(".to-delete").addClass("disabled").prop("disabled", true);
 	$(".to-link").addClass("disabled").prop("disabled", true);
+	$(".to-unlink").addClass("disabled").prop("disabled", true);
+	$(".to-delete").addClass("disabled").prop("disabled", true);
     }
 }
 //]]>
