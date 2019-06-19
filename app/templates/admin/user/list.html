@@ -233,7 +233,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-        <button type="button" class="btn btn-success" id="button-link">実行</button>
+        <button type="button" class="btn btn-info" id="button-link">実行</button>
       </div>
     </div>
   </div>
@@ -249,7 +249,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-        <button type="button" class="btn btn-danger" id="button-unlink">実行</button>
+        <button type="button" class="btn btn-warning" id="button-unlink">実行</button>
       </div>
     </div>
   </div>
@@ -356,7 +356,6 @@ $(function(){
 	}
     });
     $(".to-unlink").on("click", function(){
-	$("#button-unlink").prop("disabled", true).addClass("disabled");
 	$("#unlink-modal").modal("show");
 	return false;
     });
