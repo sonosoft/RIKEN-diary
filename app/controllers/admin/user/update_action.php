@@ -28,7 +28,7 @@ class AdminUserUpdateAction extends AdminUserController {
 	$user->kana = $this->app->readRequest('kana');
 	$user->email = $this->app->readRequest('email');
 	$user->sex = $this->app->readRequest('sex');
-	$user->birthday = new Eln_Date($this->app->readRequest('birthday'));
+	$user->birthday = new Eln_Date(strtotime($this->app->readRequest('birthday')));
 	$user->updated_at = $this->app->data['_now_'];
 	$user->save();
       }
