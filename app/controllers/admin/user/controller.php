@@ -53,9 +53,6 @@ class AdminUserController extends AdminController {
       'indexSize'=>10,
       'page'=>$this->app->data['user_search']['page'],
     );
-    if($this->app->data['user_search']['project_id'] !== null){
-      $options['joins'] = 'projects';
-    }
     switch($this->app->data['user_search']['order']){
     case 'i-a':
       $options['order'] = '[code] ASC';
