@@ -485,9 +485,11 @@ $(function(){
 });
 function onCheckbox(){
     if($("input.ids:checked").length > 0){
-	$(".to-delete").removeClass("disabled");
+	$(".to-delete").removeClass("disabled").prop("disabled", false);
+	$(".to-link").removeClass("disabled").prop("disabled", false);
     }else{
-	$(".to-delete").addClass("disabled");
+	$(".to-delete").addClass("disabled").prop("disabled", true);
+	$(".to-link").addClass("disabled").prop("disabled", true);
     }
 }
 //]]>
