@@ -134,7 +134,7 @@
 	<td>{$user.sex_tos}</td>
 	<td>{eln:date($user.birthday, '%Y/%m/%d')}</td>
 	<td>
-	  <a href="{eln:uri('diary:?token={$user.linkedProjects.token}{$user.token}')}" eln:if="{$user.linkedProject}">
+	  <a href="{eln:uri('diary:?token={$user.linkedProject.token}{$user.token}')}" eln:if="{$user.linkedProject}">
 	    {$user.linkedProject.title}
 	  </a>
 	</td>
