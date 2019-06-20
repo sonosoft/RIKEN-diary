@@ -24,11 +24,8 @@ class AdminUserAsyncDeleteAction extends AdminUserController {
 	try{
 	  /**/
 	  foreach($ids as $id){
-	    $user = $this->UserModel->one(
-	      array('where'=>'[id] = :id AND [status] = :enabled'),
-	      array('id'=>$id, 'enabled'=>STATUS_ENABLED)
-	    );
-	    if($user !== null){
+	    $this->app->writeLog('USER ID:', $id);
+	    if(($user = $this->UserModel->findById($id)) !== null){
 	      $user->status = STATUS_DISABLED;
 	      $user->deleted_at = $this->app->data['_now_'];
 	      $user->save();
