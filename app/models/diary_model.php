@@ -79,7 +79,11 @@ class DiaryModel extends Model {
       return true;
     }
     $time = $datetime->hour * 100 + $datetime->minute;
-    if($this->from_time <= $time && $this->to_time >= $time){
+    if($this->from_time <= $time && $this->to_time > $time){
+      return true;
+    }
+    $time += 24;
+    if($this->from_time <= $time && $this->to_time > $time){
       return true;
     }
     return false;

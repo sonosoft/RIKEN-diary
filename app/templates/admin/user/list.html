@@ -133,7 +133,11 @@
 	<td>{$user.email}</td>
 	<td>{$user.sex_tos}</td>
 	<td>{eln:date($user.birthday, '%Y/%m/%d')}</td>
-	<td>{$user.projects.0.project.title}</td>
+	<td>
+	  <a href="{eln:uri('diary:?token={$user.projects.0.project.token}{$user.token}')}" eln:if="{$user.projects}">
+	    {$user.projects.0.project.title}
+	  </a>
+	</td>
       </tr>
       <tr eln:if="{count($user) EQ 0}">
 	<td colspan="9">見つかりません</td>

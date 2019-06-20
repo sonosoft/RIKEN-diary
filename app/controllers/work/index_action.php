@@ -113,12 +113,12 @@ class WorkIndexAction extends Controller {
 	$this->app->writeLog('work/index', $e->getMessage());
 	$this->redirect('default:work.error');
       }
-    }else{
-      /* 不正なURL */
-      return 'work/error/invalid_url';
+      
+      /**/
+      return 'work/index';
     }
     
-    /**/
-    return 'work/index';
+    /* 不正なURL */
+    return 'work/error/invalid_url';
   }
 }
