@@ -61,7 +61,7 @@
 	<th>ID</th>
 	<th>タイトル</th>
 	<th>提示時間</th>
-	<th>単独</th>
+	<th class="text-center">単独</th>
       </tr>
     </thead>
     <tbody>
@@ -85,7 +85,7 @@
 	<td>DY{$diary.code}</td>
 	<td>{$diary.title}</td>
 	<td>{$diary.schedule_tos}</td>
-	<td><span class="glyphicon glyphicon-asterisk" eln:if="{$diary.separated}"></span></td>
+	<td class="text-center"><span class="glyphicon glyphicon-asterisk" eln:if="{$diary.separated}"></span></td>
       </tr>
       <tr eln:if="{count($diaries) EQ 0}">
 	<td colspan="5">見つかりません</td>
