@@ -32,6 +32,7 @@ class WorkIndexAction extends Controller {
 	}
 	
 	/* プロジェクト・ユーザ */
+	var_dump($this->app->route['token']);
 	if(($user = $this->UserModel->findByToken(substr($this->app->route['token'], 5))) === null){
 	  $this->db->rollback();
 	  return 'work/error/invalid_url';
