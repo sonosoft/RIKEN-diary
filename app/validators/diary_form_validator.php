@@ -29,7 +29,7 @@ class DiaryFormValidator extends Validator {
     }
     /**/
     $this->notEmpty('title')->lengthLE('title', 200);
-    $this->notEmpty('overview')->lengthLE('overview', 400);
+    $this->ifEmpty('overview', null)->lengthLE('overview', 400);
     /**/
     $this->selection('from_time_h')->toInteger('from_time_h');
     $this->selection('from_time_m')->toInteger('from_time_m');

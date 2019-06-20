@@ -67,7 +67,9 @@ class WorkIndexAction extends Controller {
 		$diaries[] = $entry->diary;
 	      }
 	    }else{
-	      $diaries[] = $entry->diary;
+	      if(!$entry->diary->separated){
+		$diaries[] = $entry->diary;
+	      }
 	    }
 	  }
 	}
