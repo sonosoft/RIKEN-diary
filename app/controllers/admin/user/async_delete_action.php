@@ -14,7 +14,7 @@ class AdminUserAsyncDeleteAction extends AdminUserController {
    */
   public function action(){
     /**/
-    $this->useModel('User', 'Measurement');
+    $this->useModel('User', 'ProjectUser');
 
     /* リクエスト */
     if(($ids = json_decode($this->app->readRequest('ids'), true)) !== false){
@@ -29,6 +29,8 @@ class AdminUserAsyncDeleteAction extends AdminUserController {
 	      $user->status = STATUS_DISABLED;
 	      $user->deleted_at = $this->app->data['_now_'];
 	      $user->save();
+	      /**/
+	      $this->db->query('DELETE FROM project_user WHERE user_id IN :id', array('id'=>$id));
 	    }
 	  }
 	  
