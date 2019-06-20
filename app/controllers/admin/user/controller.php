@@ -81,7 +81,11 @@ class AdminUserController extends AdminController {
     /* 検索 */
     list($this->app->data['users'], $this->app->data['paginator']) = $this->UserModel->page($options, $parameters);
     foreach($this->app->data['users'] as $index=>$user){
-      var_dump($user->projects);
+      foreach($user->projects as $project){
+	if($project->project->status == STATUS_ENABLED){
+	  $this->app->data['users'][$index]->linkedProject = $project->project;
+	}
+      }
     }
     /**/
     $this->app->data['user_search']['page'] = $this->app->data['paginator']->currentPage;
