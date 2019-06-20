@@ -45,7 +45,6 @@ class AdminUserController extends AdminController {
     if($this->app->data['user_search']['project_id'] !== null){
       $where[] = 'projects.project_id = :project_id';
     }
-    $where[] = '(projects_project.status IS NULL OR projects_project.status = :enabled)';
     /**/
     $options = array(
       'joins'=>array('projects'=>'project'),
@@ -81,6 +80,9 @@ class AdminUserController extends AdminController {
     
     /* 検索 */
     list($this->app->data['users'], $this->app->data['paginator']) = $this->UserModel->page($options, $parameters);
+    foreach($this->app->data['users'] as $index=>$user){
+      var_dump($user->projects);
+    }
     /**/
     $this->app->data['user_search']['page'] = $this->app->data['paginator']->currentPage;
     $this->app->storeSession('user_search', $this->app->data['user_search']);
