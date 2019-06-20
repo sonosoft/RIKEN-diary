@@ -125,7 +125,7 @@ try{
     ' `id` int NOT NULL AUTO_INCREMENT,'.
     ' `code` varchar(5) NOT NULL,'.
     ' `title` varchar(100) NOT NULL,'.
-    ' `overview` text NOT NULL,'.
+    ' `overview` text DEFAULT NULL,'.
     ' `from_time` smallint NOT NULL,'.
     ' `to_time` smallint NOT NULL,'.
     ' `separated` tinyint(1) NOT NULL,'.
