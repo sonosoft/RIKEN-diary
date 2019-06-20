@@ -43,7 +43,11 @@ class AdminUserController extends AdminController {
       $where[] = '[status] = :enabled';
     }
     if($this->app->data['user_search']['project_id'] !== null){
-      $where[] = 'projects.project_id = :project_id';
+      if($this->app->data['user_search']['project_id'] > 0){
+	$where[] = 'projects.project_id = :project_id';
+      }else{
+	$where[] = 'projects.project_id IS NULL';
+      }
     }
     /**/
     $options = array(
@@ -93,6 +97,7 @@ class AdminUserController extends AdminController {
 
     /* 選択肢 */
     $this->app->data['projectChoices1'] = $this->ProjectModel->collectChoices('全て', true);
+    $this->app->data['projectChoices1'][] = array('value'=>0, 'label'=>'（未登録）');
     $this->app->data['projectChoices2'] = $this->ProjectModel->collectChoices('選択してください');
     
     /**/
