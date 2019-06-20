@@ -40,6 +40,7 @@ class WorkIndexAction extends Controller {
 	  $this->db->rollback();
 	  return 'work/error/invalid_url';
 	}
+	var_dump($user->id);var_dump($project->id);
 	$link = $this->ProjectUserModel->one(
 	  array('where'=>'[project_id] = :project_id AND [user_id] = :user_id'),
 	  array('project_id'=>$project->id, 'user_id'=>$user->id)
