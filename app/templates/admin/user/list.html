@@ -120,8 +120,8 @@
 	  <input type="checkbox" name="ids[]" value="{$user.id}" class="ids" eln:unless="{$user.deleted_at}">
 	</td>
 	<td class="text-center">
-	  <span class="glyphicon glyphicon-remove text-danger" eln:if="{$user.deleted_at}"></span>
-	  <a href="#" class="btn btn-sm btn-default modify" data-id="{$user.id}" eln:unless="{$user.deleted_at}">
+	  <span class="glyphicon glyphicon-remove text-danger" eln:unless="{$user.status EQ STATUS_ENABLED}"></span>
+	  <a href="#" class="btn btn-sm btn-default modify" data-id="{$user.id}" eln:if="{$user.status EQ STATUS_ENABLED}">
 	    <span class="glyphicon glyphicon-pencil"></span>
 	    編集
 	  </a>
