@@ -46,7 +46,7 @@ class AdminUserController extends AdminController {
       if($this->app->data['user_search']['project_id'] > 0){
 	$where[] = 'projects.project_id = :project_id';
       }else{
-	$where[] = 'projects.project_id IS NULL';
+	$where[] = '(projects.project_id IS NULL OR projects_project.status != :enabled)';
       }
     }
     /**/
