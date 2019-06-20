@@ -30,7 +30,7 @@ class AdminUserAsyncDeleteAction extends AdminUserController {
 	      $user->deleted_at = $this->app->data['_now_'];
 	      $user->save();
 	      /**/
-	      $this->db->query('DELETE FROM project_user WHERE user_id IN :id', array('id'=>$id));
+	      $this->db->query('DELETE FROM project_user WHERE user_id = :id', array('id'=>$id));
 	    }
 	  }
 	  
