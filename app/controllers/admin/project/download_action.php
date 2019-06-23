@@ -40,8 +40,8 @@ class AdminProjectDownloadAction extends AdminController {
     
     /* 日誌 */
     $diaries = $this->ProjectDiaryModel->getByProject($id);
-    var_dump($diaries);exit;
     if(($pages = $this->PageModel->load($diaries)) !== null){
+      var_dump($pages);exit;
       $where = array();
       $where[] = 'visit.project_id = :id';
       $where[] = 'visit.finished_at IS NOT NULL';
