@@ -60,7 +60,7 @@ class AdminProjectDownloadAction extends AdminController {
 	  $names[] = $n;
 	}
       }
-      var_dump($names);
+      var_dump($pages);exit;
       foreach($names as $name){
 	if(!$name[2]){
 	  $headers[0][] = '"'.$name[0].'"';
