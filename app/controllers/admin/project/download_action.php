@@ -73,7 +73,7 @@ class AdminProjectDownloadAction extends AdminController {
 	'FROM visit '.
 	'LEFT OUTER JOIN user ON user.id = visit.user_id '.
 	'WHERE '.implode(' AND ', $where).' '.
-	'ORDER BY session.finished_at DESC',
+	'ORDER BY visit.finished_at DESC',
 	array('id'=>$id, 'from'=>$from, 'to'=>$to)
       );
       while(($visit = $visits->fetch_row()) !== null){
