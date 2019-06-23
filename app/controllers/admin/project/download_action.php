@@ -32,11 +32,9 @@ class AdminProjectDownloadAction extends AdminController {
     }
     
     /* ヘッダ */
-    /*
     header('Content-Type: text/csv; charset=shift_JIS');
     header('Content-Disposition: attachment;filename="'.strftime('download_%Y%m%d_%H%M%S.csv').'"');
     header('Cache-Control: max-age=0');
-    */
     
     /* 日誌 */
     $diaries = array();
