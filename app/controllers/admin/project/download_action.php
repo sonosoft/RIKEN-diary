@@ -30,7 +30,6 @@ class AdminProjectDownloadAction extends AdminController {
     }else{
       $to = false;
     }
-    var_dump($id);exit;
     
     /* ヘッダ */
     header('Content-Type: text/csv; charset=shift_JIS');
