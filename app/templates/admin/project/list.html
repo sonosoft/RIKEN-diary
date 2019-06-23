@@ -79,7 +79,7 @@
 	    <span class="glyphicon glyphicon-list"></span>
 	    参加ユーザ一覧
 	  </a>
-	  <a href="{eln:uri('default:admin/project.download?id={$project.id}')}" class="btn btn-sm btn-default">
+	  <a href="#" class="btn btn-sm btn-default download" data-id="{$project.id}">
 	    <span class="glyphicon glyphicon-download-alt"></span>
 	    データダウンロード
 	  </a>
@@ -106,7 +106,7 @@
 <!-- /container -->
 
 <!-- modal -->
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -120,9 +120,34 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-        <button type="button" class="btn btn-danger delete" id="button-delete">削除</button>
+        <button type="button" class="btn btn-danger delete">削除</button>
       </div>
     </div>
+  </div>
+</div>
+<div class="modal fade" id="download-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form action="{eln:uri('default:admin/project.download')}" method="post">
+      <div class="modal-content">
+	<div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">ダウンロード</h5>
+	</div>
+	<div class="modal-body" id="modal-project">
+          <div class="form-group">
+            <label>入力日</label>
+	    <div class="form-inline">
+              <input type="text" name="download[from]" class="form-control datepicker">
+              <input type="text" name="download[to]" class="form-control datepicker">
+	    </div>
+          </div>
+	</div>
+	<div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+          <button type="submit" class="btn btn-success">ダウンロード</button>
+	</div>
+      </div>
+      <input type="hidden" name="downlaod[id]">
+    </form>
   </div>
 </div>
 <!-- /modal -->
@@ -134,12 +159,19 @@ var projectId;
 $(function(){
     // delete.
     $("a.delete").on("click", function(){
-	$("#modal").modal("show");
+	$("#delete-modal").modal("show");
 	projectId = $(this).data("id");
 	return false;
     });
     $("button.delete").on("click", function(){
 	location.href = "{eln:uri('default:admin/project.delete?id=_ID_')}".replace("_ID_", projectId);
+    });
+
+    // download.
+    $("a.download").on("click", function(){
+	$("#download-modal").modal("show");
+	$("#download-modal input[name='download[id]']").val($(this).data("id"));
+	return false;
     });
 });
 //]]>
