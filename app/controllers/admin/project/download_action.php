@@ -69,8 +69,7 @@ class AdminProjectDownloadAction extends AdminController {
       
       /* ボディ */
       $visits = $this->db->query(
-	'SELECT'.
-	' visit.id, visit.finished_at, user.id, user.code, user.sex, user.birthday'.
+	'SELECT visit.id, visit.finished_at, user.id, user.code, user.sex, user.birthday '.
 	'FROM visit '.
 	'LEFT OUTER JOIN user ON user.id = visit.user_id '.
 	'WHERE '.implode(' AND ', $where).' '.
