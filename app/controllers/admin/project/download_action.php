@@ -4,11 +4,11 @@
  * [Elnath PHP Web Application Framework]
  * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
  *
- * admin/export/download_action.php
+ * admin/project/download_action.php
  */
 
 
-class AdminExportDownloadAction extends AdminController {
+class AdminProjectDownloadAction extends AdminController {
   /*
    * アクション
    */
