@@ -14,7 +14,7 @@ class AdminProjectDownloadAction extends AdminController {
    */
   public function action(){
     /**/
-    $this->useModel('ProjectDiary', 'Visit', 'Answer');
+    $this->useModel('ProjectDiary', 'Page', 'Visit', 'Answer');
 
     /* リクエスト */
     $id = $this->app->readRequest('download.id', 0);
