@@ -8,7 +8,7 @@
  */
 
 
-class WorkFinishAction extends Controller {
+class WorkFinishAction extends WorkController {
   /*
    * アクション
    */
