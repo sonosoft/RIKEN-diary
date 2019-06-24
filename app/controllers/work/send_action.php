@@ -49,6 +49,7 @@ class WorkSendAction extends WorkController {
       foreach($names as $entry){
 	$this->saveAnswer($answers, $entry);
       }
+      var_dump($_POST);
       exit;
       
       /* ページ */
