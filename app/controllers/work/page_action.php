@@ -53,6 +53,7 @@ class WorkPageAction extends WorkController {
 	$this->app->data['alt'][$answer->name] = $answer->value;
       }
     }
+    var_dump($this->app->data['alt']);
 
     /**/
     if($scale !== false){
