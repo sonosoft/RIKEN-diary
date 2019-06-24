@@ -51,6 +51,7 @@ class WorkPageAction extends WorkController {
 	$this->app->data['answer'][$answer->name] = $answer->value;
       }
     }
+    var_dump($this->app->data['answer']);
 
     /**/
     if($scale !== false){
