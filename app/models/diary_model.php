@@ -57,9 +57,8 @@ class DiaryModel extends Model {
       var_dump($hex);
       $path = 'var/data';
       foreach(array(0, 2, 4, 6) as $i){
-	var_dump($i);
-	var_dump(substr($hex, $i, 2));
 	$path = sprintf('%s/%02x', $path, substr($hex, $i, 2));
+	var_dump($path);
       }
       $path .= '.xml';
       return $this->app->projectFile($path);
