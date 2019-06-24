@@ -244,7 +244,7 @@ function validateRelations(){
 	    }
 	}
 	if(checked){
-	    //$(this).removeClass("disabled").prop("disabled", false);
+	    $(this).removeClass("disabled").prop("disabled", false);
 	    $("button,input", this).removeClass("disabled").prop("disabled", false);
 	    //$("input[type='text'].inline-number", this).prop("readonly", false);
 	    if($(this).attr("type")){
@@ -260,7 +260,7 @@ function validateRelations(){
 		}
 	    }
 	}else{
-	    //$(this).addClass("disabled").prop("disabled", true);
+	    $(this).addClass("disabled").prop("disabled", true);
 	    $("button,input", this).addClass("disabled").prop("disabled", true);
 	    //$("input[type='text'].inline-number", this).val("0");
 	    //$("input[type='text'].inline-number", this).prop("disabled", false).prop("readonly", true);
