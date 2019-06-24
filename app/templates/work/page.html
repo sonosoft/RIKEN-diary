@@ -62,7 +62,6 @@ $(function(){
 	if(isNaN(step)){
 	    step = 1;
 	}
-	alert(min + ", " + max + ", " + step);
 	if(min <= max){
 	    $(this).append($("<option>").val("").text(""));
 	    for(var value = min; value <= max; value += step){
@@ -279,6 +278,7 @@ function validatePage(){
 	var radio = $("input[type=radio][name='answer[" + name + "]']");
 	var check = $("input[type=check][name='answer[" + name + "][]']");
 	var hidden = $("input[type=hidden][name='answer[" + name + "]']");
+	var select = $("select[name='answer[" + name + "]']");
 	if(text.length > 0){
 	    if(!text.hasClass("optional") && !text.hasClass("disabled") && text.val().length == 0){
 		isValid = false;
@@ -296,6 +296,11 @@ function validatePage(){
 	    }
 	}else if(hidden.length > 0){
 	    if(hidden.val().length == 0){
+		isValid = false;
+		break;
+	    }
+	}else if(select.length > 0){
+	    if(!select.hasClass("disabled") && $("option:selected", select).val().length == 0){
 		isValid = false;
 		break;
 	    }
