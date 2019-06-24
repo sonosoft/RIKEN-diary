@@ -54,8 +54,11 @@ class DiaryModel extends Model {
   public function __get($name){
     if(strcmp($name, 'path') == 0){
       $hex = sprintf('%08x', $this->id);
+      var_dump($hex);
       $path = 'var/data';
       foreach(array(0, 2, 4, 6) as $i){
+	var_dump($i);
+	var_dump(substr($hex, $i, 2));
 	$path = sprintf('%s/%02x', $path, substr($hex, $i, 2));
       }
       $path .= '.xml';
