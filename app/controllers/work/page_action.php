@@ -36,7 +36,6 @@ class WorkPageAction extends WorkController {
       $values = array();
     }else{
       list($this->app->data['rows'], $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
-      var_dump($this->app->data['rows']);
     }
     
     /**/
@@ -52,6 +51,7 @@ class WorkPageAction extends WorkController {
 	$this->app->data['answer'][$answer->name] = $answer->value;
       }
     }
+    /**/
 
     /**/
     if($scale !== false){

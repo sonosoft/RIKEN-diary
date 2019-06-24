@@ -70,6 +70,8 @@ $(function(){
 		$(this).append($("<option>").val(value).text(("0" + value).slice(-2)));
 	    }
 	}
+	var name = $(this).data("name");
+	$(this).val($("input[name='alt[" + name + "']").val());
     });
     
     // [DATE]
