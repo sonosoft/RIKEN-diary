@@ -71,9 +71,7 @@ $(function(){
 	    }
 	}
 	var name = $(this).data("name");
-	alert($("input[name='alt[" + name + "']").val());
-	$(this).val($("input[name='alt[" + name + "']").val());
-	alert($(this).val());
+	$(this).val($("input[name='alt[" + name + "]']").val());
     });
     
     // [DATE]
