@@ -9,6 +9,7 @@
 	  <!-- [text] -->
 	  <input type="text" name="answer[{$inline.name}]" id="{$item.id}" class="form-control inline-5 {$inline.ex}" data-relation="{$inline.enableIf}" eln:if="{$inline.type EQ 'text'}">
 	  <!-- [number] -->
+	  <!--
 	  <div id="{$inline.id}" class="input-group inline-5 {$inline.ex}" data-relation="{$inline.enableIf}" eln:if="{$inline.type EQ 'number'}">
 	    <span class="input-group-btn">
 	      <button class="btn btn-default n-minus" type="button" data-target="{$inline.name}" data-step="{$inline.stepValue}">
@@ -22,8 +23,8 @@
 	      </button>
 	    </span>
 	  </div>
-	  <!-- [select] -->
-	  <select name="answer[{$inline.name}]" id="{$inline.id}" class="form-control {$inline.ex}" data-relation="{$inline.enableIf}" data-min="{$inline.minValue}" data-max="{$inline.maxValue}" data-step="{$inline.stepValue}" eln:if="{$inline.type EQ 'select'}">
+	  -->
+	  <select name="answer[{$inline.name}]" id="{$inline.id}" class="form-control number {$inline.ex}" data-relation="{$inline.enableIf}" data-min="{$inline.minValue}" data-max="{$inline.maxValue}" data-step="{$inline.stepValue}" data-default="{$inline.text}" eln:if="{$inline.type EQ 'number'}">
 	    <option></option>
 	  </select>
 	  <!-- [date] -->

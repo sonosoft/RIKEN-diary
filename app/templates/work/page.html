@@ -40,15 +40,17 @@
 var pageData = {json_encode($answers)|raw};
 $(function(){
     // [PLUS/MINUS]
+    /*
     $(".n-minus").on("click", function(){
 	modifyNumber($(this).data("target"), $(this).data("step"), -1);
     });
     $(".n-plus").on("click", function(){
 	modifyNumber($(this).data("target"), $(this).data("step"), 1);
     });
+    */
 
-    // [SELECT]
-    $("select").each(function(){
+    // [NUMBER]
+    $("select.number").each(function(){
 	$(this).html("");
 	var min = parseInt($(this).data("min"));
 	if(isNaN(min)){
@@ -155,13 +157,14 @@ $(function(){
 	validateRelations();
 	validatePage();
     });
-    $("select").on("change", function(){
+    $("select.number").on("change", function(){
 	validateRelations();
 	validatePage();
     });
     validateRelations();
     validatePage();
 });
+/*
 function modifyNumber(target, step, pm){
     var name = "answer[" + target + "]";
     var value = parseInt($("input[name='" + name + "']").val());
@@ -181,6 +184,7 @@ function modifyNumber(target, step, pm){
 	$("input[name='" + name + "']").val(value);
     }
 }
+*/
 function drawTimeline(canvas, clickable){
     var index = parseInt($(canvas).attr("id").slice(-2));
     var context = canvas.getContext("2d");
@@ -240,7 +244,7 @@ function validateRelations(){
 	if(checked){
 	    $(this).removeClass("disabled").prop("disabled", false);
 	    $("button,input", this).removeClass("disabled").prop("disabled", false);
-	    $("input[type='text'].inline-number", this).prop("readonly", false);
+	    //$("input[type='text'].inline-number", this).prop("readonly", false);
 	    if($(this).attr("type")){
 		if($(this).attr("type").toLowerCase() == "text"){
 		    $(this).removeClass("disabled").prop("disabled", false);
@@ -256,8 +260,8 @@ function validateRelations(){
 	}else{
 	    $(this).addClass("disabled").prop("disabled", true);
 	    $("button,input", this).addClass("disabled").prop("disabled", true);
-	    $("input[type='text'].inline-number", this).val("0");
-	    $("input[type='text'].inline-number", this).prop("disabled", false).prop("readonly", true);
+	    //$("input[type='text'].inline-number", this).val("0");
+	    //$("input[type='text'].inline-number", this).prop("disabled", false).prop("readonly", true);
 	    if($(this).attr("type")){
 		if($(this).attr("type").toLowerCase() == "text"){
 		    $(this).addClass("disabled").prop("disabled", true);
@@ -272,6 +276,9 @@ function validateRelations(){
 		    }
 		}
 	    }
+	    if($(this).prop("tagName") == "SELECT"){
+		$(this).val("");
+	    }
 	}
     });
 }
@@ -282,7 +289,7 @@ function validatePage(){
 	var radio = $("input[type=radio][name='answer[" + name + "]']");
 	var check = $("input[type=check][name='answer[" + name + "][]']");
 	var hidden = $("input[type=hidden][name='answer[" + name + "]']");
-	var select = $("select[name='answer[" + name + "]']");
+	var select = $("select.number[name='answer[" + name + "]']");
 	if(text.length > 0){
 	    if(!text.hasClass("optional") && !text.hasClass("disabled") && text.val().length == 0){
 		isValid = false;
