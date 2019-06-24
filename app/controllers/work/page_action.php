@@ -32,6 +32,7 @@ class WorkPageAction extends WorkController {
     if(isset($pages[$this->visit->page]) === false){
       $this->redirect('default:work.error');
     }
+    var_dump($this->visit->page);
     if(($scale = $this->PageModel->getScale($pages[$this->visit->page])) !== false){
       $values = array();
     }else{
