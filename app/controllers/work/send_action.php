@@ -49,8 +49,6 @@ class WorkSendAction extends WorkController {
       foreach($names as $entry){
 	$this->saveAnswer($answers, $entry);
       }
-      var_dump($_POST);
-      exit;
       
       /* ページ */
       $direction = $this->app->readRequest('answer.direction', 0);
@@ -135,8 +133,6 @@ class WorkSendAction extends WorkController {
   private function saveAnswer($answers, $item){
     /**/
     $value = $this->app->readRequest('answer.'.$item[1]);
-    var_dump($item[1]);
-    var_dump($value);
     $listed = 0;
     if(is_array($value)){
       if(empty($value)){
