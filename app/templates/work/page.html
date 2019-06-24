@@ -50,15 +50,15 @@ $(function(){
     // [SELECT]
     $("select").each(function(){
 	$(this).html("");
-	var min = $(this).data("min");
+	var min = parseInt($(this).data("min"));
 	if(isNaN(min)){
 	    min = 0;
 	}
-	var max = $(this).data("max");
+	var max = parseInt($(this).data("max"));
 	if(isNaN(max)){
 	    max = 100;
 	}
-	var step = $(this).data("step");
+	var step = parseInt($(this).data("step"));
 	if(isNaN(step)){
 	    step = 1;
 	}
