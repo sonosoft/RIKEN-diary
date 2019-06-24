@@ -40,6 +40,7 @@ class WorkPageAction extends WorkController {
     
     /**/
     $this->app->data['answer'] = $values;
+    $this->app->data['alt'] = array();
     foreach($this->AnswerModel->collectByPage($this->user, $this->visit, $this->visit->page) as $answer){
       if($answer->listed){
 	if(empty($answer->value) === false){
@@ -49,13 +50,7 @@ class WorkPageAction extends WorkController {
 	}
       }else{
 	$this->app->data['answer'][$answer->name] = $answer->value;
-      }
-    }
-    /**/
-    $this->app->data['alt'] = array();
-    foreach($this->app->data['rows'] as $row){
-      foreach($row['items'] as $item){
-	var_dump($item['type']);
+	$this->app->data['alt'][$answer->name] = $answer->value;
       }
     }
 
