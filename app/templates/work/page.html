@@ -155,6 +155,10 @@ $(function(){
 	validateRelations();
 	validatePage();
     });
+    $("select").on("change", function(){
+	validateRelations();
+	validatePage();
+    });
     validateRelations();
     validatePage();
 });
