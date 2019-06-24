@@ -22,6 +22,10 @@
 	      </button>
 	    </span>
 	  </div>
+	  <!-- [select] -->
+	  <select name="answer[{$inline.name}]" id="{$inline.id}" class="form-control {$inline.ex}" data-relation="{$inline.enableIf}" data-min="{$inline.minValue}" data-max="{$inline.maxValue}" data-step="{$inline.stepValue}" eln:if="{$inline.type EQ 'select'}">
+	    <option></option>
+	  </select>
 	  <!-- [date] -->
 	  <div class="input-group inline-5" eln:if="{$inline.type EQ 'date'}">
 	    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>

@@ -47,6 +47,20 @@ $(function(){
 	modifyNumber($(this).data("target"), $(this).data("step"), 1);
     });
 
+    // [SELECT]
+    $("select").html("");
+    var min = $("select").data("min");
+    var max = $("select").data("max");
+    var step = $("select").data("step");
+    $("select").append($("<option>").val("").text(""));
+    if(!isNaN(min) && !isNaN(max) && !isNaN(step)){
+	if(min <= max){
+	    for(var value = min; value <= max; value += step){
+		$("select").append($("<option>").val(value).text(("0" + value).slice(-2)));
+	    }
+	}
+    }
+    
     // [DATE]
     $("input.datepicker").datepicker({ defaultDate: "1970/01/01" });
 
