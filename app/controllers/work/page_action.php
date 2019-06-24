@@ -39,16 +39,16 @@ class WorkPageAction extends WorkController {
     }
     
     /**/
-    $this->app->data['answers'] = $values;
+    $this->app->data['answer'] = $values;
     foreach($this->AnswerModel->collectByPage($this->user, $this->visit, $this->visit->page) as $answer){
       if($answer->listed){
 	if(empty($answer->value) === false){
-	  $this->app->data['answers'][$answer->name] = explode(',', $answer->value);
+	  $this->app->data['answer'][$answer->name] = explode(',', $answer->value);
 	}else{
-	  $this->app->data['answers'][$answer->name] = array();
+	  $this->app->data['answer'][$answer->name] = array();
 	}
       }else{
-	$this->app->data['answers'][$answer->name] = $answer->value;
+	$this->app->data['answer'][$answer->name] = $answer->value;
       }
     }
 
