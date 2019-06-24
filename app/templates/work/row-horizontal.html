@@ -27,7 +27,7 @@
 	  <select name="answer[{$inline.name}]" id="{$inline.id}" class="form-control number {$inline.ex}" data-relation="{$inline.enableIf}" data-min="{$inline.minValue}" data-max="{$inline.maxValue}" data-step="{$inline.stepValue}" data-name="{$inline.name}" eln:if="{$inline.type EQ 'number'}">
 	    <option></option>
 	  </select>
-	  <input type="hidden" name="alt[{$inline.name}]">
+	  <input type="hidden" name="alt[{$inline.name}]" eln:if="{$inline.type EQ 'number'}">
 	  <!-- [date] -->
 	  <div class="input-group inline-5" eln:if="{$inline.type EQ 'date'}">
 	    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>

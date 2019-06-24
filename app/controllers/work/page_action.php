@@ -52,6 +52,12 @@ class WorkPageAction extends WorkController {
       }
     }
     /**/
+    $this->app->data['alt'] = array();
+    foreach($this->app->data['rows'] as $row){
+      foreach($row['items'] as $item){
+	var_dump($item['type']);
+      }
+    }
 
     /**/
     if($scale !== false){
