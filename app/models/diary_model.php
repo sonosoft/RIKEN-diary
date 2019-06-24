@@ -59,7 +59,6 @@ class DiaryModel extends Model {
 	$path = sprintf('%s/%02x', $path, substr($hex, $i, 2));
       }
       $path .= '.xml';
-      var_dump($path);
       return $this->app->projectFile($path);
     }else if(strcmp($name, 'schedule_tos') == 0){
       return sprintf(
