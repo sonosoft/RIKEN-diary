@@ -56,9 +56,14 @@ class AdminProjectDownloadAction extends AdminController {
       $headers = array(array('"入力日時"', '"被験者"', '"性別"', '"生年月日"'), array('"DATETIME"', '"USER"', '"SEX"', '"BIRTHDAY"'));
       $names = array();
       foreach($pages as $index=>$page){
-	list(, $ns,) = $this->PageModel->convert($page);
-	foreach($ns as $n){
-	  $names[] = $n;
+	if(($scale = $this->PageModel->getScale($page)) !== false){
+	  $names[] = array($scale['header'].'_x', $scale['name'].'_x', false);
+	  $names[] = array($scale['header'].'_y', $scale['name'].'_y', false);
+	}else{
+	  list(, $ns,) = $this->PageModel->convert($page);
+	  foreach($ns as $n){
+	    $names[] = $n;
+	  }
 	}
       }
       foreach($names as $name){
@@ -91,7 +96,7 @@ class AdminProjectDownloadAction extends AdminController {
 	$this->printSJIS(',"'.$visit[5].'"');
 	/**/
 	$answers = array();
-	$records = $this->InquiryModel->all(
+	$records = $this->AnswerModel->all(
 	  array('where'=>'[user_id] = :user_id AND [visit_id] = :visit_id'),
 	  array('user_id'=>$visit[2], 'visit_id'=>$visit[0])
 	);

@@ -16,10 +16,7 @@
       {$project.title}<br>
       お答えいただくのは下記です。全部で{$numPages}ページあります。<br>
       <ul>
-	<li eln:foreach="$diary:{$diaries}">
-	  {$diary.title}<br>
-	  <blockquote>{$diary.overview}</blockquote>
-	</li>
+	<li eln:foreach="$diary:{$diaries}">{$diary.title}</li>
       </ul>
     </p>
     <p id="index-note">
