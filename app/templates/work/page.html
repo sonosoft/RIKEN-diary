@@ -48,25 +48,28 @@ $(function(){
     });
 
     // [SELECT]
-    $("select").html("");
-    var min = $("select").data("min");
-    if(isNaN(min)){
-	min = 0;
-    }
-    var max = $("select").data("max");
-    if(isNaN(max)){
-	max = 100;
-    }
-    var step = $("select").data("step");
-    if(isNaN(step)){
-	step = 1;
-    }
-    if(min <= max){
-	$("select").append($("<option>").val("").text(""));
-	for(var value = min; value <= max; value += step){
-	    $("select").append($("<option>").val(value).text(("0" + value).slice(-2)));
+    $("select").each(function(){
+	$(this).html("");
+	var min = $(this).data("min");
+	if(isNaN(min)){
+	    min = 0;
 	}
-    }
+	var max = $(this).data("max");
+	if(isNaN(max)){
+	    max = 100;
+	}
+	var step = $(this).data("step");
+	if(isNaN(step)){
+	    step = 1;
+	}
+	alert(min + ", " + max + ", " + step);
+	if(min <= max){
+	    $(this).append($("<option>").val("").text(""));
+	    for(var value = min; value <= max; value += step){
+		$(this).append($("<option>").val(value).text(("0" + value).slice(-2)));
+	    }
+	}
+    });
     
     // [DATE]
     $("input.datepicker").datepicker({ defaultDate: "1970/01/01" });
