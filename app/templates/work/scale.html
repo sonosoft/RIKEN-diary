@@ -28,15 +28,33 @@
   </div>
 </div>
 
-<form action="{eln:uri('default:work.send')}" method="post">
-  <input type="hidden" name="answer[{$scale.name}_x]">
-  <input type="hidden" name="answer[{$scale.name}_y]">
-  <input type="hidden" name="answer[direction]">
-  <div class="row cols-xs-12 text-center mT30">
-    <button class="btn btn-lg btn-default prev" type="button">戻る</button>
-    <button class="btn btn-lg btn-default next" type="button">次へ</button>
-  </div>
-</form>
+<div class="text-center">
+  <form action="{eln:uri('default:work.send')}" method="post">
+    <div class="form-group" eln:if="{$scale.time}">
+      <div class="col-xs-12">
+	<p class="form-control-static">記入時と時間差がある場合はおおよその時刻をご指定ください。</p>
+      </div>
+      <div class="col-xs-12 form-inline">
+	<select name="answer[{$scale.name}_time_h]" class="form-control number" data-min="0" data-max="23" data-step="1">
+	  <option></option>
+	</select>
+	<p class="form-control-static">:</p>
+	<select name="answer[{$scale.name}_time_m]" class="form-control number" data-min="0" data-max="59" data-step="5">
+	  <option></option>
+	</select>
+      </div>
+      <input type="hidden" name="alt[{$scale.name}_time_h]">
+      <input type="hidden" name="alt[{$scale.name}_time_h]">
+    </div>
+    <input type="hidden" name="answer[{$scale.name}_x]">
+    <input type="hidden" name="answer[{$scale.name}_y]">
+    <input type="hidden" name="answer[direction]">
+    <div class="row cols-xs-12 text-center mT30">
+      <button class="btn btn-lg btn-default prev" type="button">戻る</button>
+      <button class="btn btn-lg btn-default next" type="button">次へ</button>
+    </div>
+  </form>
+</div>
 
 <div id="scale-screen"></div>
 
@@ -106,7 +124,7 @@ $(function(){
     });
     var x = parseInt($("input[name='answer[{$scale.name}_x]']").val());
     var y = parseInt($("input[name='answer[{$scale.name}_y]']").val());
-    if(x.length > 0 && y.length > 0){
+    if(!isNaN(x) && !isNaN(y)){
 	score.x = x / 100;
 	score.y = y / 100;
 	onMoveScope(score, width, image);
@@ -115,6 +133,31 @@ $(function(){
 	$("button.next").prop("disabled", true).addClass("disabled");
     }
 
+    // [TIME]
+    $("select.time").each(function(){
+	$(this).html("");
+	var min = parseInt($(this).data("min"));
+	if(isNaN(min)){
+	    min = 0;
+	}
+	var max = parseInt($(this).data("max"));
+	if(isNaN(max)){
+	    max = 100;
+	}
+	var step = parseInt($(this).data("step"));
+	if(isNaN(step)){
+	    step = 1;
+	}
+	if(min <= max){
+	    $(this).append($("<option>").val("").text(""));
+	    for(var value = min; value <= max; value += step){
+		$(this).append($("<option>").val(value).text(("0" + value).slice(-2)));
+	    }
+	}
+	var name = $(this).data("name");
+	$(this).val($("input[name='alt[" + name + "]']").val());
+    });
+    
     // [NEXT/PREV]
     $("button.next").on("click", function(){
 	$("button.next").addClass("disabled").prop("disabled", true);

@@ -52,6 +52,11 @@ class PageModelFactory extends Eln_Object {
 	  }
 	}
       }
+      foreach($page->option as $option){
+	if(isset($option['type'])){
+	  $scale[strval($option['type'])] = true;
+	}
+      }
       return $scale;
     }
     return false;
