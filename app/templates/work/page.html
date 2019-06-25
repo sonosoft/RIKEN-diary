@@ -71,6 +71,9 @@ $(function(){
 		$(this).append($("<option>").val(value).text(("0" + value).slice(-2)));
 	    }
 	}
+	if($(this).attr("name").match(/^answer\[(.+)\]$/)){
+	    alert(RegExp.$1);
+	}
 	var name = $(this).data("name");
 	$(this).val($("input[name='alt[" + name + "]']").val());
     });
