@@ -28,9 +28,13 @@ class WorkSendAction extends WorkController {
     }
     if(($scale = $this->PageModel->getScale($pages[$this->visit->page])) !== false){
       $names = array(
-	array($scale['header'].'_x', $scale['name'].'_x', false),
-	array($scale['header'].'_y', $scale['name'].'_y', false),
+	array($scale['header'].'（X）', $scale['name'].'_x', false),
+	array($scale['header'].'（Y）', $scale['name'].'_y', false),
       );
+      if(isset($scale['time'])){
+	$names[] = array($scale['header'].'（時）', $scale['name'].'_time_h', false);
+	$names[] = array($scale['header'].'（分）', $scale['name'].'_time_x', false);
+      }
     }else{
       list($rows, $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
     }
