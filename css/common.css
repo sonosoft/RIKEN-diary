@@ -159,7 +159,7 @@ table#fatigue-table tr:nth-child(n+2) td:nth-child(6) {
 input.e9[type='text'] {
     border: 1px solid #f00;
 }
-select.e9[type='text'] {
+select.e9 {
     border: 1px solid #f00;
 }
 /**/
