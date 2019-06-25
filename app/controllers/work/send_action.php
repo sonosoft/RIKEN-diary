@@ -33,7 +33,7 @@ class WorkSendAction extends WorkController {
       );
       if(isset($scale['time'])){
 	$names[] = array($scale['header'].'（時）', $scale['name'].'_time_h', false);
-	$names[] = array($scale['header'].'（分）', $scale['name'].'_time_x', false);
+	$names[] = array($scale['header'].'（分）', $scale['name'].'_time_m', false);
       }
     }else{
       list($rows, $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
