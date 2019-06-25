@@ -168,14 +168,8 @@ table#fatigue-table tr:nth-child(n+2) td:nth-child(6) {
     }
 }
 @media (max-width: 767px) {
-    .form-inline .form-control {
+    .form-inline .form-control, .form-inline .form-control-static {
 	display: inline-block !important;
-	width: auto;
-	vertical-align: middle;
-    }
-    .form-inline .form-group {
-	display: inline-block;
-	margin-bottom: 0;
 	vertical-align: middle;
     }
 }
