@@ -153,7 +153,6 @@ $(function(){
 	    $("input[name='answer[direction]']").val({DIRECTION_NEXT});
 	    $("form").submit();
 	}else{
-	    $(".e9").first().focus();
 	    alert("入力または選択されていない項目が残っています。ハイライトされている箇所をご確認ください。");
 	}
     });
@@ -318,13 +317,17 @@ function validatePage(){
 	    }
 	}else if(radio.length > 0){
 	    if(!radio.hasClass("disabled") && !radio.is(":checked")){
+		$("label", radio.parents("div.form-inline")).addClass("e9");
 		isValid = false;
 	    }else{
+		$("label", radio.parents("div.form-inline")).removeClass("e9");
 	    }
 	}else if(check.length > 0){
 	    if(!check.hasClass("disabled") && !check.is(":checked")){
+		$("label", radio.parents("div.form-inline")).addClass("e9");
 		isValid = false;
 	    }else{
+		$("label", radio.parents("div.form-inline")).removeClass("e9");
 	    }
 	}else if(hidden.length > 0){
 	    if(hidden.val().length == 0){
