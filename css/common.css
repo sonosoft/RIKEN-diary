@@ -167,3 +167,15 @@ table#fatigue-table tr:nth-child(n+2) td:nth-child(6) {
 	width: 377px;
     }
 }
+@media (max-width: 767px) {
+    .form-inline .form-control {
+	display: inline-block !important;
+	width: auto;
+	vertical-align: middle;
+    }
+    .form-inline .form-group {
+	display: inline-block;
+	margin-bottom: 0;
+	vertical-align: middle;
+    }
+}
