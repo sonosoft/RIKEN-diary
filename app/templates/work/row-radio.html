@@ -8,11 +8,13 @@
       </label>
     </div>
     <!-- [inline] -->
-    <eln:tag eln:foreach="$inline:{$item.inline}" eln:if="{$item.type EQ 'inline'}">
-      <label class="radio-inline" eln:if="{$inline.type EQ 'radio'}">
-	<input type="radio" name="answer[{$inline.name}]" value="{$inline.value}" id="{$inline.id}" class="{$inline.ex}" data-relation="{$inline.enableIf}">
-	{$inline.text}
-      </label>
-    </eln:tag>
+    <div class="col-xs-12 mB3" eln:if="{$item.type EQ 'inline'}">
+      <eln:tag eln:foreach="$inline:{$item.inline}">
+	<label class="radio-inline" eln:if="{$inline.type EQ 'radio'}">
+	  <input type="radio" name="answer[{$inline.name}]" value="{$inline.value}" id="{$inline.id}" class="{$inline.ex}" data-relation="{$inline.enableIf}">
+	  {$inline.text}
+	</label>
+      </eln:tag>
+    </div>
   </eln:tag>
 </div>
