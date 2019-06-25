@@ -1,18 +1,15 @@
-<div class="radio">
+<div class="form-group row radio">
   <eln:tag eln:foreach="$item:{$row.items}">
     <!-- [radio] -->
-    <label class="radio" eln:if="{$item.type EQ 'radio'}">
-      <input type="radio" name="answer[{$item.name}]" value="{$item.value}" id="{$item.id}" class="{$item.ex}" data-relation="{$item.enableIf}">
-      {$item.text}
-    </label>
-    <!-- [label] -->
-    <p class="help-block" eln:if="{$item.type EQ 'label'}">{$item.text}</p>
-    <!-- [inline] -->
-    <eln:tag eln:foreach="$inline:{$item.inline}" eln:if="{$item.type EQ 'inline'}">
-      <label class="radio-inline" eln:if="{$inline.type EQ 'radio'}">
-	<input type="radio" name="answer[{$inline.name}]" value="{$inline.value}" id="{$inline.id}" class="{$inline.ex}" data-relation="{$inline.enableIf}">
-	{$inline.text}
+    <div class="col-xs-{$item.width} mB3" eln:if="{$item.type EQ 'radio'}">
+      <label class="radio-inline">
+	<input type="radio" name="answer[{$item.name}]" value="{$item.value}" id="{$item.id}" class="{$item.ex}" data-relation="{$item.enableIf}">
+	{$item.text}
       </label>
-    </eln:tag>
+    </div>
+    <!-- [label] -->
+    <div class="col-xs-12" eln:if="{$item.type EQ 'label'}">
+      <p class="help-block" eln:if="{$item.type EQ 'label'}">{$item.text}</p>
+    </div>
   </eln:tag>
 </div>

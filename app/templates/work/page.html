@@ -61,14 +61,14 @@ $(function(){
 	if(isNaN(max)){
 	    max = 100;
 	}
-	var step = parseInt($(this).data("step"));
+	var step = parseFloat($(this).data("step"));
 	if(isNaN(step)){
 	    step = 1;
 	}
 	if(min <= max){
 	    $(this).append($("<option>").val("").text(""));
 	    for(var value = min; value <= max; value += step){
-		$(this).append($("<option>").val(value).text(("0" + value).slice(-2)));
+		$(this).append($("<option>").val(value).text(value));
 	    }
 	}
 	if($(this).attr("name").match(/^answer\[(.+)\]$/)){
