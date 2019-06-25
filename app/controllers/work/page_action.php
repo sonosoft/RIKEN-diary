@@ -37,6 +37,7 @@ class WorkPageAction extends WorkController {
       if(isset($scale['time'])){
 	$this->app->data['alt'][$scale['name'].'_time_h'] = $this->app->data['_now_']->hour;
 	$this->app->data['alt'][$scale['name'].'_time_m'] = intval($this->app->data['_now_']->minute / 5) * 5;
+	var_dump($this->app->data['alt']);
       }
     }else{
       list($this->app->data['rows'], $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
