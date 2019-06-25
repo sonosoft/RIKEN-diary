@@ -34,11 +34,11 @@
       <div class="col-xs-12 mB30">
 	<p class="form-control-static">記入時と時間差がある場合はおおよその時刻をご指定ください。</p>
 	<div class="form-inline">
-	  <select name="answer[{$scale.name}_time_h]" class="form-control number" data-min="0" data-max="23" data-step="1">
+	  <select name="answer[{$scale.name}_time_h]" class="form-control number" data-min="0" data-max="23" data-step="1" data-name="{$scale.name}_time_h">
 	    <option></option>
 	  </select>
 	  <p class="form-control-static">:</p>
-	  <select name="answer[{$scale.name}_time_m]" class="form-control number" data-min="0" data-max="59" data-step="5">
+	  <select name="answer[{$scale.name}_time_m]" class="form-control number" data-min="0" data-max="59" data-step="5" data-name="{$scale.name}_time_m">
 	    <option></option>
 	  </select>
 	</div>
