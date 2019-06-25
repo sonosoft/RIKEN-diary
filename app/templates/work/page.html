@@ -152,6 +152,9 @@ $(function(){
 	    $("button.next").addClass("disabled").prop("disabled", true);
 	    $("input[name='answer[direction]']").val({DIRECTION_NEXT});
 	    $("form").submit();
+	}else{
+	    $(".e9").focus();
+	    alert("入力または選択されていない項目が残っています。ハイライトされている箇所をご確認ください。");
 	}
     });
     $("button.prev").on("click", function(){
@@ -329,7 +332,6 @@ function validatePage(){
 	    }else{
 	    }
 	}else if(select.length > 0){
-	    alert($("option:selected", select).val());
 	    if(!select.hasClass("disabled") && $("option:selected", select).val().length == 0){
 		select.addClass("e9");
 		isValid = false;
