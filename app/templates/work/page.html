@@ -317,10 +317,10 @@ function validatePage(){
 	    }
 	}else if(radio.length > 0){
 	    if(!radio.hasClass("disabled") && !radio.is(":checked")){
-		$("label", radio.parents("div.form-inline")).addClass("e9");
+		$("label", radio.parents("div.radio")).addClass("e9");
 		isValid = false;
 	    }else{
-		$("label", radio.parents("div.form-inline")).removeClass("e9");
+		$("label", radio.parents("div.radio")).removeClass("e9");
 	    }
 	}else if(check.length > 0){
 	    if(!check.hasClass("disabled") && !check.is(":checked")){
