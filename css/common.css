@@ -156,6 +156,13 @@ table#fatigue-table tr:nth-child(n+2) td:nth-child(6) {
 }
 
 /**/
+input.e9[type='text'] {
+    border: 1px solid #f00;
+}
+select.e9[type='text'] {
+    border: 1px solid #f00;
+}
+/**/
 @media (min-width: 768px) {
     input.inline-number {
 	width: 55px !important;
