@@ -37,7 +37,7 @@
 <eln:tag eln:include="work/foot.html"></eln:tag>
 <script>
 //<![CDATA[
-var pageData = {json_encode($answers)|raw};
+var formSubmitted = false;
 $(function(){
     // [PLUS/MINUS]
     /*
@@ -141,6 +141,9 @@ $(function(){
 
     // [NEXT/PREV]
     $("button.next").on("click", function(){
+	formSubmitted = true;
+	validateRelations();
+	validatePage();
 	$("button.next").addClass("disabled").prop("disabled", true);
 	$("input[name='answer[direction]']").val({DIRECTION_NEXT});
 	$("form").submit();

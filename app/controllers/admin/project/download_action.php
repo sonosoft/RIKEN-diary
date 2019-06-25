@@ -57,8 +57,12 @@ class AdminProjectDownloadAction extends AdminController {
       $names = array();
       foreach($pages as $index=>$page){
 	if(($scale = $this->PageModel->getScale($page)) !== false){
-	  $names[] = array($scale['header'].'_x', $scale['name'].'_x', false);
-	  $names[] = array($scale['header'].'_y', $scale['name'].'_y', false);
+	  $names[] = array($scale['header'].'（X）', $scale['name'].'_x', false);
+	  $names[] = array($scale['header'].'（Y）', $scale['name'].'_y', false);
+	  if(isset($scale['time'])){
+	    $names[] = array($scale['header'].'（時）', $scale['name'].'_time_h', false);
+	    $names[] = array($scale['header'].'（分）', $scale['name'].'_time_m', false);
+	  }
 	}else{
 	  list(, $ns,) = $this->PageModel->convert($page);
 	  foreach($ns as $n){
