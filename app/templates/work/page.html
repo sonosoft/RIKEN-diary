@@ -160,7 +160,7 @@ $(function(){
     });
 
     // [VALIDATION]
-    $("input[type=text]").on("change", function(){
+    $("input[type=text]").on("keyUp", function(){
 	validateRelations();
 	if(formSubmitted){
 	    validatePage();
@@ -316,19 +316,25 @@ function validatePage(){
 	}else if(radio.length > 0){
 	    if(!radio.hasClass("disabled") && !radio.is(":checked")){
 		isValid = false;
+	    }else{
 	    }
 	}else if(check.length > 0){
 	    if(!check.hasClass("disabled") && !check.is(":checked")){
 		isValid = false;
+	    }else{
 	    }
 	}else if(hidden.length > 0){
 	    if(hidden.val().length == 0){
 		isValid = false;
+	    }else{
 	    }
 	}else if(select.length > 0){
+	    alert($("option:selected", select).val());
 	    if(!select.hasClass("disabled") && $("option:selected", select).val().length == 0){
+		select.addClass("e9");
 		isValid = false;
-
+	    }else{
+		select.removeClass("e9");
 	    }
 	}
     }
