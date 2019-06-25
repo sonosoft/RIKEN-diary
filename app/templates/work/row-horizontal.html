@@ -7,7 +7,7 @@
       <div class="col-xs-12 col-sm-{$item.width} form-inline {$item.ex}" data-relation="{$item.enableIf}" eln:if="{$item.type EQ 'inline'}">
 	<eln:tag eln:foreach="$inline:{$item.inline}">
 	  <!-- [text] -->
-	  <input type="text" name="answer[{$inline.name}]" id="{$item.id}" class="form-control inline-5 {$inline.ex} has-error" data-relation="{$inline.enableIf}" eln:if="{$inline.type EQ 'text'}">
+	  <input type="text" name="answer[{$inline.name}]" id="{$item.id}" class="form-control inline-5 {$inline.ex}" data-relation="{$inline.enableIf}" eln:if="{$inline.type EQ 'text'}">
 	  <!-- [number] -->
 	  <!--
 	  <div id="{$inline.id}" class="input-group inline-5 {$inline.ex}" data-relation="{$inline.enableIf}" eln:if="{$inline.type EQ 'number'}">
@@ -24,10 +24,9 @@
 	    </span>
 	  </div>
 	  -->
-	  <select name="answer[{$inline.name}]" id="{$inline.id}" class="form-control number {$inline.ex}" data-relation="{$inline.enableIf}" data-min="{$inline.minValue}" data-max="{$inline.maxValue}" data-step="{$inline.stepValue}" data-name="{$inline.name}" eln:if="{$inline.type EQ 'number'}">
+	  <select name="answer[{$inline.name}]" id="{$inline.id}" class="form-control number {$inline.ex}" data-relation="{$inline.enableIf}" data-min="{$inline.minValue}" data-max="{$inline.maxValue}" data-step="{$inline.stepValue}" eln:if="{$inline.type EQ 'number'}">
 	    <option></option>
 	  </select>
-	  <input type="hidden" name="alt[{$inline.name}]" eln:if="{$inline.type EQ 'number'}">
 	  <!-- [date] -->
 	  <div class="input-group inline-5" eln:if="{$inline.type EQ 'date'}">
 	    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>

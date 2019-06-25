@@ -35,8 +35,8 @@ class WorkPageAction extends WorkController {
     if(($scale = $this->PageModel->getScale($pages[$this->visit->page])) !== false){
       $values = array();
       if(isset($scale['time'])){
-	$this->app->data['alt'][$scale['name'].'_time_h'] = $this->app->data['_now_']->hour;
-	$this->app->data['alt'][$scale['name'].'_time_m'] = intval($this->app->data['_now_']->minute / 5) * 5;
+	$values[$scale['name'].'_time_h'] = $this->app->data['_now_']->hour;
+	$values[$scale['name'].'_time_m'] = intval($this->app->data['_now_']->minute / 5) * 5;
       }
     }else{
       list($this->app->data['rows'], $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
@@ -44,9 +44,6 @@ class WorkPageAction extends WorkController {
     
     /**/
     $this->app->data['answer'] = $values;
-    if(empty($this->app->data['alt'])){
-      $this->app->data['alt'] = array();
-    }
     foreach($this->AnswerModel->collectByPage($this->user, $this->visit, $this->visit->page) as $answer){
       if($answer->listed){
 	if(empty($answer->value) === false){
@@ -56,7 +53,6 @@ class WorkPageAction extends WorkController {
 	}
       }else{
 	$this->app->data['answer'][$answer->name] = $answer->value;
-	$this->app->data['alt'][$answer->name] = $answer->value;
       }
     }
 

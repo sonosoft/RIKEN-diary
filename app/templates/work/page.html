@@ -72,10 +72,11 @@ $(function(){
 	    }
 	}
 	if($(this).attr("name").match(/^answer\[(.+)\]$/)){
-	    alert(RegExp.$1);
+	    var name = RegExp.$1;
+	    if(name in pageData){
+		$(this).val(pageData[name]);
+	    }
 	}
-	var name = $(this).data("name");
-	$(this).val($("input[name='alt[" + name + "]']").val());
     });
     
     // [DATE]
@@ -145,9 +146,13 @@ $(function(){
 
     // [NEXT/PREV]
     $("button.next").on("click", function(){
-	$("button.next").addClass("disabled").prop("disabled", true);
-	$("input[name='answer[direction]']").val({DIRECTION_NEXT});
-	$("form").submit();
+	formSubmitted = true;
+	validateRelations();
+	if(validatePage()){
+	    $("button.next").addClass("disabled").prop("disabled", true);
+	    $("input[name='answer[direction]']").val({DIRECTION_NEXT});
+	    $("form").submit();
+	}
     });
     $("button.prev").on("click", function(){
 	$("input[name='answer[direction]']").val({DIRECTION_PREV});
@@ -157,18 +162,23 @@ $(function(){
     // [VALIDATION]
     $("input[type=text]").on("change", function(){
 	validateRelations();
-	validatePage();
+	if(formSubmitted){
+	    validatePage();
+	}
     });
     $("input[type=checkbox], input[type=radio]").on("click", function(){
 	validateRelations();
-	validatePage();
+	if(formSubmitted){
+	    validatePage();
+	}
     });
     $("select.number").on("change", function(){
 	validateRelations();
-	validatePage();
+	if(formSubmitted){
+	    validatePage();
+	}
     });
     validateRelations();
-    validatePage();
 });
 /*
 function modifyNumber(target, step, pm){
@@ -298,35 +308,27 @@ function validatePage(){
 	var select = $("select.number[name='answer[" + name + "]']");
 	if(text.length > 0){
 	    if(!text.hasClass("optional") && !text.hasClass("disabled") && text.val().length == 0){
+		text.addClass("has-error");
 		isValid = false;
-		break;
 	    }
 	}else if(radio.length > 0){
 	    if(!radio.hasClass("disabled") && !radio.is(":checked")){
 		isValid = false;
-		break;
 	    }
 	}else if(check.length > 0){
 	    if(!check.hasClass("disabled") && !check.is(":checked")){
 		isValid = false;
-		break;
 	    }
 	}else if(hidden.length > 0){
 	    if(hidden.val().length == 0){
 		isValid = false;
-		break;
 	    }
 	}else if(select.length > 0){
 	    if(!select.hasClass("disabled") && $("option:selected", select).val().length == 0){
 		isValid = false;
-		break;
+
 	    }
 	}
-    }
-    if(isValid){
-	$("button.next").removeClass("disabled").prop("disabled", false);
-    }else{
-	$("button.next").addClass("disabled").prop("disabled", true);
     }
     return isValid;
 }
