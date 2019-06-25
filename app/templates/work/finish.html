@@ -10,30 +10,17 @@
 <!-- panel -->
 <div class="panel panel-default">
   <div class="panel-body">
-    <p>すべての質問が終了しました。お疲れ様でした。</p>
-    <div class="row button">
-      <div class="col-xs-12 text-center">
-	<button class="btn btn-lg btn-default to-close">このページを閉じる</button>
-      </div>
-    </div>
+    <p>
+      すべての質問が終了しました。<br>
+      ブラウザを閉じていただいて大丈夫です。<br>
+      お疲れ様でした。
+    </p>
   </div>
 </div>
 <!-- /panel -->
 
 </div>
 <!-- /container -->
-
-<eln:tag eln:include="work/foot.html"></eln:tag>
-<script>
-//<![CDATA[
-$(function(){
-    // close.
-    $("button.to-close").on("click", function(){
-	window.open("", "_self").close();
-    });
-});
-//]]>
-</script>
 
 </body>
 </html>
