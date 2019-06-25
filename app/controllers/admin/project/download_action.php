@@ -53,7 +53,10 @@ class AdminProjectDownloadAction extends AdminController {
       }
 
       /* ヘッダ */
-      $headers = array(array('"入力日時"', '"被験者"', '"性別"', '"生年月日"'), array('"DATETIME"', '"USER"', '"SEX"', '"BIRTHDAY"'));
+      $headers = array(
+	array('"入力日時"', '"被験者"', '"性別"', '"生年月日"', '"日誌"'),
+	array('"DATETIME"', '"USER"', '"SEX"', '"BIRTHDAY"', '"DIARIES"'),
+      );
       $names = array();
       foreach($pages as $index=>$page){
 	if(($scale = $this->PageModel->getScale($page)) !== false){
@@ -81,7 +84,7 @@ class AdminProjectDownloadAction extends AdminController {
       
       /* ボディ */
       $visits = $this->db->query(
-	'SELECT visit.id, visit.finished_at, user.id, user.code, user.sex, user.birthday '.
+	'SELECT visit.id, visit.finished_at, user.id, user.code, user.sex, user.birthday, visit.diaries '.
 	'FROM visit '.
 	'LEFT OUTER JOIN user ON user.id = visit.user_id '.
 	'WHERE '.implode(' AND ', $where).' '.
@@ -97,7 +100,7 @@ class AdminProjectDownloadAction extends AdminController {
 	}else{
 	  $this->printSJIS('""');
 	}
-	$this->printSJIS(',"'.$visit[5].'"');
+	$this->printSJIS(',"'.$visit[5].'","'.$visit[6].'"');
 	/**/
 	$answers = array();
 	$records = $this->AnswerModel->all(

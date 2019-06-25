@@ -90,12 +90,17 @@ class WorkIndexAction extends Controller {
 	$this->app->data['numPages'] = count($indexes);
 
 	/* 訪問 */
+	$codes = array();
+	foreach($diaries as $diary){
+	  $codes[] = 'DY'.$diary->code;
+	}
 	$visit = $this->VisitModel->newModel();
 	$visit->user_id = $user->id;
 	$visit->project_id = $project->id;
 	if($code !== null){
 	  $visit->diary_id = $diaries[0]->id;
 	}
+	$visit->diaries = implode(',', $codes);
 	$visit->page = $indexes[0];
 	$visit->status = STATUS_STARTED;
 	$visit->started_at = $this->app->data['_now_'];
