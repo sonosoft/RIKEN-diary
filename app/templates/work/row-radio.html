@@ -7,9 +7,12 @@
 	{$item.text}
       </label>
     </div>
-    <!-- [label] -->
-    <div class="col-xs-12" eln:if="{$item.type EQ 'label'}">
-      <p class="help-block" eln:if="{$item.type EQ 'label'}">{$item.text}</p>
-    </div>
+    <!-- [inline] -->
+    <eln:tag eln:foreach="$inline:{$item.inline}" eln:if="{$item.type EQ 'inline'}">
+      <label class="radio-inline" eln:if="{$inline.type EQ 'radio'}">
+	<input type="radio" name="answer[{$inline.name}]" value="{$inline.value}" id="{$inline.id}" class="{$inline.ex}" data-relation="{$inline.enableIf}">
+	{$inline.text}
+      </label>
+    </eln:tag>
   </eln:tag>
 </div>
