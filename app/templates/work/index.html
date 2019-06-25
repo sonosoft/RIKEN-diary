@@ -11,20 +11,18 @@
 <div class="panel panel-success">
   <div class="panel-heading"><h3>日誌</h3></div>
   <div class="panel-body">
-    <p class="lead">
+    <p class="lead text-center">
       <strong>{eln:date($_now_, '%Y年%m月%d日（%a） %H時%M分')}</strong><br><br>
       {$project.title}<br>
-      お答えいただくのは下記です。全部で{$numPages}ページあります。<br>
-      <ul>
-	<li eln:foreach="$diary:{$diaries}">{$diary.title}</li>
-      </ul>
+      {eln:date($project.from_date, '%Y年%m月%d日（%a）')}〜{eln:date($project.to_date, '%Y年%m月%d日（%a）')}
     </p>
-    <p id="index-note">
-      あなたのお名前などの個人情報及び個人が特定される形でデータが公表されることはありません。
+    <p class="lead">
+      以降のページに表示される質問にお答えください。<br>
+      すべての項目に回答がないと次のページに進めませんのでご注意ください。<br>
     </p>
     <div class="form-group">
-      <label class="col-xs-12 control-label">ユーザID</label>
-      <div class="col-xs-12">
+      <label class="col-xs-12 control-label text-center">ユーザID</label>
+      <div class="col-xs-12 text-center">
 	<p class="form-control-static">{$user.code}</p>
       </div>
     </div>
