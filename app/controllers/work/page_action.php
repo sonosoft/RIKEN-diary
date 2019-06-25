@@ -44,7 +44,9 @@ class WorkPageAction extends WorkController {
     
     /**/
     $this->app->data['answer'] = $values;
-    $this->app->data['alt'] = array();
+    if(empty($this->app->data['alt'])){
+      $this->app->data['alt'] = array();
+    }
     foreach($this->AnswerModel->collectByPage($this->user, $this->visit, $this->visit->page) as $answer){
       if($answer->listed){
 	if(empty($answer->value) === false){
@@ -57,7 +59,6 @@ class WorkPageAction extends WorkController {
 	$this->app->data['alt'][$answer->name] = $answer->value;
       }
     }
-    var_dump($this->app->data['alt']);
 
     /**/
     if($scale !== false){
