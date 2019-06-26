@@ -10,6 +10,7 @@
     <input type="text" name="answer[{$item.name}]" id="{$item.id}" class="form-control {$item.ex}" data-relation="{$item.enableIf}" eln:if="{$item.type EQ 'text'}">
     <!-- [select] -->
     <select name="answer[{$item.name}]" id="{$item.id}" class="form-control {$item.ex}" data-relation="{$item.enableIf}" eln:if="{$item.type EQ 'select'}">
+      <option value=""></option>
       <option id="{$option.id}" value="{$option.value}" eln:foreach="$option:{$item.options}">{$option.text}</option>
     </select>
     <!-- [timeline] -->
