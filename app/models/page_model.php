@@ -76,6 +76,7 @@ class PageModelFactory extends Eln_Object {
       foreach($line->item as $item){
 	$inline = array();
 	$choices = array();
+	$options = array();
 	if(strcmp($item['type'], 'inline') == 0){
 	  foreach($item->item as $block){
 	    $inline[] = $this->extract($block);
@@ -99,6 +100,10 @@ class PageModelFactory extends Eln_Object {
 	    foreach($item->choice as $block){
 	      $choices[] = $this->extract($block);
 	    }
+	  }else if(strcmp($item['type'], 'select') == 0){
+	    foreach($item->option as $block){
+	      $options[] = $this->extract($block);
+	    }
 	  }
 	}
 	$array = $this->extract($item);
@@ -110,6 +115,9 @@ class PageModelFactory extends Eln_Object {
 	}
 	if(empty($choices) === false){
 	  $array['choices'] = $choices;
+	}
+	if(empty($options) === false){
+	  $array['options'] = $options;
 	}
 	$row['items'][] = $array;
       }
