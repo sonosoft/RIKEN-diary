@@ -32,12 +32,13 @@
 	<a href="{eln:uri('default:work.page')}" class="btn btn-lg btn-default">次に進む</a>
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12">
-	<p class="no-script">※この質問票はJavaScriptを使用します。お使いのブラウザのJavaScriptを有効にしてください。</p>
-	<p class="no-cookie">※この質問票はcookieを使用します。お使いのブラウザのcookieを有効にしてください。</p>
+    <noscript>
+      <div class="row">
+	<div class="col-xs-12">
+	  <p class="no-script">※この質問票はJavaScriptを使用します。お使いのブラウザのJavaScriptを有効にしてください。</p>
+	</div>
       </div>
-    </div>
+    </noscript>
   </div>
 </div>
 <!-- /form -->
@@ -50,16 +51,7 @@
 <script>
 //<![CDATA[
 $(function(){
-    // 検証
-    var cookieName = "_VALIDATION_";
-    var cookieValue = Math.random();
-    $("p.no-script").hide();
-    $.cookie(cookieName, cookieValue);
-    //
-    if($.cookie(cookieName) == cookieValue){
-	$("p.no-cookie").hide();
-	$("div.button").show();
-    }
+    $("div.row.button").show();
 });
 //]]>
 </script>
