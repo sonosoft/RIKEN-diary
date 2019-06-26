@@ -20,17 +20,17 @@ class AdminProjectDownloadAction extends AdminController {
     $id = $this->app->readRequest('download.id', 0);
     $fromS = $this->app->readRequest('download.from');
     if(empty($fromS) === false){
-      $from = strtotime($fromS);
+      $from = new Eln_Date(strtotime($fromS));
     }else{
       $from = false;
     }
     $toS = $this->app->readRequest('download.to');
     if(empty($toS) === false){
-      $to = strtotime($toS);
+      $to = new Eln_Date(strtotime($toS));
     }else{
       $to = false;
     }
-    
+
     /* ヘッダ */
     header('Content-Type: text/csv; charset=shift_JIS');
     header('Content-Disposition: attachment;filename="'.strftime('download_%Y%m%d_%H%M%S.csv').'"');
