@@ -256,7 +256,10 @@ function validateRelations(){
 	var checked = false;
 	var relations = $(this).data("relation").split(" ");
 	for(var i = 0; i < relations.length; ++ i){
-	    alert("#" + relations[i].trim() + "|" + $("#" + relations[i].trim()).prop("tagName"));
+	    alert($("#Q-0N-5_5-3").prop("tagName"));
+	    if(alert($("#Q-0N-5_5-3").prop("tagName").is(":selected"))){
+		alert("SELECTED");
+	    }
 	    if($("#" + relations[i].trim()).is(":checked") || $("#" + relations[i].trim()).is(":selected")){
 		checked = true;
 		break;
