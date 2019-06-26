@@ -198,7 +198,7 @@ function deleteMail(element){
 	    mailsNew.push(mailsOrg[i]);
 	}
     }
-    $("input[name='project[mails]']").val(_escape(JSON.stringify(mails)));
+    $("input[name='project[mails]']").val(_escape(JSON.stringify(mailsNew)));
     reloadMails();
 }
 function reloadMails(){
