@@ -65,8 +65,6 @@ $(function(){
 	if(isNaN(step)){
 	    step = 1;
 	}
-	alert(min + "," + max + "," + step);
-	return false;
 	if(min <= max){
 	    $(this).append($("<option>").val("").text(""));
 	    for(var value = min; value <= max; value += step){
