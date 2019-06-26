@@ -73,6 +73,8 @@ $(function(){
 		$(this).append($("<option>").val(value).text(value));
 	    }
 	}
+    });
+    $("select").each(function(){
 	if($(this).attr("name").match(/^answer\[(.+)\]$/)){
 	    var name = RegExp.$1;
 	    if(name in pageData){
