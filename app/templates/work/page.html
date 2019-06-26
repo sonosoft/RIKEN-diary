@@ -309,11 +309,8 @@ function validatePage(){
 	var radio = $("input[type=radio][name='answer[" + name + "]']");
 	var check = $("input[type=check][name='answer[" + name + "][]']");
 	var hidden = $("input[type=hidden][name='answer[" + name + "]']");
-	var select = $("select.number[name='answer[" + name + "]']");
+	var select = $("select[name='answer[" + name + "]']");
 	if(text.length > 0){
-	    if(name == "Q-0N-5_6"){
-		alert("A");
-	    }
 	    if(!text.hasClass("optional") && !text.hasClass("disabled") && text.val().length == 0){
 		text.addClass("e9");
 		isValid = false;
