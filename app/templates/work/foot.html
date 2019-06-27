@@ -11,8 +11,9 @@
 
 $(function(){
     // [Enter]
-    $("input[type=text],input[type=password]").keydown(function(e){
+    $("input[type=text],input[type=password]").on("keydown", function(){
 	if(e.keyCode == 13){
+	    /*
 	    var elems = $("input[type=text],input[type=password],textarea,select");
 	    var index = $("input[type=text],input[type=password]").index(this);
 	    if(index + 1 < elems.length){
@@ -20,6 +21,7 @@ $(function(){
 	    }else{
 		elems[0].focus();
 	    }
+	    */
 	    return false;
 	}
 	return true;
