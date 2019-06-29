@@ -18,7 +18,7 @@ foreach($diaries as $diary){
   $datetime = new Eln_Date();
   foreach(range(0, 23) as $hour){
     $datetime->hour = $hour;
-    foreach(range(0, 30) as $minute){
+    foreach(array(0, 30) as $minute){
       $datetime->minute = $minute;
       if($diary->isActive($datetime)){
 	echo $datetime->format('%H:%M').' is OK!'.PHP_EOL;
