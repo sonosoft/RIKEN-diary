@@ -18,11 +18,13 @@ foreach($diaries as $diary){
   $datetime = new Eln_Date();
   foreach(range(0, 23) as $hour){
     $datetime->hour = $hour;
-    $datetime->minute = 0;
-    if($diary->isActive($datetime)){
-      echo $datetime->format('%H:%M').' is OK!'.PHP_EOL;
-    }else{
-      echo $datetime->format('%H:%M').' is NG!'.PHP_EOL;
+    foreach(range(0, 30) as $minute){
+      $datetime->minute = $minute;
+      if($diary->isActive($datetime)){
+	echo $datetime->format('%H:%M').' is OK!'.PHP_EOL;
+      }else{
+	echo $datetime->format('%H:%M').' is NG!'.PHP_EOL;
+      }
     }
   }
   echo PHP_EOL;
