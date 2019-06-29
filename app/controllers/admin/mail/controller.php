@@ -62,7 +62,7 @@ class AdminMailController extends AdminController {
       $this->app->data['hourChoices'][] = array('value'=>$h, 'label'=>sprintf('%02d', $h));
     }
     $this->app->data['minuteChoices'] = array();
-    foreach(array(0, 15, 30, 45) as $m){
+    foreach(array(0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55) as $m){
       $this->app->data['minuteChoices'][] = array('value'=>$m, 'label'=>sprintf('%02d', $m));
     }
     

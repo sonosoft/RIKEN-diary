@@ -12,7 +12,9 @@ $db->open();
 
 /* 日誌 */
 $diaryModel = getModel('Diary');
-if(($diary = $diaryModel->one(array('where'=>'[code] = :code'), array('code'=>'116'))) !== null){
+$diaries = $diaryModel->all(array('where'=>'[status] = :enabled'), array('enabled'=>STATUS_ENABLED));
+foreach($diaries as $diary){
+  echo 'DY'.$diary->code.PHP_EOL;
   $datetime = new Eln_Date();
   foreach(range(0, 23) as $hour){
     $datetime->hour = $hour;
@@ -23,4 +25,5 @@ if(($diary = $diaryModel->one(array('where'=>'[code] = :code'), array('code'=>'1
       echo $datetime->format('%H:%M').' is NG!'.PHP_EOL;
     }
   }
+  echo PHP_EOL;
 }

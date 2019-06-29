@@ -44,6 +44,9 @@ class Controller extends Eln_Controller {
     /* 日付と時刻 */
     $this->app->data['_today_'] = Eln_Date::today();
     $this->app->data['_now_'] = Eln_Date::now();
+
+    /* ルート */
+    $this->app->data['_route_'] = $this->app->route;
   }
 
   /*
