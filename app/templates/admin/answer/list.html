@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head eln:include="admin/head.html"></head>
+
+  <body>
+
+    <!-- nav -->
+    <nav eln:include="admin/nav.html"></nav>
+
+    <!-- container -->
+    <div class="container admin mT80 mB20">
+
+      <!-- breadcrumb -->
+      <ol class="breadcrumb">
+	<li class="active">被験者一覧</li>
+      </ol>
+      <!-- /breadcrumb -->
+
+      <!-- search -->
+      <form action="{eln:uri('default:admin/answer.search')}" method="post" class="form-horizontal" role="form" id="search-form">
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    <div class="form-group">
+	      <label class="col-xs-12 col-sm-3 control-label">対象プロジェクト</label>
+	      <div class="col-xs-12 col-sm-9 form-input">
+		<select name="answer_search[project_id]" class="form-control" eln:options="{$projectChoices}"></select>
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <label class="col-xs-12 col-sm-3 control-label">表示期間</label>
+	      <div class="col-xs-12 col-sm-9 form-input">
+		<div class="form-inline">
+		  <input type="text" name="answer_search[from]" class="form-control datepicker">
+		  <p class="form-control-static">〜</p>
+		  <input type="text" name="answer_search[to]" class="form-control datepicker">
+		</div>
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <div class="col-xs-12 col-sm-9 col-sm-offset-3 form-input">
+		<button type="submit" class="btn btn-md btn-success">
+		  <span class="glyphicon glyphicon-search"></span>
+		  確認
+		</button>
+		<button type="button" class="btn btn-md btn-warnig download">
+		  <span class="glyphicon glyphicon-download"></span>
+		  ダウンロード
+		</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<input type="hidden" name="answer_search[download]">
+      </form>
+      <!-- /search -->
+
+      <!-- user list -->
+      <div class="table-box" eln:if="{$dates}">
+	<table class="table table-bordered table-hover list-table">
+	  <thead>
+	    <tr>
+	      <th class="text-center">ID</th>
+	      <th class="text-center">日誌</th>
+	      <th class="text-right" eln:foreach="$date:{$dates}">{$date}</th>
+	      <th class="text-right">合計</th>
+	      <th class="text-right">合計/日数</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <eln:tag eln:foreach="$user:{$users}">
+	      <tr class="list-row">
+		<td rowspan="2">{$user.code}</td>
+		<td>起床日誌</td>
+		<td class="text-right" eln:foreach="$value:{$user.getup.data}">{$value}</td>
+		<td class="text-right">{$user.getup.sum}</td>
+		<td class="text-right">{$user.getup.score}%</td>
+	      </tr>
+	      <tr class="list-row">
+		<td>就寝日誌</td>
+		<td class="text-right" eln:foreach="$value:{$user.gotobed.data}">{$value}</td>
+		<td class="text-right">{$user.gotobed.sum}</td>
+		<td class="text-right">{$user.gotobed.score}%</td>
+	      </tr>
+	    </eln:tag>
+	  </tbody>
+	</table>
+      </div>
+      <div class="alert alert-info fade in" role="alert" eln:unless="{$dates}">
+	条件を選択してください。
+      </div>
+      <!-- /user list -->
+
+    </div>
+    <!-- /container -->
+
+    <eln:tag eln:include="admin/foot.html"></eln:tag>
+    <script>
+    //<![CDATA[
+    $(function(){
+      // download.
+      $("button.download").on("click", function(){
+	$("input[name='answer_search[download]']").val("1");
+	$("#search-form").submit();
+	$("input[name='answer_search[download]']").val("0");
+	return false;
+      });
+    });
+    //]]>
+    </script>
+  </body>
+</html>

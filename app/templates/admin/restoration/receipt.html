@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head eln:include="admin/head.html"></head>
+
+  <body>
+
+    <!-- nav -->
+    <nav eln:include="admin/nav.html"></nav>
+
+    <!-- container -->
+    <div class="container admin mT80 mB20">
+
+      <!-- breadcrumb -->
+      <ol class="breadcrumb">
+	<li class="active">追加入力URL発行</li>
+      </ol>
+      <!-- /breadcrumb -->
+
+      <!-- search -->
+      <div class="panel panel-default">
+	<div class="panel-body">
+	  <div class="form-group">
+	    <label for="code">プロジェクト</label>
+	    <p class="form-control-static">{$restoration.project.code}: {$restoration.project.title}</p>
+	  </div>
+	  <div class="form-group">
+	    <label for="code">ユーザ</label>
+	    <p class="form-control-static">{$restoration.user.code}: {$restoration.user.family_name} {$restoration.user.first_name}</p>
+	  </div>
+	  <div class="form-group">
+	    <label for="subject">入力日</label>
+	    <p class="form-control-static">{eln:date($restoration.record, '%Y.%m.%d')}</p>
+	  </div>
+	  <div class="form-group">
+	    <label for="body">日誌</label>
+	    <p class="form-control-static" eln:if="{$restoration.timing EQ TIMING_GETUP}">起床日誌</p>
+	    <p class="form-control-static" eln:if="{$restoration.timing EQ TIMING_GOTOBED}">就寝日誌</p>
+	  </div>
+	  <div class="form-group">
+	    <label for="title">URL</label>
+	    <p>
+	      <a href="{eln:uri('restoration:?token={$restoration.token}')}">
+		{DEFAULT_BASE_URL}r2/{$restoration.token}
+	      </a>
+	    </p>
+	  </div>
+	  <a href="{eln:uri('default:admin/user.search')}" class="btn btn-lg btn-default">戻る</a>
+	</div>
+      </div>
+      <!-- /search -->
+
+    </div>
+    <!-- /container -->
+
+    <eln:tag eln:include="admin/foot.html"></eln:tag>
+  </body>
+</html>

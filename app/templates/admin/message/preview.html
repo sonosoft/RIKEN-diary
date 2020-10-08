@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head eln:include="admin/head.html"></head>
+
+  <body>
+
+    <!-- nav -->
+    <nav eln:include="admin/nav.html"></nav>
+
+    <!-- container -->
+    <div class="container admin mT80 mB20">
+
+      <!-- breadcrumb -->
+      <ol class="breadcrumb">
+	<li><a href="{eln:uri('default:admin/message.search')}">一斉メール一覧</a></li>
+	<li class="active">一斉メール送信履歴</li>
+      </ol>
+      <!-- /breadcrumb -->
+
+      <!-- search -->
+      <div class="panel panel-default">
+	<div class="panel-body">
+	  <div class="form-group">
+	    <label for="code">ID</label>
+	    <p class="form-control-static">{$message.code}</p>
+	  </div>
+	  <div class="form-group">
+	    <label for="subject">タイトル</label>
+	    <p class="form-control-static">{$message.subject}</p>
+	  </div>
+	  <div class="form-group">
+	    <label for="body">本文</label>
+	    <p class="form-control-static">{nl2br($message.body)|raw}</p>
+	  </div>
+	  <div class="form-group">
+	    <label for="title">送信日時</label>
+	    <p class="form-control-static">{eln:date($message.sent_at, '%Y.%m.%d %H:%M')}</p>
+	  </div>
+	  <div class="form-group">
+	    <label for="title">送信開始〜送信終了</label>
+	    <p class="form-control-static">
+	      {eln:date($message.started_at, '%Y.%m.%d %H:%M')}
+	      〜
+	      {eln:date($message.finished_at, '%Y.%m.%d %H:%M')}
+	    </p>
+	  </div>
+	  <div class="form-group">
+	    <label for="destinations">送信先</label>
+	    <div class="table-box">
+	      <table class="table table-bordered table-hover list-table">
+		<tbody>
+		  <tr eln:foreach="$user:{$users}">
+		    <td>{$user.code}</td>
+		    <td>{$user.token}</td>
+		    <td>{$user.family_name} {$user.first_name}</td>
+		    <td>{$user.kana}</td>
+		    <td>{$user.email}</td>
+		    <td>{$user.sex_tos}</td>
+		  </tr>
+		</tbody>
+	      </table>
+	    </div>
+	  </div>
+	  <a href="{eln:uri('default:admin/message.search')}" class="btn btn-lg btn-default">戻る</a>
+	</div>
+      </div>
+      <!-- /search -->
+
+    </div>
+    <!-- /container -->
+
+    <eln:tag eln:include="admin/foot.html"></eln:tag>
+  </body>
+</html>

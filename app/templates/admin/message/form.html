@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head eln:include="admin/head.html"></head>
+
+  <body>
+
+    <!-- nav -->
+    <nav eln:include="admin/nav.html"></nav>
+
+    <!-- container -->
+    <div class="container admin mT80 mB20">
+
+      <!-- breadcrumb -->
+      <ol class="breadcrumb">
+	<li class="active">一斉メール登録・編集</li>
+      </ol>
+      <!-- /breadcrumb -->
+
+      <!-- search -->
+      <form action="{eln:uri('default:admin/message.save')}" method="post">
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    <div class="form-group">
+	      <label for="code">ID</label>
+	      <div class="form-inline">
+		<div class="form-group">
+		  <input type="text" name="message[code]" class="form-control" id="code" placeholder="ID">
+		</div>
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <label for="subject">タイトル</label>
+	      <input type="text" name="message[subject]" class="form-control" id="subject" placeholder="タイトル">
+	    </div>
+	    <div class="form-group">
+	      <label for="body">本文</label>
+	      <textarea name="message[body]" class="form-control" id="body" placeholder="本文" rows="15"></textarea>
+	      <p class="help-block">
+		【氏名】は、実際の送信の際に適切に置換されます。
+	      </p>
+	    </div>
+	    <div class="form-group">
+	      <label for="title">送信日時</label>
+	      <div class="form-inline">
+		<input type="text" name="message[sent_on]" class="form-control datepicker" placeholder="{eln:date($_today_, '%Y/%m/%d')}">
+		<select name="message[sent_at_h]" class="form-control" eln:options="{$hourChoices}">
+		  <option value="0">00</option>
+		</select>
+		<p class="form-control-static">:</p>
+		<select name="message[sent_at_m]" class="form-control" eln:options="{$minuteChoices}">
+		  <option value="0">00</option>
+		</select>
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <label for="destinations">送信先</label>
+	      <div class="table-box">
+		<table class="table table-bordered table-hover list-table">
+		  <tbody>
+		    <tr eln:foreach="$user:{$users}">
+		      <td>{$user.code}</td>
+		      <td>{$user.token}</td>
+		      <td>{$user.family_name} {$user.first_name}</td>
+		      <td>{$user.kana}</td>
+		      <td>{$user.email}</td>
+		      <td>{$user.sex_tos}</td>
+		      <td>
+			<button type="button" class="btn btn-sm btn-danger delete" data-id="{$user.id}">
+			  削除
+			</button>
+		      </td>
+		    </tr>
+		  </tbody>
+		</table>
+	      </div>
+	    </div>
+	    <button type="submit" class="btn btn-lg btn-success">保存</button>
+	  </div>
+	</div>
+	<input type="hidden" name="message[id]">
+	<input type="hidden" name="message[destinations]">
+      </form>
+      <!-- /search -->
+
+    </div>
+    <!-- /container -->
+
+    <eln:tag eln:include="admin/foot.html"></eln:tag>
+    <script>
+    //<![CDATA[
+    $(function(){
+      $("button.delete").on("click", function(){
+	if(confirm("ユーザを送信先から除外します。よろしいですか？")){
+	  var id = $(this).data("id");
+	  var ids1 = JSON.parse($("input[name='message[destinations]']").val());
+	  var ids2 = [];
+	  for(var i = 0; i < ids1.length; ++ i){
+	    if(ids1[i] != id){
+	      ids2.push(ids1[i]);
+	    }
+	  }
+	  $(this).parents("tr").remove();
+	  $("input[name='message[destinations]']").val(JSON.stringify(ids2));
+	}
+    });
+    });
+    //]]>
+    </script>
+  </body>
+</html>

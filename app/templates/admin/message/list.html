@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head eln:include="admin/head.html"></head>
+
+  <body>
+
+    <!-- nav -->
+    <nav eln:include="admin/nav.html"></nav>
+
+    <!-- container -->
+    <div class="container admin mT80 mB20">
+
+      <!-- breadcrumb -->
+      <ol class="breadcrumb">
+	<li class="active">一斉メール一覧</li>
+      </ol>
+      <!-- /breadcrumb -->
+
+      <!-- search -->
+      <form id="search-form" action="{eln:uri('default:admin/message.search')}" method="post" class="form-horizontal" role="form">
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    <div class="form-group">
+	      <label class="col-xs-12 col-sm-3 control-label">キーワード（部分一致）</label>
+	      <div class="col-xs-12 col-sm-5 form-input">
+		<input type="text" name="message_search[text]" class="form-control" placeholder="ID・タイトル・本文">
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <label class="col-xs-12 col-sm-3 control-label">送信日</label>
+	      <div class="col-xs-12 col-sm-9 form-input">
+		<div class="form-inline">
+		  <input type="text" name="message_search[from]" class="form-control datepicker">
+		  <p class="form-control-static">〜</p>
+		  <input type="text" name="message_search[to]" class="form-control datepicker">
+		</div>
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <div class="col-xs-12 col-sm-7 col-sm-offset-3 form-input">
+		<a href="{eln:uri('default:admin/message.list')}" type="button" class="btn btn-md btn-default">
+		  全て表示
+		</a>
+		<button type="button" class="btn btn-md btn-success search">
+		  <span class="glyphicon glyphicon-search"></span>
+		  検索
+		</button>
+		<button type="button" class="btn btn-md btn-info download">
+		  <span class="glyphicon glyphicon-download"></span>
+		  ダウンロード
+		</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<input type="hidden" name="message_search[download]">
+      </form>
+      <!-- /search -->
+
+      <!-- paginator -->
+      <nav eln:include="admin/paginator.html"></nav>
+      <!-- /paginator -->
+
+      <!-- customer list -->
+      <div class="table-box">
+	<table class="table table-bordered table-hover list-table">
+	  <thead>
+	    <tr>
+	      <th></th>
+	      <th class="clickable" data-order="i">
+		ID
+		<span class="glyphicon glyphicon-chevron-up" eln:if="{$message_search.order EQ 'i-a'}"></span>
+		<span class="glyphicon glyphicon-chevron-down" eln:if="{$message_search.order EQ 'i-d'}"></span>
+	      </th>
+	      <th class="clickable" data-order="t">
+		タイトル
+		<span class="glyphicon glyphicon-chevron-up" eln:if="{$message_search.order EQ 't-a'}"></span>
+		<span class="glyphicon glyphicon-chevron-down" eln:if="{$message_search.order EQ 't-d'}"></span>
+	      </th>
+	      <th>本文</th>
+	      <th class="clickable" data-order="s">
+		送信予定日時
+		<span class="glyphicon glyphicon-chevron-up" eln:if="{$message_search.order EQ 's-a'}"></span>
+		<span class="glyphicon glyphicon-chevron-down" eln:if="{$message_search.order EQ 's-d'}"></span>
+	      </th>
+	      <th class="clickable" data-order="f">
+		送信完了
+		<span class="glyphicon glyphicon-chevron-up" eln:if="{$message_search.order EQ 'f-a'}"></span>
+		<span class="glyphicon glyphicon-chevron-down" eln:if="{$message_search.order EQ 'f-d'}"></span>
+	      </th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr eln:foreach="$message:{$messages}">
+	      <td>
+		<a href="{eln:uri('default:admin/message.form?id={$message.id}')}" class="btn btn-sm btn-default">
+		  <span class="glyphicon glyphicon-pencil"></span>
+		  編集
+		</a>
+		<a href="{eln:uri('default:admin/message.form?id={$message.id}&dup=1')}" class="btn btn-sm btn-default">
+		  <span class="glyphicon glyphicon-duplicate text-primary"></span>
+		  <span class="text-primary">複製</span>
+		</a>
+		<a href="#" class="btn btn-sm btn-danger delete" data-id="{$message.id}">
+		  <span class="glyphicon glyphicon-remove"></span>
+		  削除
+		</a>
+		&nbsp;&nbsp;
+		<a href="{eln:uri('default:admin/message.preview?id={$message.id}')}" class="btn btn-sm btn-default" eln:if="{$message.finished_at}">
+		  <span class="glyphicon glyphicon-list-alt"></span>
+		  送信履歴
+		</a>
+	      </td>
+	      <td>{$message.code}</td>
+	      <td>{$message.subject}</td>
+	      <td>{eln:truncate($message.body, 50)}</td>
+	      <td>{eln:date($message.sent_at, '%Y.%m.%d %H:%M')}</td>
+	      <td><span eln:if="{$message.finished_at}">済</span></td>
+	    </tr>
+	    <tr eln:if="{count($messages) EQ 0}">
+	      <td colspan="6">見つかりません</td>
+	    </tr>
+	  </tbody>
+	</table>
+      </div>
+      <!-- /customer list -->
+
+      <!-- paginator -->
+      <nav eln:include="admin/paginator.html"></nav>
+      <!-- /paginator -->
+
+    </div>
+    <!-- /container -->
+
+    <!-- modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">確認</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+	  </div>
+	  <div class="modal-body" id="modal-message">
+            メールを削除します。
+	  </div>
+	  <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+            <button type="button" class="btn btn-danger delete" id="button-delete">削除</button>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <!-- /modal -->
+
+    <eln:tag eln:include="admin/foot.html"></eln:tag>
+    <script>
+    //<![CDATA[
+    var messageId;
+    $(function(){
+      // search/download.
+      $("button.search").on("click", function(){
+	$("input[name='message_search[download]']").val("");
+	$("#search-form").submit();
+	return false;
+      });
+      $("button.download").on("click", function(){
+	$("input[name='message_search[download]']").val("1");
+	$("#search-form").submit();
+	$("input[name='message_search[download]']").val("");
+	return false;
+      });
+      
+      // order.
+      $("th.clickable").on("click", function(){
+	var category = $(this).data("order");
+	var order = "{$message_search.order}";
+	if(order.substring(0, 1) == category){
+	  if(order.substring(2) == "a"){
+	    order = category + "-d";
+	  }else{
+	    order = category + "-a";
+	  }
+	}else{
+	  order = category + order.substring(1);
+	}
+	location.href = "{eln:uri('default:admin/message.search?o=_ORDER_')}".replace("_ORDER_", order);
+	return false;
+      });
+      
+      // delete.
+      $("a.delete").on("click", function(){
+	$("#modal").modal("show");
+	messageId = $(this).data("id");
+	return false;
+      });
+      $("button.delete").on("click", function(){
+	location.href = "{eln:uri('default:admin/message.delete?id=_ID_')}".replace("_ID_", messageId);
+      });
+    });
+    //]]>
+    </script>
+  </body>
+</html>
