@@ -1,83 +1,83 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head eln:include="work/head.html"></head>
+  <head eln:include="work/head.html"></head>
 
-<body>
+  <body>
 
-<!-- container -->
-<div class="container mT40 mB20">
+    <!-- container -->
+    <div class="container mT40 mB20">
 
-<!-- alert -->
-<div class="alert alert-danger" role="alert" eln:if="{$errors}">
-  <strong>ログインエラー</strong><br>
-  <p eln:foreach="$error:{$errors}">{$error}</p>
-</div>
-<!-- /alert -->
+      <!-- alert -->
+      <div class="alert alert-danger" role="alert" eln:if="{$errors}">
+	<strong>ログインエラー</strong><br>
+	<p eln:foreach="$error:{$errors}">{$error}</p>
+      </div>
+      <!-- /alert -->
 
-<!-- form -->
-<form class="form-horizontal" role="form" action="{eln:uri('default:work.enter')}" method="post">
-  <div class="panel panel-success">
-    <div class="panel-heading"><h3>日誌</h3></div>
-    <div class="panel-body">
-      <p class="lead">
-	この質問票は、皆さまの疲労・うつと生活習慣を調べるためのものです。<br>
-	あなたについての質問、疲労についての質問、生活・ストレス・睡眠等についての質問にお答えください。
-      </p>
-      <p id="index-note">
-	この質問票にご記入いただくことで、試験運用に参加することを同意されたものとみなします。<br>
-	質問に答えないと先に進めないシステムになっております。<br>
-	あなたのお名前などの個人情報及び個人が特定される形でデータが公表されることはありません。
-      </p>
-      <div class="form-group form" style="display:none;">
-	<label class="col-xs-12 col-sm-4 control-label">ユーザID</label>
-	<div class="col-xs-12 col-sm-8">
-	  <input type="text" name="user[code]" class="form-control" style="max-width:400px;">
+      <!-- form -->
+      <form class="form-horizontal" role="form" action="{eln:uri('default:work.enter')}" method="post">
+	<div class="panel panel-success">
+	  <div class="panel-heading"><h3>疲労と生活習慣調査</h3></div>
+	  <div class="panel-body">
+	    <p class="lead">
+	      この質問票は、皆さまの疲労・うつと生活習慣を調べるためのものです。<br>
+	      あなたについての質問、疲労についての質問、生活・ストレス・睡眠等についての質問にお答えください。
+	    </p>
+	    <p id="index-note">
+	      この質問票にご記入いただくことで、試験運用に参加することを同意されたものとみなします。<br>
+	      質問に答えないと先に進めないシステムになっております。<br>
+	      あなたのお名前などの個人情報及び個人が特定される形でデータが公表されることはありません。
+	    </p>
+	    <div class="form-group form" style="display:none;">
+	      <label class="col-xs-12 col-sm-4 control-label">ユーザID</label>
+	      <div class="col-xs-12 col-sm-8">
+		<input type="text" name="user[code]" class="form-control" style="max-width:400px;">
+	      </div>
+	    </div>
+	    <div class="form-group form" style="display:none;">
+	      <label class="col-xs-12 col-sm-4 control-label">生年月日</label>
+	      <div class="col-xs-12 col-sm-8">
+		<input type="text" name="user[birthday]" class="form-control" style="max-width:400px;">
+		<p class="help-block">例えば、1971年7月15日の場合、「19710715」のように8桁の数字で入力してください。</p>
+	      </div>
+	    </div>
+	    <div class="form-group form" style="display:none;">
+	      <div class="col-xs-12 text-center">
+		<button class="btn btn-lg btn-default" type="submit">同意して先に進む</button>
+	      </div>
+	    </div>
+	    <div class="row">
+	      <div class="col-xs-12">
+		<p class="no-script">※この質問票はJavaScriptを使用します。お使いのブラウザのJavaScriptを有効にしてください。</p>
+		<p class="no-cookie">※この質問票はcookieを使用します。お使いのブラウザのcookieを有効にしてください。</p>
+	      </div>
+	    </div>
+	  </div>
 	</div>
-      </div>
-      <div class="form-group form" style="display:none;">
-	<label class="col-xs-12 col-sm-4 control-label">生年月日</label>
-	<div class="col-xs-12 col-sm-8">
-	  <input type="text" name="user[birthday]" class="form-control" style="max-width:400px;">
-	  <p class="help-block">例えば、1971年7月15日の場合、「19710715」のように8桁の数字で入力してください。</p>
-	</div>
-      </div>
-      <div class="form-group form" style="display:none;">
-	<div class="col-xs-12 text-center">
-	  <button class="btn btn-lg btn-default" type="submit">同意して先に進む</button>
-	</div>
-      </div>
-      <div class="row">
-	<div class="col-xs-12">
-	  <p class="no-script">※この質問票はJavaScriptを使用します。お使いのブラウザのJavaScriptを有効にしてください。</p>
-	  <p class="no-cookie">※この質問票はcookieを使用します。お使いのブラウザのcookieを有効にしてください。</p>
-	</div>
-      </div>
+      </form>
+      <!-- /form -->
+
     </div>
-  </div>
-</form>
-<!-- /form -->
+    <!-- /container -->
 
-</div>
-<!-- /container -->
-
-<eln:tag eln:include="work/foot.html"></eln:tag>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script>
-//<![CDATA[
-$(function(){
-    // 検証
-    var cookieName = "_VALIDATION_";
-    var cookieValue = Math.random();
-    $("p.no-script").hide();
-    $.cookie(cookieName, cookieValue);
-    //
-    if($.cookie(cookieName) == cookieValue){
+    <eln:tag eln:include="work/foot.html"></eln:tag>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script>
+    //<![CDATA[
+    $(function(){
+      // 検証
+      var cookieName = "_VALIDATION_";
+      var cookieValue = Math.random();
+      $("p.no-script").hide();
+      $.cookie(cookieName, cookieValue);
+      //
+      if($.cookie(cookieName) == cookieValue){
 	$("p.no-cookie").hide();
 	$("div.form").show();
-    }
-});
-//]]>
-</script>
+      }
+    });
+    //]]>
+    </script>
 
-</body>
+  </body>
 </html>
