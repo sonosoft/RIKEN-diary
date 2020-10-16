@@ -36,12 +36,12 @@ class AdminAnswerController extends AdminController {
       $validity = false;
     }
     if($this->app->data['answer_search']['from'] !== null){
-      $where[] = 'DATE(visit.started_at) >= :from';
+      $where[] = 'visit.visited_on >= :from';
     }else{
       $validity = false;
     }
     if($this->app->data['answer_search']['to'] !== null){
-      $where[] = 'DATE(visit.started_at) <= :to';
+      $where[] = 'visit.visited_on <= :to';
     }else{
       $validity = false;
     }
@@ -84,7 +84,7 @@ class AdminAnswerController extends AdminController {
 	/* データ */
 	$timings = array(TIMING_GETUP=>'getup', TIMING_AM=>'am', TIMING_PM=>'pm', TIMING_GOTOBED=>'gotobed');
 	$rsrc = $this->db->query(
-	  'SELECT user.code, visit.timing, DATE(visit.started_at), visit.id '.
+	  'SELECT user.code, visit.visited_on, visit.timing, visit.id '.
 	  'FROM visit '.
 	  'LEFT JOIN user ON user.id = visit.user_id '.
 	  'WHERE '.implode(' AND ', $where).' '.
@@ -92,17 +92,17 @@ class AdminAnswerController extends AdminController {
 	  $this->app->data['answer_search']
 	);
 	while(($row = $rsrc->fetch_row()) !== null){
-	  $index = intval((strtotime($row[2]) - $this->app->data['answer_search']['from']->getTime()) / 86400);
-	  if($users[$row[0]][$timings[$row[1]]]['data'][$index] == 0){
-	    $users[$row[0]][$timings[$row[1]]]['data'][$index] = 1;
+	  $index = intval((strtotime($row[1]) - $this->app->data['answer_search']['from']->getTime()) / 86400);
+	  if($users[$row[0]][$timings[$row[2]]]['data'][$index] == 0){
+	    $users[$row[0]][$timings[$row[2]]]['data'][$index] = 1;
 	  }
-	  if($row[1] == TIMING_AM || $row[1] == TIMING_PM){
+	  if($row[2] == TIMING_AM || $row[2] == TIMING_PM){
 	    $answer = $this->AnswerModel->one(
 	      array('where'=>'[visit_id] = :visit_id AND [name] = :name'),
-	      array('visit_id'=>$row[3], 'name'=>(($row[3] == TIMING_AM) ? QUESTION_AM : QUESTION_PM))
+	      array('visit_id'=>$row[3], 'name'=>(($row[2] == TIMING_AM) ? QUESTION_AM : QUESTION_PM))
 	    );
 	    if($answer->value == 1){
-	      $users[$row[0]][$timings[$row[1]]]['data'][$index] = 2;
+	      $users[$row[0]][$timings[$row[2]]]['data'][$index] = 2;
 	    }
 	  }
 	}

@@ -21,7 +21,7 @@
 	<div class="panel-body">
 	  <div class="form-group">
 	    <label for="code">プロジェクト</label>
-	    <p class="form-control-static">{$restoration.project.code}: {$restoration.project.title}</p>
+	    <p class="form-control-static">{$restoration.project.title}</p>
 	  </div>
 	  <div class="form-group">
 	    <label for="code">ユーザ</label>
@@ -33,13 +33,15 @@
 	  </div>
 	  <div class="form-group">
 	    <label for="body">日誌</label>
-	    <p class="form-control-static" eln:if="{$restoration.timing EQ TIMING_GETUP}">起床日誌</p>
-	    <p class="form-control-static" eln:if="{$restoration.timing EQ TIMING_GOTOBED}">就寝日誌</p>
+	    <p class="form-control-static" eln:if="{$restoration.timing EQ TIMING_GETUP}">起床時</p>
+	    <p class="form-control-static" eln:if="{$restoration.timing EQ TIMING_AM}">午前</p>
+	    <p class="form-control-static" eln:if="{$restoration.timing EQ TIMING_PM}">午後</p>
+	    <p class="form-control-static" eln:if="{$restoration.timing EQ TIMING_GOTOBED}">就寝時</p>
 	  </div>
 	  <div class="form-group">
 	    <label for="title">URL</label>
 	    <p>
-	      <a href="{eln:uri('restoration:?token={$restoration.token}')}">
+	      <a head="#" data-url="{eln:uri('restoration:?token={$restoration.token}')}" class="restoration">
 		{DEFAULT_BASE_URL}r2/{$restoration.token}
 	      </a>
 	    </p>
@@ -53,5 +55,16 @@
     <!-- /container -->
 
     <eln:tag eln:include="admin/foot.html"></eln:tag>
+    <script>
+    //<![CDATA[
+    $(function(){
+      // restoration.
+      $("a.restoration").on("click", function(){
+	var url = $(this).data("url");
+	window.open(url, "_blank");
+	return false;
+      });
+      //]]>
+    </script>
   </body>
 </html>

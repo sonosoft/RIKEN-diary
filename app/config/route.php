@@ -19,6 +19,18 @@ Eln_Router::$routes = array(
     ),
   ),
 
+  'restoration'=>array(
+    'uri'=>'/r2/:token',
+    'defaults'=>array(
+      'controller'=>'work',
+      'action'=>'restore',
+      'token'=>null,
+    ),
+    'patterns'=>array(
+      'token'=>'/^[0-9a-zA-z]{10}$/',
+    ),
+  ),
+
   'default'=>array(
     'uri'=>'/:controller/:action/:id',
     'defaults'=>array(

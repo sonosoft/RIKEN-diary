@@ -4,46 +4,43 @@
  * [Elnath PHP Web Application Framework]
  * Copyright (c) 2013 SONOSOFT Inc., All rights reserved.
  *
- * work/index_action.php
+ * work/restore_action.php
  */
 
 
-class WorkIndexAction extends Controller {
+class WorkRestoreAction extends Controller {
   /*
    * アクション
    */
   public function action(){
     /**/
-    $this->useModel('User', 'Project', 'ProjectUser', 'ProjectDiary', 'Visit', 'Page');
+    $this->useModel('User', 'Project', 'ProjectUser', 'ProjectDiary', 'Visit', 'Restoration', 'Page');
     
-    /* 検索条件初期化 */
+    /* セッション初期化 */
     $this->app->removeSession('work_data');
     $this->app->data['work_data'] = array();
     
     /* URL */
-    if(strcmp($this->app->route['route'], 'diary') == 0){
+    if(strcmp($this->app->route['route'], 'restoration') == 0){
       /**/
       $this->db->begin();
       try{
-	/* 当日 */
-	if($this->app->data['_now_']->hour >= 4){
-	  $today = $this->app->data['_today_'];
-	}else{
-	  $today = new Eln_Date($this->app->data['_today_']->getTime() - 86400);
-	}
-	
-	/* ユーザトークン */
+	/* トークン */
 	if(isset($this->app->route['token']) === false){
 	  $this->db->rollback();
 	  return 'work/error/invalid_url';
 	}
 	
 	/* プロジェクト・ユーザ */
-	if(($user = $this->UserModel->findByToken(substr($this->app->route['token'], 5))) === null){
+	$restoration = $this->RestorationModel->one(
+	  array('joins'=>array('project', 'user'), 'where'=>'[token] = :token AND [status] = :enabled'),
+	  array('token'=>$this->app->route['token'], 'enabled'=>STATUS_ENABLED)
+	);
+	if($restoration === null){
 	  $this->db->rollback();
 	  return 'work/error/invalid_url';
 	}
-	if(($project = $this->ProjectModel->findByToken(substr($this->app->route['token'], 0, 5))) === null){
+	if(($user = $restoration->user) === null || ($project = $restoration->project) === null){
 	  $this->db->rollback();
 	  return 'work/error/invalid_url';
 	}
@@ -55,7 +52,7 @@ class WorkIndexAction extends Controller {
 	  $this->db->rollback();
 	  return 'work/error/invalid_url';
 	}
-	if($project->from_date->compare($today) > 0 || $project->to_date->compare($today) < 0){
+	if($project->from_date->compare($restoration->record) > 0 || $project->to_date->compare($restoration->record) < 0){
 	  $this->db->rollback();
 	  return 'work/error/out_of_date';
 	}
@@ -64,19 +61,23 @@ class WorkIndexAction extends Controller {
 	$this->app->data['project'] = $project;
 	
 	/* 日誌 */
-	$code = $this->app->route['code'];
-	/**/
+	switch($restoration->timing){
+	case TIMING_GETUP:
+	  $time = '05:00';
+	  break;
+	case TIMING_AM:
+	  $time = '11:00';
+	  break;
+	case TIMING_PM:
+	  $time = '13:00';
+	  break;
+	}
+	$datetime = new Eln_Date(strtotime(strftime('%Y/%m/%d').' '.$time));
 	$diaries = array();
 	foreach($this->ProjectDiaryModel->getByProject($project->id) as $entry){
-	  if($entry->diary->isActive($this->app->data['_now_'])){
-	    if($code !== null){
-	      if($entry->diary->separated && strcmp($entry->diary->code, $code) == 0){
-		$diaries[] = $entry->diary;
-	      }
-	    }else{
-	      if(!$entry->diary->separated){
-		$diaries[] = $entry->diary;
-	      }
+	  if($entry->diary->isActive($datetime)){
+	    if(!$entry->diary->separated){
+	      $diaries[] = $entry->diary;
 	    }
 	  }
 	}
@@ -85,12 +86,12 @@ class WorkIndexAction extends Controller {
 	  return 'work/error/out_of_time';
 	}
 	if(($pages = $this->PageModel->load($diaries)) === null){
-	  $this->app->writeLog('work/index #1', 'failed to read data file.');
+	  $this->app->writeLog('work/restore #1', 'failed to read data file.');
 	  $this->redirect('default:work.error');
 	}
 	$indexes = $this->PageModel->collectIndexes($pages);
 	if(empty($indexes)){
-	  $this->app->writeLog('work/index #2', 'failed to get page indexes.');
+	  $this->app->writeLog('work/restore #2', 'failed to get page indexes.');
 	  $this->redirect('default:work.error');
 	}
 	$this->app->data['diaries'] = $diaries;
@@ -108,16 +109,8 @@ class WorkIndexAction extends Controller {
 	  $visit->diary_id = $diaries[0]->id;
 	}
 	$visit->diaries = implode(',', $codes);
-	$visit->visited_on = $today;
-	if($this->app->data['_now_']->hour >= 4 && $this->app->data['_now_']->hour < 12){
-	  $visit->timing = TIMING_GETUP;
-	}else if($this->app->data['_now_']->hour >= 12 && $this->app->data['_now_']->hour < 17){
-	  $visit->timing = TIMING_AM;
-	}else if($this->app->data['_now_']->hour >= 17 && $this->app->data['_now_']->hour < 20){
-	  $visit->timing = TIMING_PM;
-	}else{
-	  $visit->timing = TIMING_GOTOBED;
-	}
+	$visit->visited_on = $restoration->record;
+	$visit->timing = $restoration->timing;
 	$visit->page = $indexes[0];
 	$visit->status = STATUS_STARTED;
 	$visit->started_at = $this->app->data['_now_'];
@@ -130,15 +123,14 @@ class WorkIndexAction extends Controller {
 	$this->app->data['visit'] = $visit;
 	$this->app->storeSession('work_data.visit_id', $visit->id);
       }catch(Exception $e){
-	var_dump($e);exit;
 	/* ロールバック */
 	$this->db->rollback();
 	
 	/* エラー */
-	$this->app->writeLog('work/index', $e->getMessage());
+	$this->app->writeLog('work/restore', $e->getMessage());
 	$this->redirect('default:work.error');
       }
-      
+            
       /**/
       return 'work/index';
     }
