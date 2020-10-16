@@ -42,11 +42,14 @@ class MailModelFactory extends ModelFactory {
   public function replace($src, $project, $user){
     $dst = $src;
     $dst = str_replace('【氏名】', $user->family_name.' '.$user->first_name, $dst);
+    $dst = str_replace('【ユーザー】', $user->code, $dst);
     if($project !== null){
       $dst = str_replace('【計測開始日】', $project->from_date->format('%Y年%m月%d日（%a）'), $dst);
       $dst = str_replace('【計測終了日】', $project->to_date->format('%Y年%m月%d日（%a）'), $dst);
       $dst = str_replace('【アドレス】', DEFAULT_BASE_URL.$project->token.$user->token, $dst);
       $dst = str_replace('【乱数】', $project->token.$user->token, $dst);
+    }else{
+      $dst = str_replace('【アドレス】', '日誌の登録がありません。管理者に連絡してください。', $dst);
     }
     return $dst;
   }

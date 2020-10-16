@@ -62,24 +62,46 @@
 	      <th class="text-center">ID</th>
 	      <th class="text-center">日誌</th>
 	      <th class="text-right" eln:foreach="$date:{$dates}">{$date}</th>
-	      <th class="text-right">合計</th>
-	      <th class="text-right">合計/日数</th>
+	      <th class="text-right">入力回数</th>
+	      <th class="text-right">摂取回数</th>
+	      <th class="text-right">入力%</th>
+	      <th class="text-right">摂取%</th>
 	    </tr>
 	  </thead>
 	  <tbody>
 	    <eln:tag eln:foreach="$user:{$users}">
 	      <tr class="list-row">
-		<td rowspan="2">{$user.code}</td>
-		<td>起床日誌</td>
+		<td rowspan="4">{$user.code}</td>
+		<td>起床時</td>
 		<td class="text-right" eln:foreach="$value:{$user.getup.data}">{$value}</td>
-		<td class="text-right">{$user.getup.sum}</td>
-		<td class="text-right">{$user.getup.score}%</td>
+		<td class="text-right">{$user.getup.sum1}</td>
+		<td class="text-right">-</td>
+		<td class="text-right">{$user.getup.score1}%</td>
+		<td class="text-right">-</td>
 	      </tr>
 	      <tr class="list-row">
-		<td>就寝日誌</td>
+		<td>午前</td>
+		<td class="text-right" eln:foreach="$value:{$user.am.data}">{$value}</td>
+		<td class="text-right">{$user.am.sum1}</td>
+		<td class="text-right">{$user.am.sum2}</td>
+		<td class="text-right">{$user.am.score1}%</td>
+		<td class="text-right">{$user.am.score2}%</td>
+	      </tr>
+	      <tr class="list-row">
+		<td>午後</td>
+		<td class="text-right" eln:foreach="$value:{$user.pm.data}">{$value}</td>
+		<td class="text-right">{$user.pm.sum1}</td>
+		<td class="text-right">{$user.pm.sum2}</td>
+		<td class="text-right">{$user.pm.score1}%</td>
+		<td class="text-right">{$user.pm.score2}%</td>
+	      </tr>
+	      <tr class="list-row">
+		<td>就寝時</td>
 		<td class="text-right" eln:foreach="$value:{$user.gotobed.data}">{$value}</td>
-		<td class="text-right">{$user.gotobed.sum}</td>
-		<td class="text-right">{$user.gotobed.score}%</td>
+		<td class="text-right">{$user.gotobed.sum1}</td>
+		<td class="text-right">-</td>
+		<td class="text-right">{$user.gotobed.score1}%</td>
+		<td class="text-right">-</td>
 	      </tr>
 	    </eln:tag>
 	  </tbody>

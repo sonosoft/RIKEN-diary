@@ -14,6 +14,13 @@ class AnswerModelFactory extends ModelFactory {
    */
   protected $model = 'Answer';
   protected $table = 'answer';
+  protected $relations = array(
+    'visit'=>array(
+      'type'=>'belongsTo',
+      'model'=>'Visit',
+      'conditions'=>array('visit_id'=>'id')
+    ),
+  );
 
   /* ===== ===== */
 

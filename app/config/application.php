@@ -43,15 +43,34 @@ define('SEX_FEMALE', 2);
 /**/
 define('DIRECTION_NEXT', 1);
 define('DIRECTION_PREV', 2);
+/**/
+define('TIMING_GETUP', 1);
+define('TIMING_AM', 2);
+define('TIMING_PM', 3);
+define('TIMING_GOTOBED', 4);
+/**/
+define('QUESTION_AM', 'Q-B-1');
+define('QUESTION_PM', 'Q-C-1');
 
 /*
  * メール設定
  */
+/*
 define('MAIL_HOST', 'postman.riken.jp');
 define('MAIL_ENCRPT', 'ssl');
 define('SMTP_PORT', 465);
 define('MAIL_FROM', 'rch_health_eval@ml.riken.jp');
 define('MAIL_FROM_NAME', '理化学研究所 健康計測解析チーム');
+define('MAIL_ENCODING', 'base64');
+define('MAIL_CHARSET', 'UTF-8');
+*/
+define('MAIL_HOST', 'smtp.sendgrid.net');
+define('MAIL_ENCRPT', 'tls');
+define('SMTP_PORT', 587);
+define('SMTP_USER', 'apikey');
+define('SMTP_PASSWORD', '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');
+define('MAIL_FROM', 'webdiary_test@sonosoft.com');
+define('MAIL_FROM_NAME', '日誌システム テスト');
 define('MAIL_ENCODING', 'base64');
 define('MAIL_CHARSET', 'UTF-8');
 

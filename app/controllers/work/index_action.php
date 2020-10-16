@@ -100,6 +100,15 @@ class WorkIndexAction extends Controller {
 	if($code !== null){
 	  $visit->diary_id = $diaries[0]->id;
 	}
+	if($this->app->data['_now_']->hour >= 4 && $this->app->data['_now_']->hour < 12){
+	  $visit->timing = TIMING_GETUP;
+	}else if($this->app->data['_now_']->hour >= 12 && $this->app->data['_now_']->hour < 17){
+	  $visit->timing = TIMING_AM;
+	}else if($this->app->data['_now_']->hour >= 17 && $this->app->data['_now_']->hour < 20){
+	  $visit->timing = TIMING_PM;
+	}else{
+	  $visit->timing = TIMING_GOTOBED;
+	}
 	$visit->diaries = implode(',', $codes);
 	$visit->page = $indexes[0];
 	$visit->status = STATUS_STARTED;

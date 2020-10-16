@@ -56,6 +56,9 @@ function _send($mail, $project, $user){
   /**/
   $title = $mailModel->replace($mail->title, $project, $user);
   $body = $mailModel->replace($mail->body, $project, $user);
+  if($project !== null){
+    $body = _finish($body, $project, $user);
+  }
   /**/
   $mail = new PHPMailer();
   $mail->isSMTP();
@@ -75,6 +78,95 @@ function _send($mail, $project, $user){
   }else{
     echo '- NG: '.$user->email.PHP_EOL;
   }
+}
+
+function _send_message($record, $project, $user){
+  /**/
+  global $mailModel;
+
+  /**/
+  $subject = $mailModel->replace($record->subject, $project, $user);
+  $body = $mailModel->replace($record->body, $project, $user);
+  if($project !== null){
+    $body = _finish($body, $project, $user);
+  }
+  /**/
+  $mail = new PHPMailer();
+  $mail->SMTPDebug = 4;
+  $mail->isSMTP();
+  $mail->Host = MAIL_HOST;
+  $mail->SMTPSecure = MAIL_ENCRPT;
+  $mail->Port = SMTP_PORT;
+  if(defined('SMTP_USER') || defined('SMTP_PASSWORD')){
+    if(defined('SMTP_USER')){
+      $mail->Username = SMTP_USER;
+    }
+    if(defined('SMTP_PASSWORD')){
+      $mail->Password = SMTP_PASSWORD;
+    }
+    $mail->SMTPAuth = true;
+  }else{
+    $mail->SMTPAuth = false;
+  }
+  $mail->CharSet = 'UTF-8';
+  $mail->Encoding = 'base64';
+  $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
+  $mail->addAddress($user->email);
+  $mail->Subject = $subject;
+  $mail->Body = $body;
+  $mail->isHTML(false);
+  echo 'MESSAGE['.$record->code.'] ';
+  if($mail->send()){
+    echo '+ OK: '.$user->email.PHP_EOL;
+  }else{
+    echo '- NG: '.$user->email.PHP_EOL;
+  }
+}
+
+function _finish($text, $project, $user){
+  /**/
+  global $answerModel;
+
+  /**/
+  while(true){
+    if(preg_match('/【日誌\|([-0-9a-zA-Z]+)\|([\/0-9]+)】/', $text, $matches)){
+      $alt = '';
+      $name = $matches[1];
+      if(empty($matches[2])){
+	$date = Eln_Date::today();
+      }else{
+	$date = strtotime($matches[2]);
+      }
+      if($date !== false){
+	$from = new Eln_Date($date + 4 * 3600);
+	$to = new Eln_Date($date + 86400 + 3600);
+	$ws = array(
+	  '[user_id] = :user_id',
+	  'visit.project_id = :project_id',
+	  '[name] = :name',
+	  '[answered_at] >= :from',
+	  '[answered_at] < :to',
+	);
+	$answer = $answerModel->one(
+	  array('joins'=>'visit', 'where'=>implode(' AND ', $ws)),
+	  array('user_id'=>$user->id, 'project_id'=>$project->id, 'name'=>$name, 'from'=>$from, 'to'=>$to)
+	);
+	if($answer === null){
+	  $alt = '【無回答】';
+	}else if($answer->value == 1){
+	  $alt = '【はい】';
+	}else if($answer->value == 2){
+	  $alt = '【いいえ】';
+	}
+      }
+      $text = str_replace($matches[0], $alt, $text);
+    }else{
+      break;
+    }
+  }
+
+  /**/
+  return $text;
 }
 
 /* アプリケーション */
@@ -97,6 +189,9 @@ try{
   $projectModel = getModel('Project');
   $projectUserModel = getModel('ProjectUser');
   $mailModel = getModel('Mail');
+  $messageModel = getModel('Message');
+  $userModel = getModel('User');
+  $answerModel = getModel('Answer');
 
   /* 有効なプロジェクト一覧 */
   $projectIds = array();
@@ -119,6 +214,58 @@ try{
 	  foreach($projectUserModel->getByProject($project->id) as $user){
 	    _send($mail->mail, $project, $user->user);
 	  }
+	}
+      }
+    }
+  }
+
+  /* 未送信メッセージ */
+  $messages = $messageModel->all(
+    array('where'=>'[started_at] IS NULL AND [status] = :enabled'),
+    array('enabled'=>STATUS_ENABLED)
+  );
+  foreach($messages as $message){
+    if($message->sent_at->compare($now) <= 0){
+      /* 開始 */
+      $db->begin();
+      try{
+	$message->started_at = $now;
+	$message->save();
+	$db->commit();
+      }catch(Exception $e){
+	$db->rollback();
+	echo '!! MESSAGE['.$message->code.'] Failed to update start time.'.PHP_EOL;
+      }
+      if($message->started_at !== null){
+	/* 送信 */
+	if(($destinations = json_decode($message->destinations, true)) !== null){
+	  foreach($destinations as $destination){
+	    $user = $userModel->one(
+	      array('where'=>'[id] = :id AND [status] = :enabled'),
+	      array('id'=>$destination, 'enabled'=>STATUS_ENABLED)
+	    );
+	    if($user !== null){
+	      $sent = false;
+	      foreach($projectUserModel->getByUser($user->id) as $project){
+		_send_message($message, $project->project, $user);
+		$sent = true;
+	      }
+	      if($sent === false){
+		_send_message($message, null, $user);
+	      }
+	    }
+	  }
+	}
+	
+	/* 終了 */
+	$db->begin();
+	try{
+	  $message->finished_at = $now;
+	  $message->save();
+	  $db->commit();
+	}catch(Exception $e){
+	  $db->rollback();
+	  echo '!! MESSAGE['.$message->code.'] Failed to update finish time'.PHP_EOL;
 	}
       }
     }

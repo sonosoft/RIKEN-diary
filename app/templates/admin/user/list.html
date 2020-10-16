@@ -1,532 +1,686 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head eln:include="admin/head.html"></head>
+  <head eln:include="admin/head.html"></head>
 
-<body>
+  <body>
 
-<!-- nav -->
-<nav eln:include="admin/nav.html"></nav>
+    <!-- nav -->
+    <nav eln:include="admin/nav.html"></nav>
 
-<!-- container -->
-<div class="container admin mT80 mB20">
+    <!-- container -->
+    <div class="container admin mT80 mB20">
 
-<!-- breadcrumb -->
-<ol class="breadcrumb">
-  <li class="active">被験者一覧</li>
-</ol>
-<!-- /breadcrumb -->
+      <!-- breadcrumb -->
+      <ol class="breadcrumb">
+	<li class="active">被験者一覧</li>
+      </ol>
+      <!-- /breadcrumb -->
 
-<!-- search -->
-<form action="{eln:uri('default:admin/user.search')}" method="post" class="form-horizontal" role="form" id="search-form">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <div class="form-group">
-	<label class="col-xs-12 col-sm-3 control-label">キーワード（部分一致）</label>
-	<div class="col-xs-12 col-sm-5 form-input">
-	  <input type="text" name="user_search[text]" class="form-control" placeholder="ID・氏名・ふりがな・メールアドレス">
-	</div>
-      </div>
-      <div class="form-group">
-	<label class="col-xs-12 col-sm-3 control-label">参加プロジェクト</label>
-	<div class="col-xs-12 col-sm-9 form-input">
-	  <select name="user_search[project_id]" class="form-control" eln:options="{$projectChoices1}"></select>
-	</div>
-      </div>
-      <div class="form-group">
-	<div class="col-xs-12 col-sm-9 col-sm-offset-3 form-input checkbox">
-	  <label>
-	    <input type="checkbox" name="user_search[all]" value="1">
-	    削除済も含める
-	  </label>
-	</div>
-      </div>
-      <div class="form-group">
-	<div class="col-xs-12 col-sm-7 col-sm-offset-3 form-input">
-          <a href="{eln:uri('default:admin/user.list')}" type="button" class="btn btn-md btn-default">
-	    全て表示
-	  </a>
-          <button type="submit" class="btn btn-md btn-success">
-	    <span class="glyphicon glyphicon-search"></span>
-	    検索
-	  </button>
-          <button type="button" class="btn btn-md btn-warnig download">
-	    <span class="glyphicon glyphicon-download"></span>
-	    ダウンロード
-	  </button>
-	</div>
-      </div>
-    </div>
-  </div>
-  <input type="hidden" name="user_search[download]">
-</form>
-<!-- /search -->
-
-<!-- paginator -->
-<div class="row">
-  <div class="col-sm-5">
-    <nav eln:include="admin/paginator.html"></nav>
-  </div>
-  <div class="col-sm-7 text-right command-box">
-    <a href="#" class="btn btn-sm btn-info to-link">
-      <span class="glyphicon glyphicon-link"></span>
-      プロジェクト参加
-    </a>
-    <a href="#" class="btn btn-sm btn-warning to-unlink">
-      <span class="glyphicon glyphicon-scissors"></span>
-      プロジェクト解除
-    </a>
-    <a href="#" class="btn btn-sm btn-danger to-delete">
-      <span class="glyphicon glyphicon-remove"></span>
-      削除
-    </a>
-  </div>
-</div>
-<!-- /paginator -->
-
-<!-- user list -->
-<div class="table-box">
-  <table class="table table-bordered table-hover list-table">
-    <thead>
-      <tr>
-	<th class="text-center">
-	  <input type="checkbox" id="lead-checkbox" name="lead">
-	</th>
-	<th></th>
-	<th class="clickable" data-order="i">
-	  ユーザID
-	  <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'i-a'}"></span>
-	  <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'i-d'}"></span>
-	</th>
-	<th>乱数</th>
-	<th class="clickable" data-order="n">
-	  氏名
-	  <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'n-a'}"></span>
-	  <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'n-d'}"></span>
-	</th>
-	<th class="clickable" data-order="k">
-	  ふりがな
-	  <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'k-a'}"></span>
-	  <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'k-d'}"></span>
-	</th>
-	<th>メールアドレス</th>
-	<th>性別</th>
-	<th>生年月日</th>
-	<th>参加プロジェクト</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="list-row" eln:foreach="$user:{$users}">
-	<td class="text-center">
-	  <input type="checkbox" name="ids[]" value="{$user.id}" class="ids" eln:unless="{$user.deleted_at}">
-	</td>
-	<td class="text-center">
-	  <span class="glyphicon glyphicon-remove text-danger" eln:unless="{$user.status EQ STATUS_ENABLED}"></span>
-	  <a href="#" class="btn btn-sm btn-default modify" data-id="{$user.id}" eln:if="{$user.status EQ STATUS_ENABLED}">
-	    <span class="glyphicon glyphicon-pencil"></span>
-	    編集
-	  </a>
-	</td>
-	<td>{$user.code}</td>
-	<td>{$user.token}</td>
-	<td>{$user.family_name} {$user.first_name}</td>
-	<td>{$user.kana}</td>
-	<td>{$user.email}</td>
-	<td>{$user.sex_tos}</td>
-	<td>{eln:date($user.birthday, '%Y/%m/%d')}</td>
-	<td>
-	  <a href="{eln:uri('diary:?token={$user.linkedProject.token}{$user.token}')}" eln:if="{$user.linkedProject}">
-	    {$user.linkedProject.title}
-	  </a>
-	</td>
-      </tr>
-      <tr eln:if="{count($user) EQ 0}">
-	<td colspan="9">見つかりません</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<!-- /user list -->
-
-<!-- paginator -->
-<div class="row">
-  <div class="col-sm-5">
-    <nav eln:include="admin/paginator.html"></nav>
-  </div>
-  <div class="col-sm-7 text-right command-box">
-    <a href="#" class="btn btn-sm btn-info to-link">
-      <span class="glyphicon glyphicon-link"></span>
-      プロジェクト参加
-    </a>
-    <a href="#" class="btn btn-sm btn-warning to-unlink">
-      <span class="glyphicon glyphicon-scissors"></span>
-      プロジェクト解除
-    </a>
-    <a href="#" class="btn btn-sm btn-danger to-delete">
-      <span class="glyphicon glyphicon-remove"></span>
-      削除
-    </a>
-  </div>
-</div>
-<!-- /paginator -->
-
-</div>
-<!-- /container -->
-
-<!-- modal -->
-<div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <form action="{eln:uri('default:admin/user.update')}" method="post">
-      <div class="modal-content">
-	<div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">編集</h5>
-	</div>
-	<div class="modal-body">
-          <div class="form-group">
-            <label for="familyname">氏名</label>
-	    <div class="form-inline">
-              <input type="text" name="family_name" class="form-control" id="family_name">
-              <input type="text" name="first_name" class="form-control" id="first_name">
+      <!-- search -->
+      <form action="{eln:uri('default:admin/user.search')}" method="post" class="form-horizontal" role="form" id="search-form">
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    <div class="form-group">
+	      <label class="col-xs-12 col-sm-3 control-label">キーワード（部分一致）</label>
+	      <div class="col-xs-12 col-sm-5 form-input">
+		<input type="text" name="user_search[text]" class="form-control" placeholder="ID・氏名・ふりがな・メールアドレス">
+	      </div>
 	    </div>
-          </div>
-          <div class="form-group">
-            <label for="kana">ふりがな</label>
-            <input type="text" name="kana" class="form-control" id="kana">
-          </div>
-          <div class="form-group">
-            <label for="email">メールアドレス</label>
-            <input type="text" name="email" class="form-control" id="email">
-          </div>
-          <div class="form-group">
-            <label for="email">性別</label>
-	    <div>
-	      <label class="radio-inline">
-		<input type="radio" name="sex" value="{SEX_MALE}">
-		男性
-	      </label>
-	      <label class="radio-inline">
-		<input type="radio" name="sex" value="{SEX_FEMALE}">
-		女性
-	      </label>
+	    <div class="form-group">
+	      <label class="col-xs-12 col-sm-3 control-label">参加プロジェクト</label>
+	      <div class="col-xs-12 col-sm-9 form-input">
+		<select name="user_search[project_id]" class="form-control" eln:options="{$projectChoices1}"></select>
+	      </div>
 	    </div>
-          </div>
-          <div class="form-group">
-            <label for="birthday">生年月日</label>
-            <input type="text" name="birthday" class="form-control datepicker" id="birthday">
-          </div>
+	    <div class="form-group">
+	      <div class="col-xs-12 col-sm-9 col-sm-offset-3 form-input checkbox">
+		<label>
+		  <input type="checkbox" name="user_search[all]" value="1">
+		  削除済も含める
+		</label>
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <div class="col-xs-12 col-sm-7 col-sm-offset-3 form-input">
+		<a href="{eln:uri('default:admin/user.list')}" type="button" class="btn btn-md btn-default">
+		  全て表示
+		</a>
+		<button type="submit" class="btn btn-md btn-success">
+		  <span class="glyphicon glyphicon-search"></span>
+		  検索
+		</button>
+		<button type="button" class="btn btn-md btn-warnig download">
+		  <span class="glyphicon glyphicon-download"></span>
+		  ダウンロード
+		</button>
+	      </div>
+	    </div>
+	  </div>
 	</div>
-	<div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-          <button type="submit" class="btn btn-primary">更新</button>
-	</div>
-      </div>
-      <input type="hidden" name="id">
-    </form>
-  </div>
-</div>
-<div class="modal fade" id="link-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">プロジェクトへの参加登録</h5>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label>プロジェクト</label>
-	  <select name="project" class="form-control" eln:options="{$projectChoices2}"></select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-        <button type="button" class="btn btn-info" id="button-link">実行</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="unlink-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">確認</h5>
-      </div>
-      <div class="modal-body">
-        選択されているユーザのプロジェクト参加を取り消します。
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-        <button type="button" class="btn btn-warning" id="button-unlink">実行</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">確認</h5>
-      </div>
-      <div class="modal-body">
-        選択されている申し込みを削除します。
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-        <button type="button" class="btn btn-danger" id="button-delete">削除</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- /modal -->
+	<input type="hidden" name="user_search[download]">
+      </form>
+      <!-- /search -->
 
-<eln:tag eln:include="admin/foot.html"></eln:tag>
-<script>
-//<![CDATA[
-$(function(){
-    // download.
-    $("button.download").on("click", function(){
+      <!-- paginator -->
+      <div class="row">
+	<div class="col-sm-5">
+	  <nav eln:include="admin/paginator.html"></nav>
+	</div>
+	<div class="col-sm-7 text-right command-box">
+	  <a href="#" class="btn btn-sm btn-info to-send">
+	    <span class="glyphicon glyphicon-envelope"></span>
+	    一斉メール送信
+	  </a>
+	  <a href="#" class="btn btn-sm btn-info to-link">
+	    <span class="glyphicon glyphicon-link"></span>
+	    プロジェクト参加
+	  </a>
+	  <a href="#" class="btn btn-sm btn-warning to-unlink">
+	    <span class="glyphicon glyphicon-scissors"></span>
+	    プロジェクト解除
+	  </a>
+	  <a href="#" class="btn btn-sm btn-danger to-delete">
+	    <span class="glyphicon glyphicon-remove"></span>
+	    削除
+	  </a>
+	</div>
+      </div>
+      <!-- /paginator -->
+
+      <!-- user list -->
+      <form id="user-list" method="post">
+	<div class="table-box">
+	  <table class="table table-bordered table-hover list-table">
+	    <thead>
+	      <tr>
+		<th class="text-center">
+		  <input type="checkbox" id="lead-checkbox" name="lead">
+		</th>
+		<th></th>
+		<th class="clickable" data-order="i">
+		  ユーザID
+		  <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'i-a'}"></span>
+		  <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'i-d'}"></span>
+		</th>
+		<th>乱数</th>
+		<th class="clickable" data-order="n">
+		  氏名
+		  <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'n-a'}"></span>
+		  <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'n-d'}"></span>
+		</th>
+		<th class="clickable" data-order="k">
+		  ふりがな
+		  <span class="glyphicon glyphicon-chevron-up" eln:if="{$user_search.order EQ 'k-a'}"></span>
+		  <span class="glyphicon glyphicon-chevron-down" eln:if="{$user_search.order EQ 'k-d'}"></span>
+		</th>
+		<th>メールアドレス</th>
+		<th>性別</th>
+		<th>生年月日</th>
+		<th>参加プロジェクト</th>
+		<th></th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr class="list-row" eln:foreach="$user:{$users}">
+		<td class="text-center">
+		  <input type="checkbox" name="ids[]" value="{$user.id}" class="ids" eln:unless="{$user.deleted_at}">
+		</td>
+		<td class="text-center">
+		  <span class="glyphicon glyphicon-remove text-danger" eln:unless="{$user.status EQ STATUS_ENABLED}"></span>
+		  <a href="#" class="btn btn-sm btn-default modify" data-id="{$user.id}" eln:if="{$user.status EQ STATUS_ENABLED}">
+		    <span class="glyphicon glyphicon-pencil"></span>
+		    編集
+		  </a>
+		</td>
+		<td>{$user.code}</td>
+		<td>{$user.token}</td>
+		<td>{$user.family_name} {$user.first_name}</td>
+		<td>{$user.kana}</td>
+		<td>{$user.email}</td>
+		<td>{$user.sex_tos}</td>
+		<td>{eln:date($user.birthday, '%Y/%m/%d')}</td>
+		<td>
+		  <a href="#" data-url="{eln:uri('diary:?token={$user.linkedProject.token}{$user.token}')}" class="link" eln:if="{$user.linkedProject}">
+		    {$user.linkedProject.title}
+		  </a>
+		</td>
+		<td>
+		  <a href="#" class="btn btn-sm btn-default restore" data-project="{$user.linkedProject.id}" data-user="{$user.id}" eln:if="{$user.linkedProject}">
+		    <span class="glyphicon glyphicon-plus"></span>
+		    追加入力
+		  </a>
+		</td>
+	      </tr>
+	      <tr eln:if="{count($user) EQ 0}">
+		<td colspan="11">見つかりません</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	</div>
+	<input type="hidden" name="message" eln:noeval="{true}">
+      </form>
+      <!-- /user list -->
+
+      <!-- paginator -->
+      <div class="row">
+	<div class="col-sm-5">
+	  <nav eln:include="admin/paginator.html"></nav>
+	</div>
+	<div class="col-sm-7 text-right command-box">
+	  <a href="#" class="btn btn-sm btn-info to-send">
+	    <span class="glyphicon glyphicon-envelope"></span>
+	    一斉メール送信
+	  </a>
+	  <a href="#" class="btn btn-sm btn-info to-link">
+	    <span class="glyphicon glyphicon-link"></span>
+	    プロジェクト参加
+	  </a>
+	  <a href="#" class="btn btn-sm btn-warning to-unlink">
+	    <span class="glyphicon glyphicon-scissors"></span>
+	    プロジェクト解除
+	  </a>
+	  <a href="#" class="btn btn-sm btn-danger to-delete">
+	    <span class="glyphicon glyphicon-remove"></span>
+	    削除
+	  </a>
+	</div>
+      </div>
+      <!-- /paginator -->
+
+    </div>
+    <!-- /container -->
+
+    <!-- modal -->
+    <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+	<form action="{eln:uri('default:admin/user.update')}" method="post">
+	  <div class="modal-content">
+	    <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">編集</h5>
+	    </div>
+	    <div class="modal-body">
+              <div class="form-group">
+		<label for="familyname">氏名</label>
+		<div class="form-inline">
+		  <input type="text" name="family_name" class="form-control" id="family_name">
+		  <input type="text" name="first_name" class="form-control" id="first_name">
+		</div>
+              </div>
+              <div class="form-group">
+		<label for="kana">ふりがな</label>
+		<input type="text" name="kana" class="form-control" id="kana">
+              </div>
+              <div class="form-group">
+		<label for="email">メールアドレス</label>
+		<input type="text" name="email" class="form-control" id="email">
+              </div>
+              <div class="form-group">
+		<label for="email">性別</label>
+		<div>
+		  <label class="radio-inline">
+		    <input type="radio" name="sex" value="{SEX_MALE}">
+		    男性
+		  </label>
+		  <label class="radio-inline">
+		    <input type="radio" name="sex" value="{SEX_FEMALE}">
+		    女性
+		  </label>
+		</div>
+              </div>
+              <div class="form-group">
+		<label for="birthday">生年月日</label>
+		<input type="text" name="birthday" class="form-control datepicker" id="birthday">
+              </div>
+	    </div>
+	    <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+              <button type="submit" class="btn btn-primary">更新</button>
+	    </div>
+	  </div>
+	  <input type="hidden" name="id">
+	</form>
+      </div>
+    </div>
+    <div class="modal fade" id="message-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+            <h5 class="modal-title">一斉メール送信</h5>
+	  </div>
+	  <div class="modal-body">
+            <div class="form-group">
+              <p class="form-control-static">既存のメールに送信先を追加する場合は下に[メールID]を入力してください。</p>
+	      <div class="form-inline">
+		<label>メールID</label>
+		<input type="text" name="message" class="form-control">
+	      </div>
+            </div>
+	  </div>
+	  <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+            <button type="button" class="btn btn-info" id="button-send">実行</button>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <div class="modal fade" id="link-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+            <h5 class="modal-title">プロジェクトへの参加登録</h5>
+	  </div>
+	  <div class="modal-body">
+            <div class="form-group">
+              <label>プロジェクト</label>
+	      <select name="project" class="form-control" eln:options="{$projectChoices2}"></select>
+            </div>
+	  </div>
+	  <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+            <button type="button" class="btn btn-info" id="button-link">実行</button>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <div class="modal fade" id="unlink-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+            <h5 class="modal-title">確認</h5>
+	  </div>
+	  <div class="modal-body">
+            選択されているユーザのプロジェクト参加を取り消します。
+	  </div>
+	  <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+            <button type="button" class="btn btn-warning" id="button-unlink">実行</button>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+            <h5 class="modal-title">確認</h5>
+	  </div>
+	  <div class="modal-body">
+            選択されている申し込みを削除します。
+	  </div>
+	  <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+            <button type="button" class="btn btn-danger" id="button-delete">削除</button>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <div class="modal fade" id="restoration-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+      <form action="{eln:uri('default:admin/restoration.save')}" method="post">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+	    <div class="modal-header">
+              <h5 class="modal-title">追加入力URL発行</h5>
+	    </div>
+	    <div class="modal-body">
+              <div class="form-group">
+		<label for="familyname">プロジェクト名</label>
+		<p id="project-title" class="form-control-static"></p>
+              </div>
+              <div class="form-group">
+		<label for="familyname">ユーザ</label>
+		<p id="user-info" class="form-control-static"></p>
+              </div>
+              <div class="form-group">
+		<label for="record">対象日</label>
+		<input type="text" name="record" class="form-control datepicker" id="record">
+              </div>
+              <div class="form-group">
+		<label for="record">日誌種別</label>
+		<div class="row">
+		  <label class="checkbox-inline">
+		    <input type="radio" name="timing" value="{TIMING_GETUP}">
+		    起床時
+		  </label>
+		  <label class="checkbox-inline">
+		    <input type="radio" name="timing" value="{TIMING_AM}">
+		    午前
+		  </label>
+		  <label class="checkbox-inline">
+		    <input type="radio" name="timing" value="{TIMING_PM}">
+		    午後
+		  </label>
+		  <label class="checkbox-inline">
+		    <input type="radio" name="timing" value="{TIMING_GOTOBED}">
+		    就寝時
+		  </label>
+		</div>
+              </div>
+	    </div>
+	    <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+              <button type="submit" class="btn btn-success restore">発行</button>
+	    </div>
+	  </div>
+	</div>
+	<input type="hidden" name="project_id">
+	<input type="hidden" name="user_id">
+      </form>
+    </div>
+    <!-- /modal -->
+
+    <eln:tag eln:include="admin/foot.html"></eln:tag>
+    <script>
+    //<![CDATA[
+    $(function(){
+      // download.
+      $("button.download").on("click", function(){
 	$("input[name='user_search[download]']").val("1");
 	$("#search-form").submit();
 	$("input[name='user_search[download]']").val("0");
 	return false;
-    });
-    
-    // order.
-    $("th.clickable").on("click", function(){
+      });
+      
+      // order.
+      $("th.clickable").on("click", function(){
 	var category = $(this).data("order");
 	var order = "{$user_search.order}";
 	if(order.substring(0, 1) == category){
-	    if(order.substring(2) == "a"){
-		order = category + "-d";
-	    }else{
-		order = category + "-a";
-	    }
+	  if(order.substring(2) == "a"){
+	    order = category + "-d";
+	  }else{
+	    order = category + "-a";
+	  }
 	}else{
-	    order = category + order.substring(1);
+	  order = category + order.substring(1);
 	}
 	location.href = "{eln:uri('default:admin/user.search?o=_ORDER_')}".replace("_ORDER_", order);
 	return false;
-    });
+      });
 
-    // checkboxes.
-    $("#lead-checkbox").on("click", function(){
+      // checkboxes.
+      $("#lead-checkbox").on("click", function(){
 	if($(this).is(":checked")){
-	    $("input.ids").prop("checked", true);
+	  $("input.ids").prop("checked", true);
 	}else{
-	    $("input.ids").prop("checked", false);
+	  $("input.ids").prop("checked", false);
 	}
 	onCheckbox();
-    });
-    $("input.ids").on("click", function(){
+      });
+      $("input.ids").on("click", function(){
 	if($("input.ids").length == $("input.ids:checked").length){
-	    $("#lead-checkbox").prop("checked", true);
+	  $("#lead-checkbox").prop("checked", true);
 	}else{
-	    $("#lead-checkbox").prop("checked", false);
+	  $("#lead-checkbox").prop("checked", false);
 	}
 	onCheckbox();
-    });
-    onCheckbox();
+      });
+      onCheckbox();
 
-    // select.
-    $("select[name='project']").on("change", function(){
+      // select.
+      $("select[name='project']").on("change", function(){
 	var projectId = $("select[name='project'] option:selected").val();
 	if(projectId.length > 0){
-	    $("#button-link").prop("disabled", false).removeClass("disabled");
+	  $("#button-link").prop("disabled", false).removeClass("disabled");
 	}else{
-	    $("#button-link").prop("disabled", true).addClass("disabled");
+	  $("#button-link").prop("disabled", true).addClass("disabled");
 	}
-    });
-    
-    // commands.
-    $(".to-link").on("click", function(){
+      });
+      
+      // commands.
+      $(".to-send").on("click", function(){
+	if($("input[name='ids[]']:checked").length > 0){
+	  $("#message-modal input[name='message']").val("");
+	  $("#message-modal").modal("show");
+	  return false;
+	}
+      });
+      $("#button-send").on("click", function(){
+	$("form#user-list input[name='message']").val($("#message-modal input[name='message']").val());
+	$("form#user-list").attr({ action: "{eln:uri('default:admin/message.form')}" });
+	$("form#user-list").submit();
+      });
+      $(".to-link").on("click", function(){
 	$("select[name='project']").val("");
 	$("#button-link").prop("disabled", true).addClass("disabled");
 	$("#link-modal").modal("show");
 	return false;
-    });
-    $("#button-link").on("click", function(){
+      });
+      $("#button-link").on("click", function(){
 	var projectId = $("select[name='project'] option:selected").val();
 	if(projectId.length > 0){
-	    var ids = [];
-	    $("input.ids:checked").each(function(){
-		ids.push($(this).val());
-	    });
-	    $.ajax({
-		url: "{eln:uri('default:admin/user.async_project')}",
-		method: "POST",
-		data: { ids: JSON.stringify(ids), project: projectId },
-		dataType: "JSON",
-		complete: function(result){
-		    location.href = "{eln:uri('default:admin/user.search')}";
-		}
-	    });
-	}
-    });
-    $(".to-unlink").on("click", function(){
-	$("#unlink-modal").modal("show");
-	return false;
-    });
-    $("#button-unlink").on("click", function(){
-	var ids = [];
-	$("input.ids:checked").each(function(){
+	  var ids = [];
+	  $("input.ids:checked").each(function(){
 	    ids.push($(this).val());
-	});
-	$.ajax({
+	  });
+	  $.ajax({
 	    url: "{eln:uri('default:admin/user.async_project')}",
 	    method: "POST",
-	    data: { ids: JSON.stringify(ids) },
+	    data: { ids: JSON.stringify(ids), project: projectId },
 	    dataType: "JSON",
 	    complete: function(result){
-		location.href = "{eln:uri('default:admin/user.search')}";
+	      location.href = "{eln:uri('default:admin/user.search')}";
 	    }
-	});
-    });
-    $(".to-delete").on("click", function(){
-	$("#delete-modal").modal("show");
+	  });
+	}
+      });
+      $(".to-unlink").on("click", function(){
+	$("#unlink-modal").modal("show");
 	return false;
-    });
-    $("#button-delete").on("click", function(){
+      });
+      $("#button-unlink").on("click", function(){
 	var ids = [];
 	$("input.ids:checked").each(function(){
-	    ids.push($(this).val());
+	  ids.push($(this).val());
 	});
 	$.ajax({
-	    url: "{eln:uri('default:admin/user.async_delete')}",
-	    method: "POST",
-	    data: { ids: JSON.stringify(ids) },
-	    dataType: "JSON",
-	    complete: function(){
-		location.href = "{eln:uri('default:admin/user.search')}";
-	    }
+	  url: "{eln:uri('default:admin/user.async_project')}",
+	  method: "POST",
+	  data: { ids: JSON.stringify(ids) },
+	  dataType: "JSON",
+	  complete: function(result){
+	    location.href = "{eln:uri('default:admin/user.search')}";
+	  }
 	});
-    });
-    $(".modify").on("click", function(){
+      });
+      $(".to-delete").on("click", function(){
+	$("#delete-modal").modal("show");
+	return false;
+      });
+      $("#button-delete").on("click", function(){
+	var ids = [];
+	$("input.ids:checked").each(function(){
+	  ids.push($(this).val());
+	});
 	$.ajax({
-	    url: "{eln:uri('default:admin/user.async_load?id=_ID_')}".replace("_ID_", $(this).data("id")),
-	    method: "GET",
-	    dataType: "JSON",
-	    success: function(result){
-		if(result.id){
-		    $("#form-modal h5.modal-title").text("編集（" + result.userID + "）");
-		    $("input[name='id']").val(result.id);
-		    $("input[name='family_name']").val(result.family_name);
-		    $("input[name='first_name']").val(result.first_name);
-		    $("input[name='kana']").val(result.kana);
-		    $("input[name='email']").val(result.email);
-		    $("input[name='sex']").val([result.sex]);
-		    $("input[name='birthday']").val(result.birthday);
-		    $("#form-modal").modal("show");
-		}
-	    }
+	  url: "{eln:uri('default:admin/user.async_delete')}",
+	  method: "POST",
+	  data: { ids: JSON.stringify(ids) },
+	  dataType: "JSON",
+	  complete: function(){
+	    location.href = "{eln:uri('default:admin/user.search')}";
+	  }
 	});
-    });
+      });
+      $(".modify").on("click", function(){
+	$.ajax({
+	  url: "{eln:uri('default:admin/user.async_load?id=_ID_')}".replace("_ID_", $(this).data("id")),
+	  method: "GET",
+	  dataType: "JSON",
+	  success: function(result){
+	    if(result.id){
+	      $("#form-modal h5.modal-title").text("編集（" + result.userID + "）");
+	      $("input[name='id']").val(result.id);
+	      $("input[name='family_name']").val(result.family_name);
+	      $("input[name='first_name']").val(result.first_name);
+	      $("input[name='kana']").val(result.kana);
+	      $("input[name='email']").val(result.email);
+	      $("input[name='sex']").val([result.sex]);
+	      $("input[name='birthday']").val(result.birthday);
+	      $("#form-modal").modal("show");
+	    }
+	  }
+	});
+      });
 
-    // row.
-    $("tr.list-row").each(function(){
+      // restore.
+      $("a.restore").on("click", function(){
+	$("#restoration-modal form input[name=project_id]").val($(this).data("project"));
+	$("#restoration-modal form input[name=user_id]").val($(this).data("user"));
+	$("#restoration-modal form input[name=record]").val("");
+	$("#restoration-modal form input[name=timing]:checked").prop("checked", false);
+	$("#restoration-modal form #project-title").text($("td:nth-child(10)", $(this).parents("tr")).text());
+	$("#restoration-modal form #user-info").text(
+	  $("td:nth-child(3)", $(this).parents("tr")).text() + ": " + $("td:nth-child(5)", $(this).parents("tr")).text()
+	);
+	$("#restoration-modal").modal("show");
+      });
+      
+      // row.
+      $("tr.list-row").each(function(){
 	if($("td:nth-child(2) span.text-danger", $(this)).length > 0){
-	    $(this).addClass("danger");
+	  $(this).addClass("danger");
 	}
-    });
-    
-    // form.
-    $("#form-modal form").validate({
+      });
+
+      // link.
+      $("a.link").on("click", function(){
+	var url = $(this).data("url");
+	window.open(url, "_blank");
+	return false;
+      });
+      
+      // form.
+      $("#form-modal form").validate({
 	rules: {
-            family_name: {
-		required: true
-            },
-            first_name: {
-		required: true
-            },
-            kana: {
-		required: true
-            },
-            sex:{
-		required: true
-            },
-            birthday: {
-		isDate: true,
-		required: true
-            },
-            email: {
-	        email: true,
-	        required: true,
-            },
+	  family_name: {
+	    required: true
+	  },
+	  first_name: {
+	    required: true
+	  },
+	  kana: {
+	    required: true
+	  },
+	  sex:{
+	    required: true
+	  },
+	  birthday: {
+	    isDate: true,
+	    required: true
+	  },
+	  email: {
+	    email: true,
+	    required: true,
+	  },
 	},
 	messages: {
-            family_name: {
-		required: "入力されていません。"
-            },
-            first_name: {
-		required: "入力されていません。"
-            },
-            kana: {
-		required: "入力されていません。"
-            },
-            sex: {
-		required: "選択されていません。"
-            },
-            birthday: {
-		required: "入力されていません。"
-            },
-            email: {
-		required: "入力されていません。",
-        	email: "メールアドレスの形式で入力して下さい。"
-            },
+	  family_name: {
+	    required: "入力されていません。"
+	  },
+	  first_name: {
+	    required: "入力されていません。"
+	  },
+	  kana: {
+	    required: "入力されていません。"
+	  },
+	  sex: {
+	    required: "選択されていません。"
+	  },
+	  birthday: {
+	    required: "入力されていません。"
+	  },
+	  email: {
+	    required: "入力されていません。",
+            email: "メールアドレスの形式で入力して下さい。"
+	  },
 	},
 	highlight: function (element, errorClass, validClass) { 
-	    $(element).parents("div.form-group").addClass("has-error"); 
+	  $(element).parents("div.form-group").addClass("has-error"); 
 	}, 
 	unhighlight: function (element, errorClass, validClass) { 
-	    $(element).parents(".has-error").removeClass("has-error"); 
+	  $(element).parents(".has-error").removeClass("has-error"); 
 	},
 	errorPlacement: function(error, element){
-	    $(element).parents("div.form-group").append(error.addClass("control-label"));
+	  $(element).parents("div.form-group").append(error.addClass("control-label"));
 	}
-    });
-    $.validator.addMethod(
+      });
+      $("#restoration-modal form").validate({
+	rules: {
+          record: {
+	    required: true,
+	    isRecord: true
+          },
+          timing: {
+	    required: true
+          },
+	},
+	messages: {
+          record: {
+	    required: "入力されていません。"
+          },
+          timing: {
+	    required: "選択されていません。",
+          },
+	},
+	highlight: function (element, errorClass, validClass) { 
+	  $(element).parents("div.form-group").addClass("has-error"); 
+	}, 
+	unhighlight: function (element, errorClass, validClass) { 
+	  $(element).parents(".has-error").removeClass("has-error"); 
+	},
+	errorPlacement: function(error, element){
+	  $(element).parents("div.form-group").append(error.addClass("control-label"));
+	}
+      });
+      $.validator.addMethod(
 	"isDate",
 	function(value, element){
-	    var isValid = false;
-	    var error = 1;
-	    if(value.match(/^([0-9]+)\/([0-9]+)\/([0-9]+)$/)){
-		var y = RegExp.$1;
-		var m = RegExp.$2;
-		var d = RegExp.$3;
-		birthday = new Date(("000" + y).slice(-4) + "-" + ("0" + m).slice(-2) + "-" + ("0" + d).slice(-2));
-		if(birthday.getMonth() + 1 == m){
-		    var right = birthday.getFullYear() * 10000 + (birthday.getMonth() + 1) * 100 + birthday.getDate();
-		    var today = new Date();
-		    var left = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-		    var age = Math.floor((left - right) / 10000);
-		    if(age >= 20 && age <= 65){
-			isValid = true;
-		    }else{
-			error = 2;
-		    }
-		}
+	  var isValid = false;
+	  var error = 1;
+	  if(value.match(/^([0-9]+)\/([0-9]+)\/([0-9]+)$/)){
+	    var y = RegExp.$1;
+	    var m = RegExp.$2;
+	    var d = RegExp.$3;
+	    birthday = new Date(("000" + y).slice(-4) + "-" + ("0" + m).slice(-2) + "-" + ("0" + d).slice(-2));
+	    if(birthday.getMonth() + 1 == m){
+	      var right = birthday.getFullYear() * 10000 + (birthday.getMonth() + 1) * 100 + birthday.getDate();
+	      var today = new Date();
+	      var left = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+	      var age = Math.floor((left - right) / 10000);
+	      if(age >= 20 && age <= 65){
+		isValid = true;
+	      }else{
+		error = 2;
+	      }
 	    }
-	    if(!isValid){
-		$("input[name='birthdate']").data("error", error);
-	    }
-	    return isValid;
+	  }
+	  if(!isValid){
+	    $("input[name='birthdate']").data("error", error);
+	  }
+	  return isValid;
 	},
 	function(params, element){
-	    if($(element).data("error") == 2){
-		return "20歳以上65歳以下の方しか参加できません。";
-	    }
-	    return "正しい日付を入力して下さい。";
+	  if($(element).data("error") == 2){
+	    return "20歳以上65歳以下の方しか参加できません。";
+	  }
+	  return "正しい日付を入力して下さい。";
 	}
-    );
-});
-function onCheckbox(){
-    if($("input.ids:checked").length > 0){
+      );
+    });
+    function onCheckbox(){
+      if($("input.ids:checked").length > 0){
+	$(".to-send").removeClass("disabled").prop("disabled", false);
 	$(".to-link").removeClass("disabled").prop("disabled", false);
 	$(".to-unlink").removeClass("disabled").prop("disabled", false);
 	$(".to-delete").removeClass("disabled").prop("disabled", false);
-    }else{
+      }else{
+	$(".to-send").addClass("disabled").prop("disabled", true);
 	$(".to-link").addClass("disabled").prop("disabled", true);
 	$(".to-unlink").addClass("disabled").prop("disabled", true);
 	$(".to-delete").addClass("disabled").prop("disabled", true);
+      }
     }
-}
-//]]>
-</script>
-</body>
+    //]]>
+    </script>
+  </body>
 </html>
