@@ -63,16 +63,19 @@ class WorkRestoreAction extends Controller {
 	/* 日誌 */
 	switch($restoration->timing){
 	case TIMING_GETUP:
-	  $time = '05:00';
+	  $time = '06:00';
 	  break;
 	case TIMING_AM:
-	  $time = '11:00';
-	  break;
-	case TIMING_PM:
 	  $time = '13:00';
 	  break;
+	case TIMING_PM:
+	  $time = '19:00';
+	  break;
+	case TIMING_GOTOBED:
+	  $time = '21:00';
+	  break;
 	}
-	$datetime = new Eln_Date(strtotime(strftime('%Y/%m/%d').' '.$time));
+	$datetime = new Eln_Date(strtotime($restoration->record->format('%Y/%m/%d').' '.$time));
 	$diaries = array();
 	foreach($this->ProjectDiaryModel->getByProject($project->id) as $entry){
 	  if($entry->diary->isActive($datetime)){
@@ -105,6 +108,7 @@ class WorkRestoreAction extends Controller {
 	$visit = $this->VisitModel->newModel();
 	$visit->user_id = $user->id;
 	$visit->project_id = $project->id;
+	$visit->restoration_id = $restoration->id;
 	if($code !== null){
 	  $visit->diary_id = $diaries[0]->id;
 	}

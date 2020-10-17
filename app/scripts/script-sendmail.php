@@ -125,38 +125,79 @@ function _send_message($record, $project, $user){
 
 function _finish($text, $project, $user){
   /**/
+  global $visitModel;
   global $answerModel;
 
   /**/
   while(true){
-    if(preg_match('/【日誌\|([-0-9a-zA-Z]+)\|([\/0-9]+)】/', $text, $matches)){
+    if(preg_match('/【日誌\|(起床時|午前|午後|就寝時)\|(入力|摂取)\|([\/0-9]*)】/', $text, $matches)){
       $alt = '';
-      $name = $matches[1];
-      if(empty($matches[2])){
+      switch($matches[1]){
+      case '起床時':
+	$timing = TIMING_GETUP;
+	break;
+      case '午前':
+	$timing = TIMING_AM;
+	break;
+      case '午後':
+	$timing = TIMING_PM;
+	break;
+      case '就寝時':
+	$timing = TIMING_GOTOBED;
+	break;
+      }
+      $type = $matches[2];
+      if(empty($matches[3])){
 	$date = Eln_Date::today();
       }else{
-	$date = strtotime($matches[2]);
+	$date = strtotime($matches[3]);
       }
       if($date !== false){
-	$from = new Eln_Date($date + 4 * 3600);
-	$to = new Eln_Date($date + 86400 + 3600);
-	$ws = array(
-	  '[user_id] = :user_id',
-	  'visit.project_id = :project_id',
-	  '[name] = :name',
-	  '[answered_at] >= :from',
-	  '[answered_at] < :to',
-	);
-	$answer = $answerModel->one(
-	  array('joins'=>'visit', 'where'=>implode(' AND ', $ws)),
-	  array('user_id'=>$user->id, 'project_id'=>$project->id, 'name'=>$name, 'from'=>$from, 'to'=>$to)
-	);
-	if($answer === null){
-	  $alt = '【無回答】';
-	}else if($answer->value == 1){
-	  $alt = '【はい】';
-	}else if($answer->value == 2){
-	  $alt = '【いいえ】';
+	if($type == '入力'){
+	  $ws = array(
+	    '[user_id] = :user_id',
+	    '[project_id] = :project_id',
+	    '[visited_on] = :date',
+	    '[timing] = :timing',
+	    '[finished_at] IS NOT NULL',
+	  );
+	  $visit = $visitModel->one(
+	    array('where'=>implode(' AND ', $ws)),
+	    array('user_id'=>$user->id, 'project_id'=>$project->id, 'date'=>$date, 'timing'=>$timing)
+	  );
+	  if($visit !== null){
+	    $alt = '【入力済】';
+	  }else{
+	    $alt = '【未回答】';
+	  }
+	}else{
+	  if($timing == TIMING_AM){
+	    $name = QUESTION_AM;
+	  }else if($timing = TIMING_PM){
+	    $name = QUESTION_PM;
+	  }else{
+	    $name = null;
+	  }
+	  if($name !== null){
+	    $ws = array(
+	      'visit.user_id = :user_id',
+	      'visit.project_id = :project_id',
+	      'visit.visited_on = :date',
+	      'visit.timing = :timing',
+	      '[name] = :name',
+	    );
+	    $answer = $answerModel->one(
+	      array('joins'=>'visit', 'where'=>implode(' AND ', $ws)),
+	      array('user_id'=>$user->id, 'project_id'=>$project->id, 'date'=>$date, 'timing'=>$timing, 'name'=>$name)
+	    );
+	    if($answer === null){
+	      $alt = '【未回答】';
+	    }else if($answer->value == 1){
+	      $alt = '【はい】';
+	    }else if($answer->value == 2){
+	      $alt = '【いいえ】';
+	    }
+	  }
 	}
       }
       $text = str_replace($matches[0], $alt, $text);
@@ -168,6 +209,26 @@ function _finish($text, $project, $user){
   /**/
   return $text;
 }
+
+/*****/
+if(function_exists('bindtextdomain') === false){
+  function bindtextdomain($domain, $directory)
+  {
+  }
+    }
+if(function_exists('textdomain') === false){
+  function textdomain($domain)
+  {
+  }
+    }
+if(function_exists('_') === false){
+  function _($str)
+  {
+    return $str;
+  }
+}
+ini_set('display_errors', true);
+/*****/
 
 /* アプリケーション */
 $app = getApp();
@@ -191,6 +252,7 @@ try{
   $mailModel = getModel('Mail');
   $messageModel = getModel('Message');
   $userModel = getModel('User');
+  $visitModel = getModel('Visit');
   $answerModel = getModel('Answer');
 
   /* 有効なプロジェクト一覧 */

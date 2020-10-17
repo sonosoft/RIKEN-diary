@@ -38,16 +38,20 @@ class ProjectDiaryModelFactory extends ModelFactory {
   public function collectDiaries($visit){
     $diaries = array();
     foreach($this->getByProject($visit->project_id) as $entry){
-      if($entry->diary->isActive($visit->started_at)){
-	if($visit->diary_id !== null){
-	  if($entry->diary->id == $visit->diary_id){
-	    $diaries[] = $entry->diary;
-	  }
-	}else{
-	  if(!$entry->diary->separated){
+      if($visit->diary_id !== null){
+	if($entry->diary->id == $visit->diary_id){
+	  $diaries[] = $entry->diary;
+	}
+      }
+      if($visit->diaries !== null){
+	foreach(explode(',', $visit->diaries) as $code){
+	  if('DY'.$entry->diary->code == $code){
 	    $diaries[] = $entry->diary;
 	  }
 	}
+      }
+      if(!$entry->diary->separated){
+	$diaries[] = $entry->diary;
       }
     }
     return $diaries;

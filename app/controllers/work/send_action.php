@@ -73,6 +73,12 @@ class WorkSendAction extends WorkController {
 	}else if(isset($indexes[$curr + 1]) === false){
 	  /* 終了 */
 	  $this->visit->finished_at = $this->app->data['_now_'];
+	  if($this->visit->restoration_id !== null){
+	    $this->db->query(
+	      'UPDATE restoration SET status = :disabled, deleted_at = CURDATE() WHERE id = :id',
+	      array('id'=>$this->visit->restoeration_id, 'disabled'=>STATUS_DISABLED)
+	    );
+	  }
 	}else{
 	  /* 次のページ */
 	  $this->visit->target = $pages[$indexes[$curr + 1]]['target'];

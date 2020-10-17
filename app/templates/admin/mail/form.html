@@ -1,212 +1,212 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head eln:include="admin/head.html"></head>
+  <head eln:include="admin/head.html"></head>
 
-<body>
+  <body>
 
-<!-- nav -->
-<nav eln:include="admin/nav.html"></nav>
+    <!-- nav -->
+    <nav eln:include="admin/nav.html"></nav>
 
-<!-- container -->
-<div class="container admin mT80 mB20">
+    <!-- container -->
+    <div class="container admin mT80 mB20">
 
-<!-- breadcrumb -->
-<ol class="breadcrumb">
-  <li><a href="{eln:uri('default:admin/mail.search')}">メール一覧</a></li>
-  <li class="active">メール登録・編集</li>
-</ol>
-<!-- /breadcrumb -->
+      <!-- breadcrumb -->
+      <ol class="breadcrumb">
+	<li><a href="{eln:uri('default:admin/mail.search')}">メール一覧</a></li>
+	<li class="active">メール登録・編集</li>
+      </ol>
+      <!-- /breadcrumb -->
 
-<!-- search -->
-<form action="{eln:uri('default:admin/mail.save')}" method="post">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <div class="form-group">
-	<label for="title">ID</label>
-	<div class="form-inline">
-	  <div class="form-group">
-	    <label class="inline-note">ML</label>
-	    <input type="text" name="mail[code]" class="form-control" id="code" placeholder="英数字3文字">
+      <!-- search -->
+      <form action="{eln:uri('default:admin/mail.save')}" method="post">
+	<div class="panel panel-default">
+	  <div class="panel-body">
+	    <div class="form-group">
+	      <label for="title">ID</label>
+	      <div class="form-inline">
+		<div class="form-group">
+		  <label class="inline-note">ML</label>
+		  <input type="text" name="mail[code]" class="form-control" id="code" placeholder="英数字3文字">
+		</div>
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <label for="title">タイトル</label>
+	      <input type="text" name="mail[title]" class="form-control" id="title" placeholder="タイトル">
+	    </div>
+	    <div class="form-group">
+	      <label for="body">本文</label>
+	      <textarea name="mail[body]" class="form-control" id="body" placeholder="本文" rows="15"></textarea>
+	      <p class="help-block">
+		【氏名】、【アドレス】、【計測開始日】、【計測終了日】という文字列は、実際の送信の際に適切に置換されます。<br>
+		【日誌|タイミング|種別|回答日】（例：【日誌|起床時|入力|2020/10/30】）は、日誌への回答で置換されます。<br>
+		単独日誌のアドレスを指定する場合は、【アドレス】の後に&quot;/日誌ID&quot;（例: /001）と記述してください。
+	      </p>
+	    </div>
+	    <div class="form-group">
+	      <label for="title">送信日</label>
+	      <div class="form-inline">
+		<label class="radio-inline">
+		  <input type="radio" name="mail[flag]" value="{MAIL_BEFORE}">
+		  計測開始前
+		</label>
+		<label class="radio-inline">
+		  <input type="radio" name="mail[flag]" value="{MAIL_AFTER}">
+		  計測終了後
+		</label>
+		<label class="radio-inline">
+		  <input type="radio" name="mail[flag]" value="{MAIL_DURING}">
+		  計測期間中
+		</label>
+		<label class="radio-inline">
+		  <input type="radio" name="mail[flag]" value="{MAIL_DATE}">
+		  日付指定
+		</label>
+		<div id="date-before" class="form-group mL10">
+		  <input type="text" name="mail[before]" class="form-control w50" placeholder="7">
+		  <label class="inline-note">日前（0は開始日当日）</label>
+		</div>
+		<div id="date-after" class="form-group mL10">
+		  <input type="text" name="mail[after]" class="form-control w50" placeholder="5">
+		  <label class="inline-note">日後（0は終了日当日）</label>
+		</div>
+		<div id="date-date" class="form-group mL10">
+		  <input type="text" name="mail[date]" class="form-control datepicker w150" placeholder="{eln:date($_today_, '%Y/%m/%d')}">
+		</div>
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <label for="title">送信時間</label>
+	      <div class="form-inline mB10">
+		<div class="form-group">
+		  <select name="time_h" class="form-control" eln:options="{$hourChoices}">
+		    <option value="0">00</option>
+		  </select>
+		  :
+		  <select name="time_m" class="form-control" eln:options="{$minuteChoices}">
+		    <option value="0">00</option>
+		  </select>
+		  <button id="time-button" type="button" class="btn btn-md btn-default">
+		    <span class="glyphicon glyphicon-plus"></span>
+		  </button>
+		</div>
+	      </div>
+	      <ul id="time-list" class="list-group">
+		<li class="list-group-item">
+		  09:30
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</li>
+		<li class="list-group-item">
+		  11:25
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</li>
+	      </ul>
+	      <input type="hidden" name="mail[times]">
+	    </div>
+	    <a href="{eln:uri('default:admin/mail.search')}" class="btn btn-md btn-default">キャンセル</a>
+	    <button type="submit" class="btn btn-lg btn-success">保存</button>
 	  </div>
 	</div>
-      </div>
-      <div class="form-group">
-	<label for="title">タイトル</label>
-	<input type="text" name="mail[title]" class="form-control" id="title" placeholder="タイトル">
-      </div>
-      <div class="form-group">
-	<label for="body">本文</label>
-	<textarea name="mail[body]" class="form-control" id="body" placeholder="本文" rows="15"></textarea>
-	<p class="help-block">
-	  【氏名】、【アドレス】、【計測開始日】、【計測終了日】という文字列は、実際の送信の際に適切に置換されます。<br>
-	  【日誌|質問ID|回答日】（例：【日誌|Q-B-1|2020/10/30】）は、日誌への回答で置換されます。<br>
-	  単独日誌のアドレスを指定する場合は、【アドレス】の後に&quot;/日誌ID&quot;（例: /001）と記述してください。
-	</p>
-      </div>
-      <div class="form-group">
-	<label for="title">送信日</label>
-	<div class="form-inline">
-	  <label class="radio-inline">
-	    <input type="radio" name="mail[flag]" value="{MAIL_BEFORE}">
-	    計測開始前
-	  </label>
-	  <label class="radio-inline">
-	    <input type="radio" name="mail[flag]" value="{MAIL_AFTER}">
-	    計測終了後
-	  </label>
-	  <label class="radio-inline">
-	    <input type="radio" name="mail[flag]" value="{MAIL_DURING}">
-	    計測期間中
-	  </label>
-	  <label class="radio-inline">
-	    <input type="radio" name="mail[flag]" value="{MAIL_DATE}">
-	    日付指定
-	  </label>
-	  <div id="date-before" class="form-group mL10">
-	    <input type="text" name="mail[before]" class="form-control w50" placeholder="7">
-	    <label class="inline-note">日前（0は開始日当日）</label>
-	  </div>
-	  <div id="date-after" class="form-group mL10">
-	    <input type="text" name="mail[after]" class="form-control w50" placeholder="5">
-	    <label class="inline-note">日後（0は終了日当日）</label>
-	  </div>
-	  <div id="date-date" class="form-group mL10">
-	    <input type="text" name="mail[date]" class="form-control datepicker w150" placeholder="{eln:date($_today_, '%Y/%m/%d')}">
-	  </div>
-	</div>
-      </div>
-      <div class="form-group">
-	<label for="title">送信時間</label>
-	<div class="form-inline mB10">
-	  <div class="form-group">
-	    <select name="time_h" class="form-control" eln:options="{$hourChoices}">
-	      <option value="0">00</option>
-	    </select>
-	    :
-	    <select name="time_m" class="form-control" eln:options="{$minuteChoices}">
-	      <option value="0">00</option>
-	    </select>
-	    <button id="time-button" type="button" class="btn btn-md btn-default">
-	      <span class="glyphicon glyphicon-plus"></span>
-	    </button>
-	  </div>
-	</div>
-	<ul id="time-list" class="list-group">
-	  <li class="list-group-item">
-	    09:30
-	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	      <span aria-hidden="true">&times;</span>
-	    </button>
-	  </li>
-	  <li class="list-group-item">
-	    11:25
-	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	      <span aria-hidden="true">&times;</span>
-	    </button>
-	  </li>
-	</ul>
-	<input type="hidden" name="mail[times]">
-      </div>
-      <a href="{eln:uri('default:admin/mail.search')}" class="btn btn-md btn-default">キャンセル</a>
-      <button type="submit" class="btn btn-lg btn-success">保存</button>
+	<input type="hidden" name="mail[id]">
+      </form>
+      <!-- /search -->
+
     </div>
-  </div>
-  <input type="hidden" name="mail[id]">
-</form>
-<!-- /search -->
+    <!-- /container -->
 
-</div>
-<!-- /container -->
-
-<eln:tag eln:include="admin/foot.html"></eln:tag>
-<script>
-//<![CDATA[
-$(function(){
-    // date flag.
-    $("input[name='mail[flag]']").on("click", function(){
+    <eln:tag eln:include="admin/foot.html"></eln:tag>
+    <script>
+    //<![CDATA[
+    $(function(){
+      // date flag.
+      $("input[name='mail[flag]']").on("click", function(){
 	onDateFlag();
-    });
-    onDateFlag();
+      });
+      onDateFlag();
 
-    // time list.
-    $("button#time-button").on("click", function(){
+      // time list.
+      $("button#time-button").on("click", function(){
 	var hour = $("select[name='time_h'] option:selected").val();
 	var minute = $("select[name='time_m'] option:selected").val();
 	if(!isNaN(hour) && !isNaN(minute)){
-	    addTime(parseInt(hour), parseInt(minute));
+	  addTime(parseInt(hour), parseInt(minute));
 	}
+      });
+      reloadTimes();
     });
-    reloadTimes();
-});
-function onDateFlag(){
-    // hide all.
-    $("#date-before").hide();
-    $("#date-after").hide();
-    $("#date-date").hide();
+    function onDateFlag(){
+      // hide all.
+      $("#date-before").hide();
+      $("#date-after").hide();
+      $("#date-date").hide();
 
-    // show.
-    if($("input[name='mail[flag]']:checked").length > 0){
+      // show.
+      if($("input[name='mail[flag]']:checked").length > 0){
 	var selected = $("input[name='mail[flag]']:checked").val();
 	if(selected == "{MAIL_BEFORE}"){
-	    $("#date-before").show();
+	  $("#date-before").show();
 	}else if(selected == "{MAIL_AFTER}"){
-	    $("#date-after").show();
+	  $("#date-after").show();
 	}else if(selected == "{MAIL_DATE}"){
-	    $("#date-date").show();
+	  $("#date-date").show();
 	}
+      }
     }
-}
-function addTime(hour, minute){
-    // add.
-    var time = hour * 100 + minute;
-    var times = JSON.parse($("input[name='mail[times]']").val());
-    if(times.indexOf(time) >= 0){
+    function addTime(hour, minute){
+      // add.
+      var time = hour * 100 + minute;
+      var times = JSON.parse($("input[name='mail[times]']").val());
+      if(times.indexOf(time) >= 0){
 	return;
+      }
+      times.push(time);
+      times.sort();
+      $("input[name='mail[times]']").val(JSON.stringify(times));
+      reloadTimes();
     }
-    times.push(time);
-    times.sort();
-    $("input[name='mail[times]']").val(JSON.stringify(times));
-    reloadTimes();
-}
-function deleteTime(element){
-    // delete.
-    var time = $(element).data("time");
-    var timesOrg = JSON.parse($("input[name='mail[times]']").val());
-    var timesNew = [];
-    for(var i = 0; i < timesOrg.length; ++ i){
+    function deleteTime(element){
+      // delete.
+      var time = $(element).data("time");
+      var timesOrg = JSON.parse($("input[name='mail[times]']").val());
+      var timesNew = [];
+      for(var i = 0; i < timesOrg.length; ++ i){
 	if(timesOrg[i] != time){
-	    timesNew.push(timesOrg[i]);
+	  timesNew.push(timesOrg[i]);
 	}
+      }
+      $("input[name='mail[times]']").val(JSON.stringify(timesNew));
+      reloadTimes();
     }
-    $("input[name='mail[times]']").val(JSON.stringify(timesNew));
-    reloadTimes();
-}
-function reloadTimes(){
-    var times = JSON.parse($("input[name='mail[times]']").val());
-    $("ul#time-list").html("");
-    for(var i = 0; i < times.length; ++ i){
+    function reloadTimes(){
+      var times = JSON.parse($("input[name='mail[times]']").val());
+      $("ul#time-list").html("");
+      for(var i = 0; i < times.length; ++ i){
 	var hour = ("0" + parseInt(times[i] / 100)).slice(-2);
 	var minute = ("0" + (times[i] % 100)).slice(-2);
 	$("ul#time-list").append(
-	    $("<li>").addClass("list-group-item").append(
-		hour + ":" + minute
-	    ).append(
-		$("<button>")
-		    .addClass("close")
-		    .append(
-			$("<span>").attr("aria-hidden", "true").html("&times;")
-		    )
-		    .attr("type", "button")
-		    .attr("aria-label", "Close")
-		    .data("time", times[i])
-		    .on("click", function(){
-			deleteTime($(this));
-		    })
-	    )
+	  $("<li>").addClass("list-group-item").append(
+	    hour + ":" + minute
+	  ).append(
+	    $("<button>")
+	      .addClass("close")
+	      .append(
+		$("<span>").attr("aria-hidden", "true").html("&times;")
+	      )
+	      .attr("type", "button")
+	      .attr("aria-label", "Close")
+	      .data("time", times[i])
+	      .on("click", function(){
+		deleteTime($(this));
+	      })
+	  )
 	);
+      }
     }
-}
-//]]>
-</script>
+    //]]>
+    </script>
 </body>
 </html>
