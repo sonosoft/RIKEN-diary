@@ -2,7 +2,7 @@
 
 include_once(__DIR__.'/vendor/autoload.php');
 
-$mail = new PHPMailer();
+$mail = new \PHPMailer\PHPMailer\PHPMailer();
 var_dump($mail);
 
 $text = 'しましたか？【日誌|午前|摂取|2020/10/16】【】です。';
