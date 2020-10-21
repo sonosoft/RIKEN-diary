@@ -60,7 +60,7 @@ function _send($mail, $project, $user){
     $body = _finish($body, $project, $user);
   }
   /**/
-  $mail = new PHPMailer();
+  $mail = new \PHPMailer\PHPMailer\PHPMailer();
   $mail->isSMTP();
   $mail->SMTPAuth = false;
   $mail->Host = MAIL_HOST;
@@ -91,7 +91,7 @@ function _send_message($record, $project, $user){
     $body = _finish($body, $project, $user);
   }
   /**/
-  $mail = new PHPMailer();
+  $mail = new \PHPMailer\PHPMailer\PHPMailer();
   $mail->SMTPDebug = 4;
   $mail->isSMTP();
   $mail->Host = MAIL_HOST;
