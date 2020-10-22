@@ -2,6 +2,10 @@
 
 /**/
 include_once(__DIR__.'/vendor/autoload.php');
+include_once(__DIR__.'/script-lib.inc');
+
+/**/
+$app = getApp();
 
 /**/
 $mail = new \PHPMailer\PHPMailer\PHPMailer();
