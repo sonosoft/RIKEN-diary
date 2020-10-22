@@ -38,7 +38,7 @@ class AdminMessageFormAction extends AdminMessageController {
 	if(($destinations = json_decode($message->destinations, true)) !== null){
 	  foreach($ids as $id){
 	    if(in_array($id, $destinations) === false){
-	      $destinations[] = $ids;
+	      $destinations[] = $id;
 	    }
 	  }
 	  $this->app->data['message']['destinations'] = json_encode($destinations);
