@@ -10,13 +10,20 @@ $app = getApp();
 /**/
 $mail = new \PHPMailer\PHPMailer\PHPMailer();
 $mail->isSMTP();
-$mail->SMTPDebug = 3;
-$mail->SMTPAuth = true;
 $mail->Host = MAIL_HOST;
-$mail->Port = SMTP_PORT;
-$mail->Username = SMTP_USER;
-$mail->Password = SMTP_PASSWORD;
 $mail->SMTPSecure = MAIL_ENCRPT;
+$mail->Port = SMTP_PORT;
+if(defined('SMTP_USER') || defined('SMTP_PASSWORD')){
+  if(defined('SMTP_USER')){
+    $mail->Username = SMTP_USER;
+  }
+  if(defined('SMTP_PASSWORD')){
+    $mail->Password = SMTP_PASSWORD;
+  }
+  $mail->SMTPAuth = true;
+}else{
+  $mail->SMTPAuth = false;
+}
 $mail->CharSet = 'UTF-8';
 $mail->Encoding = 'base64';
 $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);

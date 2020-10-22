@@ -64,8 +64,10 @@ function _send($mail, $project, $user){
   $mail->isSMTP();
   $mail->SMTPAuth = false;
   $mail->Host = MAIL_HOST;
-  $mail->SMTPSecure = MAIL_ENCRPT;
   $mail->Port = SMTP_PORT;
+  $mail->Username = SMTP_USER;
+  $mail->Password = SMTP_PASSWORD;
+  $mail->SMTPSecure = MAIL_ENCRPT;
   $mail->CharSet = 'UTF-8';
   $mail->Encoding = 'base64';
   $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
