@@ -50,9 +50,6 @@ class ProjectDiaryModelFactory extends ModelFactory {
 	  }
 	}
       }
-      if(!$entry->diary->separated){
-	$diaries[] = $entry->diary;
-      }
     }
     return $diaries;
   }
