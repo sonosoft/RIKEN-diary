@@ -34,7 +34,7 @@ class ProjectFormValidator extends Validator {
     if($this->isValid('mails')){
       $json = str_replace('&quot;', '"', $this->getValue('mails'));
       if(($data = json_decode($json, true)) === false || empty($data)){
-	$this->setError('mails', '指定されていません。');
+	$this->setValue('data_mails', array());
       }else{
 	$this->setValue('data_mails', $data);
       }

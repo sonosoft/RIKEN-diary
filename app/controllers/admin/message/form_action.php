@@ -46,6 +46,7 @@ class AdminMessageFormAction extends AdminMessageController {
       }else{
 	$this->app->data['message'] = array('destinations'=>json_encode($ids));
       }
+      $this->app->data['referer'] = 1;
     }else{
       $message = $this->MessageModel->one(
 	array('where'=>'[id] = :id AND status = :enabled'),
@@ -61,6 +62,7 @@ class AdminMessageFormAction extends AdminMessageController {
       if(intval($this->app->readRequest('dup'))){
 	$this->app->data['message']['id'] = null;
       }
+      $this->app->data['referer'] = 2;
     }
     /**/
     if(($ids = json_decode($this->app->data['message']['destinations'], true)) !== null){

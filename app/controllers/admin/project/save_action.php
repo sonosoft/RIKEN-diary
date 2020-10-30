@@ -59,10 +59,17 @@ class AdminProjectSaveAction extends AdminProjectController {
 	  $ids[] = $pd->id;
 	}
       }
-      $this->db->query(
-	'DELETE FROM project_diary WHERE id NOT IN :ids AND project_id = :project_id',
-	array('ids'=>$ids, 'project_id'=>$project->id)
-      );
+      if(empty($ids)){
+	$this->db->query(
+	  'DELETE FROM project_diary WHERE project_id = :project_id',
+	  array('ids'=>$ids, 'project_id'=>$project->id)
+	);
+      }else{
+	$this->db->query(
+	  'DELETE FROM project_diary WHERE id NOT IN :ids AND project_id = :project_id',
+	  array('ids'=>$ids, 'project_id'=>$project->id)
+	);
+      }
       /**/
       $list = $this->ProjectMailModel->all(array('where'=>'[project_id] = :project_id'), array('project_id'=>$project->id));
       $ids = array();
@@ -83,10 +90,17 @@ class AdminProjectSaveAction extends AdminProjectController {
 	  $ids[] = $pd->id;
 	}
       }
-      $this->db->query(
-	'DELETE FROM project_mail WHERE id NOT IN :ids AND project_id = :project_id',
-	array('ids'=>$ids, 'project_id'=>$project->id)
-      );
+      if(empty($ids)){
+	$this->db->query(
+	  'DELETE FROM project_mail WHERE project_id = :project_id',
+	  array('project_id'=>$project->id)
+	);
+      }else{
+	$this->db->query(
+	  'DELETE FROM project_mail WHERE id NOT IN :ids AND project_id = :project_id',
+	  array('ids'=>$ids, 'project_id'=>$project->id)
+	);
+      }
 
       /* コミット */
       $this->db->commit();

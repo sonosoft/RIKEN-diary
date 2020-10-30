@@ -40,8 +40,8 @@ class AdminUserUploadAction extends AdminUserController {
 		  if(strlen($row[0]) == 0){
 		    $errors[] = sprintf('%d件目(%d行目): [ID]が指定されていません', $lno - 1, $lno);
 		    $validity = false;
-		  }else if(preg_match('/^[0-9a-zA-Z]{8}$/', $row[0])){
-		    $errors[] = sprintf('%d件目(%d行目): [ID]は英数字8文字で入力してください', $lno - 1, $lno);
+		  }else if(!preg_match('/^[-0-9a-zA-Z]+$/', $row[0])){
+		    $errors[] = sprintf('%d件目(%d行目): [ID]には半角英数字とハイフンのみ使用できます', $lno - 1, $lno);
 		    $validity = false;
 		  }
 		  if(strlen($row[1]) == 0){

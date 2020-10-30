@@ -27,7 +27,7 @@ class WorkRewindAction extends WorkController {
     if(($project = $this->ProjectModel->findById($this->visit->project_id)) === null){
       return 'work/error/invalid_url';
     }
-    $this->app->data['project'] = $this->project;
+    $this->app->data['project'] = $project;
 
     /* セッション */
     $this->app->data['user'] = $this->user;

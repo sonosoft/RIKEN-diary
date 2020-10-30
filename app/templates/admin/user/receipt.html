@@ -23,14 +23,12 @@
   <table class="table">
     <thead>
       <tr>
-	<th>計測日時</th>
 	<th>ユーザID</th>
 	<th>氏名</th>
       </tr>
     </thead>
     <tbody>
       <tr eln:foreach="$user:{$uploaded_users}">
-	<td>{$user.date}</td>
 	<td>{$user.code}</td>
 	<td>{$user.name}</td>
       </tr>
