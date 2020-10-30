@@ -49,11 +49,11 @@ class WorkHistoryController extends WorkController {
     );
     $records = $this->VisitModel->all(
       array('where'=>implode(' AND ', $where), 'order'=>'[visited_on] ASC, [timing] ASC'),
-      array('project_id'=>$this->project->id, 'user_id'=>$this->user->id, 'date'=>$date)
+      array('project_id'=>$this->visit->project_id, 'user_id'=>$this->user->id, 'date'=>$date)
     );
     $timings = array(TIMING_GETUP=>'getup', TIMING_AM=>'am', TIMING_PM=>'pm', TIMING_GOTOBED=>'gotobed');
     foreach($records as $record){
-      $index = intval(($record->recorded_on->getTime() - $minDate->getTime()) / 86400);
+      $index = intval(($record->visited_on->getTime() - $minDate->getTime()) / 86400);
       $visits[$index][$timings[$record->timing]] = '済';
     }
     $this->app->data['visits'] = $visits;
