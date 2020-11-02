@@ -84,6 +84,9 @@ class AdminUserUploadAction extends AdminUserController {
 		      $user = $this->UserModel->newModel();
 		      $user->code = $row[0];
 		      $user->created_at = $this->app->data['_now_'];
+		      $label = '[新規]';
+		    }else{
+		      $label = '[更新]';
 		    }
 		    $user->token = $this->UserModel->generateToken();
 		    $user->family_name = $row[1];
@@ -101,6 +104,7 @@ class AdminUserUploadAction extends AdminUserController {
 		    $user->save();
 		    /**/
 		    $users[] = array(
+		      'label'=>$label,
 		      'code'=>$user->code,
 		      'name'=>$user->family_name.' '.$user->first_name,
 		    );

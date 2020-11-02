@@ -12,7 +12,7 @@
 
 <!-- breadcrumb -->
 <ol class="breadcrumb">
-  <li><a href="{eln:uri('default:admin/import.form')}">被験者アップロード</a></li>
+  <li><a href="{eln:uri('default:admin/user.form')}">被験者アップロード</a></li>
   <li class="active">アップロード完了</li>
 </ol>
 <!-- /breadcrumb -->
@@ -23,12 +23,14 @@
   <table class="table">
     <thead>
       <tr>
+	<th></th>
 	<th>ユーザID</th>
 	<th>氏名</th>
       </tr>
     </thead>
     <tbody>
       <tr eln:foreach="$user:{$uploaded_users}">
+	<td>{$user.label}</td>
 	<td>{$user.code}</td>
 	<td>{$user.name}</td>
       </tr>
