@@ -65,6 +65,11 @@ final class Eln_CsvModule {
 	break;
       }
     }
+    if(empty($csvline) === false){
+      if(substr($csvline, -1, 1) != ','){
+	$csvline .= ',';
+      }
+    }
 
     /* カラム分割 */
     if(preg_match_all('/("[^"]*(?:""[^"]*)*"|[^,]*),/', $csvline, $matches, PREG_PATTERN_ORDER)){
