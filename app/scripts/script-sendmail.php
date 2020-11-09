@@ -159,7 +159,7 @@ function _finish($text, $project, $user){
       if(empty($matches[3])){
 	$date = Eln_Date::today();
       }else{
-	$date = strtotime($matches[3]);
+	$date = new Eln_date(strtotime($matches[3]));
       }
       if($date !== false){
 	if($type == '入力'){
