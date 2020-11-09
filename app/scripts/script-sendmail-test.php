@@ -15,8 +15,8 @@ function _send_message($record, $project, $user){
   if($project !== null){
     $body = _finish($body, $project, $user);
   }
-  //echo $subject.PHP_EOL.PHP_EOL;
-  //echo $body.PHP_EOL.PHP_EOL;
+  echo $subject.PHP_EOL.PHP_EOL;
+  echo $body.PHP_EOL.PHP_EOL;
 }
 
 function _finish($text, $project, $user){
@@ -48,7 +48,6 @@ function _finish($text, $project, $user){
       }else{
 	$date = new Eln_date(strtotime($matches[3]));
       }
-      echo $timing.','.$type.','.$date.PHP_EOL;
       if($date !== false){
 	if($type == '入力'){
 	  $ws = array(
