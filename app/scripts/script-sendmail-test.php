@@ -46,7 +46,7 @@ function _finish($text, $project, $user){
       if(empty($matches[3])){
 	$date = Eln_Date::today();
       }else{
-	$date = strtotime($matches[3]);
+	$date = Eln_date(strtotime($matches[3]));
       }
       echo $timing.','.$type.','.$date.PHP_EOL;
       if($date !== false){
