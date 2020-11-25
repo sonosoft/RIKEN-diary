@@ -255,15 +255,14 @@ function drawTimeline(canvas, clickable){
 }
 function validateRelations(){
     $(".related").each(function(){
-	var checked = false;
+	var checked = 0;
 	var relations = $(this).data("relation").split(" ");
 	for(var i = 0; i < relations.length; ++ i){
 	    if($("#" + relations[i].trim()).is(":checked") || $("#" + relations[i].trim()).is(":selected")){
-		checked = true;
-		break;
+		++ checked;
 	    }
 	}
-	if(checked){
+	if(relations.length > 0 && relations.length == checked){
 	    $(this).removeClass("disabled").prop("disabled", false);
 	    $("button,input", this).removeClass("disabled").prop("disabled", false);
 	    //$("input[type='text'].inline-number", this).prop("readonly", false);
