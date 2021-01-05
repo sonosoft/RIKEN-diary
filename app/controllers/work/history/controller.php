@@ -46,6 +46,7 @@ class WorkHistoryController extends WorkController {
       '[user_id] = :user_id',
       '[visited_on] >= DATE_SUB(:date, INTERVAL 4 DAY)',
       '[visited_on] <= :date',
+      '[finished_at] IS NOT NULL',
     );
     $records = $this->VisitModel->all(
       array('where'=>implode(' AND ', $where), 'order'=>'[visited_on] ASC, [timing] ASC'),
