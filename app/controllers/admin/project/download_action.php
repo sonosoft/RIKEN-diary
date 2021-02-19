@@ -54,8 +54,8 @@ class AdminProjectDownloadAction extends AdminController {
 
       /* ヘッダ */
       $headers = array(
-	array('"入力日時"', '"被験者"', '"性別"', '"生年月日"', '"日誌"'),
-	array('"DATETIME"', '"USER"', '"SEX"', '"BIRTHDAY"', '"DIARIES"'),
+	array('"入力日時"', '"被験者"', '"性別"', '"生年月日"', '"日誌"', '"日付"', '"種別"'),
+	array('"DATETIME"', '"USER"', '"SEX"', '"BIRTHDAY"', '"DIARIES"', '"DATE"', '"TIMING"'),
       );
       $names = array();
       foreach($pages as $index=>$page){
@@ -84,7 +84,7 @@ class AdminProjectDownloadAction extends AdminController {
       
       /* ボディ */
       $visits = $this->db->query(
-	'SELECT visit.id, visit.finished_at, user.id, user.code, user.sex, user.birthday, visit.diaries '.
+	'SELECT visit.id, visit.finished_at, user.id, user.code, user.sex, user.birthday, visit.diaries, visit.visited_on, visit.timing '.
 	'FROM visit '.
 	'LEFT OUTER JOIN user ON user.id = visit.user_id '.
 	'WHERE '.implode(' AND ', $where).' '.
@@ -100,7 +100,18 @@ class AdminProjectDownloadAction extends AdminController {
 	}else{
 	  $this->printSJIS('""');
 	}
-	$this->printSJIS(',"'.$visit[5].'","'.$visit[6].'"');
+	$this->printSJIS(',"'.$visit[5].'","'.$visit[6].'","'.$visit[7].'",');
+	if($visit[8] == TIMING_GETUP){
+	  $this->printSJIS('"起床時"');
+	}else if($visit[8] == TIMING_AM){
+	  $this->printSJIS('"午前"');
+	}else if($visit[8] == TIMING_PM){
+	  $this->printSJIS('"午後"');
+	}else if($visit[8] == TIMING_GOTOBED){
+	  $this->printSJIS('"就寝時"');
+	}else{
+	  $this->printSJIS('""');
+}
 	/**/
 	$answers = array();
 	$records = $this->AnswerModel->all(
