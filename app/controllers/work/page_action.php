@@ -14,7 +14,7 @@ class WorkPageAction extends WorkController {
    */
   public function action(){
     /**/
-    $this->useModel('Page', 'Visit', 'ProjectDiary', 'Answer');
+    $this->useModel('Page', 'Visit', 'ProjectDiary', 'Answer', 'Drink');
 
     /* 日誌 */
     $diaries = $this->ProjectDiaryModel->collectDiaries($this->visit);
@@ -41,7 +41,23 @@ class WorkPageAction extends WorkController {
     }else{
       list($this->app->data['rows'], $names, $values) = $this->PageModel->convert($pages[$this->visit->page]);
     }
-    
+
+    /* 飲料 */
+    $drink = false;
+    foreach($this->app->data['rows'] as $row){
+      foreach($row['items'] as $item){
+	if($item['name'] == 'Q-B-1_1' || $item['name'] = 'Q-C-1_1'){
+	  $drink = true;
+	  break;
+	}
+      }
+    }
+    if($drink){
+      $this->app->data['availableCodes'] = $this->DrinkModel->getAvailableCodes($this->user->id);
+    }else{
+      $this->app->data['availableCodes'] = [];
+    }
+
     /**/
     $this->app->data['answer'] = $values;
     foreach($this->AnswerModel->collectByPage($this->user, $this->visit, $this->visit->page) as $answer){

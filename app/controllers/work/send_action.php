@@ -14,7 +14,7 @@ class WorkSendAction extends WorkController {
    */
   public function action(){
     /**/
-    $this->useModel('Page', 'Answer', 'ProjectDiary');
+    $this->useModel('Page', 'Answer', 'ProjectDiary', 'Drink');
 
     /* データ */
     $diaries = $this->ProjectDiaryModel->collectDiaries($this->visit);
@@ -53,7 +53,29 @@ class WorkSendAction extends WorkController {
       foreach($names as $entry){
 	$this->saveAnswer($answers, $entry);
       }
-      
+
+      /* 飲料 */
+      if($this->app->readRequest('answer.Q-B-1')){
+	if(($code = $this->app->readRequest('answer.Q-B-1_1'))){
+	  $drink = $this->DrinkModel->newModel();
+	  $drink->user_id = $this->user->id;
+	  $drink->code = $code;
+	  $drink->created_at = $this->app->data['_now_'];
+	  $drink->updated_at = $this->app->data['_now_'];
+	  $drink->save();
+	}
+      }
+      if($this->app->readRequest('answer.Q-C-1')){
+	if(($code = $this->app->readRequest('answer.Q-C-1_1'))){
+	  $drink = $this->DrinkModel->newModel();
+	  $drink->user_id = $this->user->id;
+	  $drink->code = $code;
+	  $drink->created_at = $this->app->data['_now_'];
+	  $drink->updated_at = $this->app->data['_now_'];
+	  $drink->save();
+	}
+      }
+
       /* ページ */
       $direction = $this->app->readRequest('answer.direction', 0);
       if($direction == DIRECTION_NEXT){
