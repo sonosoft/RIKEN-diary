@@ -192,6 +192,14 @@ class AdminAnswerController extends AdminController {
 	$row .= "\r\n";
 	echo mb_convert_encoding($row, 'SJIS-win', 'UTF-8');
       }
+      $row  = '"'.$user['code'].'",';
+      $row .= '"合計",';
+      foreach($this->app->data['dates'] as $date){
+	$row .= '"",';
+      }
+      $row .= '"'.$user['total']['num1'].'","'.$user['total']['num2'].'","'.$user['total']['score1'].'%","'.$user['total']['score2'].'%"';
+      $row .= "\r\n";
+      echo mb_convert_encoding($row, 'SJIS-win', 'UTF-8');
     }
   }
 }
