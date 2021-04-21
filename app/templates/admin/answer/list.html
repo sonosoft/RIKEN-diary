@@ -71,7 +71,7 @@
 	  <tbody>
 	    <eln:tag eln:foreach="$user:{$users}">
 	      <tr class="list-row">
-		<td rowspan="4">{$user.code}</td>
+		<td rowspan="5">{$user.code}</td>
 		<td>起床時</td>
 		<td class="text-right" eln:foreach="$value:{$user.getup.data}">{$value}</td>
 		<td class="text-right">{$user.getup.sum1}</td>
@@ -102,6 +102,14 @@
 		<td class="text-right">-</td>
 		<td class="text-right">{$user.gotobed.score1}%</td>
 		<td class="text-right">-</td>
+	      </tr>
+	      <tr class="list-row">
+		<td>合計</td>
+		<td colspan="{count($dates)}"></td>
+		<td class="text-right">{$user.total.num1}</td>
+		<td class="text-right">{$user.total.num2}</td>
+		<td class="text-right {$user.total.class1}">{$user.total.score1}%</td>
+		<td class="text-right {$user.total.class2}">{$user.total.score2}%</td>
 	      </tr>
 	    </eln:tag>
 	  </tbody>

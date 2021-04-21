@@ -107,6 +107,8 @@ class AdminAnswerController extends AdminController {
 	  }
 	}
 	foreach($users as $code=>$user){
+	  $tNumer1 = $tDenom1 = 0;
+	  $tNumer2 = $tDenom2 = 0;
 	  foreach($timings as $timing){
 	    $sum1 = 0;
 	    $sum2 = 0;
@@ -122,6 +124,22 @@ class AdminAnswerController extends AdminController {
 	    $users[$code][$timing]['sum2'] = $sum2;
 	    $users[$code][$timing]['score1'] = intval(($sum1 * 100) / count($user[$timing]['data']));
 	    $users[$code][$timing]['score2'] = intval(($sum2 * 100) / count($user[$timing]['data']));
+	    $tNumer1 += $sum1;
+	    $tDenom1 += count($user[$timing]['data']);
+	    if($timing == 'am' || $timing == 'pm'){
+	      $tNumer2 += $sum2;
+	      $tDenom2 += count($user[$timing]['data']);
+	    }
+	  }
+	  $users[$code]['total']['num1'] = $tNumer1;
+	  $users[$code]['total']['num2'] = $tNumer2;
+	  $users[$code]['total']['score1'] = intval(($tNumer1 * 100) / $tDenom1);
+	  $users[$code]['total']['score2'] = intval(($tNumer2 * 100) / $tDenom2);
+	  if($users[$code]['total']['score1'] < 80){
+	    $users[$code]['total']['class1'] = 'bg-danger text-white';
+	  }
+	  if($users[$code]['total']['score2'] < 80){
+	    $users[$code]['total']['class2'] = 'bg-danger text-white';
 	  }
 	}
 	/**/
