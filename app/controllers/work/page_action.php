@@ -54,6 +54,13 @@ class WorkPageAction extends WorkController {
     }
     if($drink){
       $this->app->data['availableCodes'] = $this->DrinkModel->getAvailableCodes($this->user->id);
+      $drink = $this->DrinkModel->one(
+	array('where'=>'[user_id] = :user_id AND [taken_on] = :date AND [timing] = :timing'),
+	array('user_id'=>$this->user->id, 'date'=>$this->visit->visited_on, 'timing'=>$this->visit->timing)
+      );
+      if($drink !== null){
+	$this->app->data['availableCodes'][] = $drink->code;
+      }
     }else{
       $this->app->data['availableCodes'] = [];
     }

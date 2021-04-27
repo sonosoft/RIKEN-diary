@@ -57,20 +57,36 @@ class WorkSendAction extends WorkController {
       /* 飲料 */
       if($this->app->readRequest('answer.Q-B-1')){
 	if(($code = $this->app->readRequest('answer.Q-B-1_1'))){
-	  $drink = $this->DrinkModel->newModel();
-	  $drink->user_id = $this->user->id;
+	  $drink = $this->DrinkModel->one(
+	    array('where'=>'[user_id] = :user_id AND [taken_on] = :date AND [timing] = :timing'),
+	    array('user_id'=>$this->user->id, 'date'=>$this->visit->visited_on, 'timing'=>$this->visit->timing)
+	  );
+	  if($drink === null){
+	    $drink = $this->DrinkModel->newModel();
+	    $drink->user_id = $this->user->id;
+	    $drink->created_at = $this->app->data['_now_'];
+	  }
 	  $drink->code = $code;
-	  $drink->created_at = $this->app->data['_now_'];
+	  $drink->taken_on = $this->visit->visited_on;
+	  $drink->timing = $this->visit->timing;
 	  $drink->updated_at = $this->app->data['_now_'];
 	  $drink->save();
 	}
       }
       if($this->app->readRequest('answer.Q-C-1')){
 	if(($code = $this->app->readRequest('answer.Q-C-1_1'))){
-	  $drink = $this->DrinkModel->newModel();
-	  $drink->user_id = $this->user->id;
+	  $drink = $this->DrinkModel->one(
+	    array('where'=>'[user_id] = :user_id AND [taken_on] = :date AND [timing] = :timing'),
+	    array('user_id'=>$this->user->id, 'date'=>$this->visit->visited_on, 'timing'=>$this->visit->timing)
+	  );
+	  if($drink === null){
+	    $drink = $this->DrinkModel->newModel();
+	    $drink->user_id = $this->user->id;
+	    $drink->created_at = $this->app->data['_now_'];
+	  }
 	  $drink->code = $code;
-	  $drink->created_at = $this->app->data['_now_'];
+	  $drink->taken_on = $this->visit->visited_on;
+	  $drink->timing = $this->visit->timing;
 	  $drink->updated_at = $this->app->data['_now_'];
 	  $drink->save();
 	}
