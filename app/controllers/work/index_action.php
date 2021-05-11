@@ -122,11 +122,20 @@ class WorkIndexAction extends Controller {
 	$visit->status = STATUS_STARTED;
 	$visit->started_at = $this->app->data['_now_'];
 	$visit->save();
+	/**/
+	$prev = $this->VisitModel->one(
+	  array(
+	    'where'=>'[visited_on] = :visited_on AND [timing] = :timing AND [finished_at] IS NOT NULL',
+	    'order'=>'[finished_at] DESC',
+	  ),
+	  array('visited_on'=>$visit->visited_on, 'timing'=>$visit->timing)
+	);
 	
 	/* コミット */
 	$this->db->commit();
 	
 	/* セッション */
+	$this->app->data['prev'] = $prev;
 	$this->app->data['visit'] = $visit;
 	$this->app->storeSession('work_data.visit_id', $visit->id);
       }catch(Exception $e){

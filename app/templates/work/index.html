@@ -22,6 +22,12 @@
 	    <div class="col-xs-12 text-center">
 	      <p class="form-control-static"><small>{eln:date($_now_, '%Y年%m月%d日（%a） %H時%M分')}</small></p>
 	    </div>
+	    <div class="col-xs-12 text-center" eln:if="{$prev}">
+	      <p class="text-danger">
+		{eln:date($prev.finished_at, '%Y年%m月%d日（%a） %H時%M分')}に回答済みです。<br>
+		再度回答される場合は「次に進む」を選択してください。
+	      </p>
+	    </div>
 	  </div>
 	  <p class="lead">
 	    以降のページに表示される質問にお答えください。<br>
