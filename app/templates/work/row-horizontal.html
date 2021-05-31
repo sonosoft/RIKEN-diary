@@ -28,6 +28,8 @@
 	    <option></option>
 	  </select>
 	  <input type="hidden" name="alt[{$inline.name}]" eln:if="{$inline.type EQ 'number'}">
+	  <!-- [area] -->
+	  <textarea name="answer[{$item.name}]" id="{$item.id}" class="form-control {$item.ex}" row="3" data-relation="{$item.enableIf}" eln:if="{$item.type EQ 'area'}"></textarea>
 	  <!-- [date] -->
 	  <div class="input-group inline-5" eln:if="{$inline.type EQ 'date'}">
 	    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
