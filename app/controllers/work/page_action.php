@@ -80,6 +80,9 @@ class WorkPageAction extends WorkController {
     }
 
     /**/
+    $this->app->data['sp01'] = $this->AnswerModel->findLastAnswer($this->user, $this->visit, 'Q-0N-8_1');
+
+    /**/
     if($scale !== false){
       $this->app->data['scale'] = $scale;
       return 'work/scale';

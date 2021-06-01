@@ -165,6 +165,9 @@ label.e9 {
 select.e9 {
     border: 1px solid #f00;
 }
+textarea.e9 {
+    border: 1px solid #f00;
+}
 /**/
 @media (min-width: 768px) {
     input.inline-number {

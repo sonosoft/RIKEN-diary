@@ -31,6 +31,17 @@ class AnswerModelFactory extends ModelFactory {
       array('user_id'=>$user->id, 'visit_id'=>$visit->id, 'page'=>$page)
     );
   }
+
+  public function findLastAnswer($user, $visit, $name){
+    /**/
+    return $this->one(
+      array(
+	'where'=>'[user_id] = :user_id AND [visit_id] != :visit_id AND [name] = :name AND [value] IS NOT NULL',
+	'order'=>'[answered_at] DESC',
+      ),
+      array('user_id'=>$user->id, 'visit_id'=>$visit->id, 'name'=>$name)
+    );
+  }
 }
 
 class AnswerModel extends Model {

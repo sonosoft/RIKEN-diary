@@ -13,6 +13,11 @@
       <option value=""></option>
       <option id="{$option.id}" value="{$option.value}" eln:foreach="$option:{$item.options}">{$option.text}</option>
     </select>
+    <!-- [sp01] -->
+    <eln:tag eln:if="{$item.type EQ 'sp01'}">
+      <textarea name="answer[{$item.name}]" id="{$item.id}" class="form-control {$item.ex}" rows="3" data-relation="{$item.enableIf}"></textarea>
+      <button type="button" class="btn btn-xs btn-default sp01 mT5">前回の内容を反映させる</button>
+    </eln:tag>
     <!-- [timeline] -->
     <eln:tag eln:include="work/item-timeline.html" eln:if="{$item.type EQ 'timeline'}"></eln:tag>
     <!-- [source] -->
