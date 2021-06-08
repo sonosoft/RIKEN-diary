@@ -41,7 +41,6 @@ try{
     . 'タグ<strong>強調</strong>'.PHP_EOL
     . 'タグ<span style="color:red;">赤</span>'
     . 'タグ<span style="color:blue;">青</span>'.PHP_EOL;
-  $body = nl2br($body);
 
   /**/
   $mail = new \PHPMailer\PHPMailer\PHPMailer();
@@ -64,10 +63,11 @@ try{
   $mail->CharSet = 'UTF-8';
   $mail->Encoding = 'base64';
   $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
-  //$mail->addAddress('mamoru.misono@gmail.com');
+  $mail->addAddress('mamoru.misono@gmail.com');
   $mail->addAddress('s-presso@ezweb.ne.jp');
   $mail->Subject = $title;
-  $mail->Body = $body;
+  $mail->Body = nl2br($body);
+  $mail->AltBody = strip_tags($body);
   $mail->isHTML(true);
   if($mail->send()){
     echo '+ OK'.PHP_EOL;

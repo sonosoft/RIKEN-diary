@@ -81,8 +81,9 @@ function _send($mail, $project, $user){
   $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
   $mail->addAddress($user->email);
   $mail->Subject = $title;
-  $mail->Body = $body;
-  $mail->isHTML(false);
+  $mail->Body = nl2br($body);
+  $mail->AltBody = strip_tags($body);
+  $mail->isHTML(true);
   if($mail->send()){
     echo '+ OK: '.$user->email.PHP_EOL;
   }else{
@@ -122,8 +123,9 @@ function _send_message($record, $project, $user){
   $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
   $mail->addAddress($user->email);
   $mail->Subject = $subject;
-  $mail->Body = $body;
-  $mail->isHTML(false);
+  $mail->Body = nl2br($body);
+  $mail->AltBody = strip_tags($body);
+  $mail->isHTML(true);
   echo 'MESSAGE['.$record->code.'] ';
   if($mail->send()){
     echo '+ OK: '.$user->email.PHP_EOL;
