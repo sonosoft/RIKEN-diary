@@ -31,7 +31,7 @@ class WorkRewindAction extends WorkController {
 
     /* セッション */
     $this->app->data['user'] = $this->user;
-    $this->app->data['visit'] = $visit;
+    $this->app->data['visit'] = $this->visit;
       
     /**/
     return 'work/index';
