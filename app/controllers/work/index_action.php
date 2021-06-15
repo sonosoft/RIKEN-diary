@@ -123,12 +123,19 @@ class WorkIndexAction extends Controller {
 	$visit->started_at = $this->app->data['_now_'];
 	$visit->save();
 	/**/
+	$where = array(
+	  '[user_id] = :user_id',
+	  '[project_id] = :project_id',
+	  '[visited_on] = :visited_on',
+	  '[timing] = :timing',
+	  '[finished_at] IS NOT NULL',
+	);
 	$prev = $this->VisitModel->one(
 	  array(
-	    'where'=>'[visited_on] = :visited_on AND [timing] = :timing AND [finished_at] IS NOT NULL',
+	    'where'=>implode(' AND ', $where),
 	    'order'=>'[finished_at] DESC',
 	  ),
-	  array('visited_on'=>$visit->visited_on, 'timing'=>$visit->timing)
+	  array('user_id'=>$user->id, 'project_id'=>$project->id, 'visited_on'=>$visit->visited_on, 'timing'=>$visit->timing)
 	);
 	
 	/* コミット */
