@@ -43,6 +43,9 @@ class AdminUserSendAction extends AdminUserController {
 	$mail->Encoding = "base64";
 	$mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
 	$mail->addAddress($user->email);
+	if($user->email_alt !== null){
+	  $mail->addAddress($user->email_alt);
+	}
 	$mail->Subject = $title;
 	$mail->isHTML(false);
 	$mail->Body = $body;

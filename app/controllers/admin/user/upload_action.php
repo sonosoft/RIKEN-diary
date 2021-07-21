@@ -78,6 +78,12 @@ class AdminUserUploadAction extends AdminUserController {
 		    $errors[] = sprintf('%d件目(%d行目): [メールアドレス]を正しい形式で入力してください', $lno - 1, $lno);
 		    $validity = false;
 		  }
+		  if(strlen($row[8]) > 0){
+		    if(!preg_match('/^[0-9a-zA-Z]+[-_\.0-9a-zA-Z]*@[-_0-9a-zA-Z0-9]+(?:\.[-_0-9a-zA-Z]+)+$/', $row[8])){
+		      $errors[] = sprintf('%d件目(%d行目): [メールアドレス（予備）]を正しい形式で入力してください', $lno - 1, $lno);
+		      $validity = false;
+		    }
+		  }
 		  if($validity){
 		    /* 被験者 */
 		    if(($user = $this->UserModel->findByCode($row[0])) === null){
@@ -93,6 +99,11 @@ class AdminUserUploadAction extends AdminUserController {
 		    $user->first_name = $row[2];
 		    $user->kana = $row[3].' '.$row[4];
 		    $user->email = $row[7];
+		    if(empty($row[8]) === false){
+		      $user->email_alt = $row[8];
+		    }else{
+		      $user->email_alt = null;
+		    }
 		    if($row[6] == '男'){
 		      $user->sex = SEX_MALE;
 		    }else{

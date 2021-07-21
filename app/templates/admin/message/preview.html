@@ -54,7 +54,7 @@
 		    <td>{$user.token}</td>
 		    <td>{$user.family_name} {$user.first_name}</td>
 		    <td>{$user.kana}</td>
-		    <td>{$user.email}</td>
+		    <td>{$user.email}<eln:tag eln:if="{$user.email_alt}">, {$user.email_alt}</eln:tag></td>
 		    <td>{$user.sex_tos}</td>
 		  </tr>
 		</tbody>

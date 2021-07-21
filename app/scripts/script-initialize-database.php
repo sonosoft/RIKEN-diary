@@ -149,6 +149,7 @@ try{
     ' `first_name` varchar(100) NOT NULL,'.
     ' `kana` varchar(100) NOT NULL,'.
     ' `email` varchar(200) NOT NULL,'.
+    ' `email_alt` varchar(200) DEFAULT NULL,'.
     ' `sex` tinyint(1) NOT NULL,'.
     ' `birthday` date NOT NULL,'.
     ' `status` tinyint(1) NOT NULL,'.

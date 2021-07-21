@@ -80,14 +80,25 @@ function _send($mail, $project, $user){
   $mail->Encoding = 'base64';
   $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
   $mail->addAddress($user->email);
+  if($user->email_alt !== null){
+    $mail->addAddress($user->email_alt);
+  }
   $mail->Subject = $title;
   $mail->Body = nl2br($body);
   $mail->AltBody = strip_tags($body);
   $mail->isHTML(true);
   if($mail->send()){
-    echo '+ OK: '.$user->email.PHP_EOL;
+    if($user->email_alt !== null){
+      echo '+ OK: '.$user->email.', '.$user->email_alt.PHP_EOL;
+    }else{
+      echo '+ OK: '.$user->email.PHP_EOL;
+    }
   }else{
-    echo '- NG: '.$user->email.PHP_EOL;
+    if($user->email_alt !== null){
+      echo '- NG: '.$user->email.', '.$user->email_alt.PHP_EOL;
+    }else{
+      echo '- NG: '.$user->email.PHP_EOL;
+    }
   }
 }
 
@@ -122,15 +133,26 @@ function _send_message($record, $project, $user){
   $mail->Encoding = 'base64';
   $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
   $mail->addAddress($user->email);
+  if($user->email_alt !== null){
+    $mail->addAddress($user->email_alt);
+  }
   $mail->Subject = $subject;
   $mail->Body = nl2br($body);
   $mail->AltBody = strip_tags($body);
   $mail->isHTML(true);
   echo 'MESSAGE['.$record->code.'] ';
   if($mail->send()){
-    echo '+ OK: '.$user->email.PHP_EOL;
+    if($user->email_alt !== null){
+      echo '+ OK: '.$user->email.', '.$user->email_alt.PHP_EOL;
+    }else{
+      echo '+ OK: '.$user->email.PHP_EOL;
+    }
   }else{
-    echo '- NG: '.$user->email.PHP_EOL;
+    if($user->email_alt !== null){
+      echo '- NG: '.$user->email.', '.$user->email_alt.PHP_EOL;
+    }else{
+      echo '- NG: '.$user->email.PHP_EOL;
+    }
   }
 }
 

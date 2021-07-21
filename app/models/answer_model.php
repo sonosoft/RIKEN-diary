@@ -34,12 +34,16 @@ class AnswerModelFactory extends ModelFactory {
 
   public function findLastAnswer($user, $visit, $name){
     /**/
+    $where = array(
+      '[user_id] = :user_id',
+      '[visit_id] != :visit_id',
+      '[name] = :name',
+      '[value] IS NOT NULL',
+      '[answered_at] < :answered_at',
+    );
     return $this->one(
-      array(
-	'where'=>'[user_id] = :user_id AND [visit_id] != :visit_id AND [name] = :name AND [value] IS NOT NULL',
-	'order'=>'[answered_at] DESC',
-      ),
-      array('user_id'=>$user->id, 'visit_id'=>$visit->id, 'name'=>$name)
+      array('where'=>implode(' AND ', $where), 'order'=>'[answered_at] DESC'),
+      array('user_id'=>$user->id, 'visit_id'=>$visit->id, 'name'=>$name, 'answered_at'=>$visit->stareted_at)
     );
   }
 }

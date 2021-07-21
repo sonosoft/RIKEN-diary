@@ -33,6 +33,7 @@ class AdminUserController extends AdminController {
 	  sprintf('INSTR([first_name], :%s) != 0', $key),
 	  sprintf('INSTR([kana], :%s) != 0', $key),
 	  sprintf('INSTR([email], :%s) != 0', $key),
+	  sprintf('INSTR([email_alt], :%s) != 0', $key),
 	);
 	$where[] = '('.implode(' OR ', $or).')';
       }
@@ -119,6 +120,7 @@ class AdminUserController extends AdminController {
     echo mb_convert_encoding('"氏名",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"ふりがな",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"メールアドレス",', 'SJIS', 'UTF-8');
+    echo mb_convert_encoding('"メールアドレス（予備）",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"乱数",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"性別",', 'SJIS', 'UTF-8');
     echo mb_convert_encoding('"生年月日",', 'SJIS', 'UTF-8');
@@ -129,6 +131,7 @@ class AdminUserController extends AdminController {
       echo mb_convert_encoding('"'.$user->family_name.' '.$user->first_name.'",', 'SJIS', 'UTF-8');
       echo mb_convert_encoding('"'.$user->kana.'",', 'SJIS', 'UTF-8');
       echo '"'.$user->email.'",';
+      echo '"'.$user->email_alt.'",';
       echo '"'.$user->token.'",';
       echo mb_convert_encoding('"'.$user->sex_tos.'",', 'SJIS', 'UTF-8');
       echo mb_convert_encoding('"'.$user->birthday->format('%Y/%m/%d').'",', 'SJIS', 'UTF-8');
