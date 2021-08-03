@@ -43,7 +43,7 @@ class AnswerModelFactory extends ModelFactory {
     );
     return $this->one(
       array('where'=>implode(' AND ', $where), 'order'=>'[answered_at] DESC'),
-      array('user_id'=>$user->id, 'visit_id'=>$visit->id, 'name'=>$name, 'answered_at'=>$visit->stareted_at)
+      array('user_id'=>$user->id, 'visit_id'=>$visit->id, 'name'=>$name, 'answered_at'=>$visit->started_at)
     );
   }
 }
