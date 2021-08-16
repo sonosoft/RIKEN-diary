@@ -55,6 +55,7 @@ class AdminMessageSaveAction extends AdminMessageController {
       if($e instanceof Eln_Validation){
 	/* エラー */
 	$this->app->exportValidation($e, 'message');
+	$this->app->data['referer'] = $this->app->readRequest('referer');
 	return $this->viewForm();
       }else if($e instanceof Eln_Redirection){
 	/* リダイレクト */

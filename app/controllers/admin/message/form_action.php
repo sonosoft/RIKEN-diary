@@ -14,7 +14,7 @@ class AdminMessageFormAction extends AdminMessageController {
    */
   public function action(){
     /**/
-    $this->useModel('User', 'Message');
+    $this->useModel('User', 'Mail', 'Message');
 
     /* リクエスト */
     if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0){
@@ -22,16 +22,21 @@ class AdminMessageFormAction extends AdminMessageController {
       if(empty($ids)){
 	$this->redirect('default:admin/error.invalid_access');
       }
-      $message = null;
+      $mail = null;
       $code = $this->app->readRequest('message');
       if(empty($code) === false){
-	$message = $this->MessageModel->one(
+	$mail = $this->MailModel->one(
 	  array('where'=>'[code] = :code AND status = :enabled'),
 	  array('code'=>$code, 'enabled'=>STATUS_ENABLED)
 	);
       }
-      if($message !== null){
-	$this->app->data['message'] = $message->getAttributes();
+      if($mail !== null){
+	$this->app->data['message'] = array(
+	  'code'=>$mail->code,
+	  'subject'=>$mail->title,
+	  'body'=>$mail->body,
+	);
+	/*
 	$this->app->data['message']['sent_on'] = $message->sent_at->format('%Y/%m/%d');
 	$this->app->data['message']['sent_at_h'] = $message->sent_at->format('%H');
 	$this->app->data['message']['sent_at_m'] = $message->sent_at->format('%M');
@@ -43,9 +48,11 @@ class AdminMessageFormAction extends AdminMessageController {
 	  }
 	  $this->app->data['message']['destinations'] = json_encode($destinations);
 	}
+	*/
       }else{
-	$this->app->data['message'] = array('destinations'=>json_encode($ids));
+	$this->app->data['message'] = array();
       }
+      $this->app->data['message']['destinations'] = json_encode($ids);
       $this->app->data['referer'] = 1;
     }else{
       $message = $this->MessageModel->one(
@@ -63,14 +70,6 @@ class AdminMessageFormAction extends AdminMessageController {
 	$this->app->data['message']['id'] = null;
       }
       $this->app->data['referer'] = 2;
-    }
-    /**/
-    if(($ids = json_decode($this->app->data['message']['destinations'], true)) !== null){
-      $users = $this->UserModel->all(
-	array('where'=>'[id] IN :ids AND [status] = :enabled'),
-	array('ids'=>$ids, 'enabled'=>STATUS_ENABLED)
-      );
-      $this->app->data['users'] = $users;
     }
 
     /**/

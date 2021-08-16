@@ -92,6 +92,9 @@ class AdminMessageController extends AdminController {
    * フォーム
    */
   protected function viewForm(){
+    /**/
+    $this->useModel('User');
+
     /* 時間 */
     $this->app->data['hourChoices'] = array();
     foreach(range(0, 23) as $h){
@@ -101,7 +104,16 @@ class AdminMessageController extends AdminController {
     foreach(array(0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55) as $m){
       $this->app->data['minuteChoices'][] = array('value'=>$m, 'label'=>sprintf('%02d', $m));
     }
-    
+
+    /* 送信先 */
+    if(($ids = json_decode($this->app->data['message']['destinations'], true)) !== null){
+      $users = $this->UserModel->all(
+	array('where'=>'[id] IN :ids AND [status] = :enabled'),
+	array('ids'=>$ids, 'enabled'=>STATUS_ENABLED)
+      );
+      $this->app->data['users'] = $users;
+    }
+
     /**/
     return 'admin/message/form';
   }
