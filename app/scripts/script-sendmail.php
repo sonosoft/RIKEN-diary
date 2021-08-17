@@ -40,7 +40,7 @@ function _toSend($mail, $project){
   // time.
   $nowT = $now->hour * 100 + $now->minute;
   foreach($schedule['times'] as $time){
-    if($nowT >= intval($time) && $nowT < intval($time) + 15){
+    if($nowT >= intval($time) && $nowT < intval($time) + 5){
       return true;
     }
   }
