@@ -163,7 +163,7 @@ function _finish($text, $project, $user){
 
   /**/
   while(true){
-    if(preg_match('/【日誌\|(起床時|午前|午後|就寝時)\|(入力|摂取)\|([\/0-9]*)】/', $text, $matches)){
+    if(preg_match('/【日誌\|(起床時|午前|午後|就寝時)\|(入力|摂取)\|(-|[\/0-9]*)】/', $text, $matches)){
       $alt = '';
       switch($matches[1]){
       case '起床時':
