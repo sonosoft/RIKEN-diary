@@ -182,8 +182,13 @@ function _finish($text, $project, $user){
       $type = $matches[2];
       if(empty($matches[3])){
 	$date = Eln_Date::today();
-      }else{
+      }else if(($timestamp = strtotime($matches[3])) !== false){
 	$date = new Eln_date(strtotime($matches[3]));
+      }else if(strcmp($matches[3], '-') == 0){
+	$today = Eln_Date::today();
+	$date = new Eln_Date($today->getTime() - 86400);
+      }else{
+	$date = false;
       }
       if($date !== false){
 	if($type == '入力'){
