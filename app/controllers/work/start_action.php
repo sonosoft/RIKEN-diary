@@ -8,11 +8,13 @@
  */
 
 
-class WorkStartAction extends WorkController {
+class WorkStartAction extends WorkController
+{
   /*
    * アクション
    */
-  public function action(){
+  public function action()
+  {
     /**/
     $this->useModel('Page', 'Inquiry', 'System');
 
@@ -20,16 +22,16 @@ class WorkStartAction extends WorkController {
     $this->db->begin();
 
     /**/
-    try{
+    try {
       /* セッション */
-      if(($pages = $this->PageModel->load($system)) === null){
-	$this->app->writeLog('work/start #1', 'failed to read profile data file.');
-	$this->redirect('default:work.error');
+      if (($pages = $this->PageModel->load($system)) === null) {
+        $this->app->writeLog('work/start #1', 'failed to read profile data file.');
+        $this->redirect('default:work.error');
       }
       $indexes = $this->PageModel->collectIndexes($pages);
-      if(empty($indexes)){
-	$this->app->writeLog('work/start #1', 'failed to get page indexes.');
-	$this->redirect('default:work.error');
+      if (empty($indexes)) {
+        $this->app->writeLog('work/start #1', 'failed to get page indexes.');
+        $this->redirect('default:work.error');
       }
       $session = $this->SessionModel->newModel();
       $session->system_id = $system->id;
@@ -45,21 +47,21 @@ class WorkStartAction extends WorkController {
 
       /**/
       $this->app->storeSession('work_data.session_id', $session->id);
-    }catch(Exception $e){
+    } catch (Exception $e) {
       /* ロールバック */
       $this->db->rollback();
 
       /**/
-      if($e instanceof Eln_Redirection){
-	/* リダイレクト */
-	throw $e;
-      }else{
-	/* エラー */
-	$this->app->writeLog('work/start', $e->getMessage());
-	$this->redirect('default:work.error');
+      if ($e instanceof Eln_Redirection) {
+        /* リダイレクト */
+        throw $e;
+      } else {
+        /* エラー */
+        $this->app->writeLog('work/start', $e->getMessage());
+        $this->redirect('default:work.error');
       }
     }
-    
+
     /**/
     $this->redirect('default:work.page');
   }
